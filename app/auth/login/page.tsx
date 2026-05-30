@@ -255,8 +255,7 @@ export default function LoginPage() {
         <a href="/" style={s.logoWrap}>
           <div style={s.logoIcon}>
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-              <path d="M12 3L20 20H4L12 3Z" fill="white" strokeLinejoin="round"/>
-              <path d="M12 8V14M12 17V17.5" stroke="rgba(255,255,255,0.5)" strokeWidth="1.5" strokeLinecap="round"/>
+              <path d="M12 3L20 20H4L12 3Z" fill="white"/>
             </svg>
           </div>
           <span style={s.logoText}>tapa</span>
