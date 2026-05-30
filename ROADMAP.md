@@ -2,7 +2,7 @@
 
 > Mobile first. User friendly. Modern. Premium. Giants Way. Long term. Consistent. Unique.
 
-Last updated: May 30, 2026
+Last updated: May 31, 2026
 
 ## Status Legend
 ✅ Done | 🔄 In progress | ⏳ Up next | 📋 Planned | 💡 Future
@@ -23,56 +23,101 @@ Last updated: May 30, 2026
 
 ---
 
-## Phase 1 — Design System & Shell ⏳
+## Phase 1 — Design System & Shell ✅
+- [x] Brand colors defined and locked (C constants in every page)
+- [x] Inter font loaded
+- [x] Logo locked — coral square, clean triangle M12 3L20 20H4L12 3Z, "tapa" wordmark
+- [x] Logo consistent across all pages — no variants, no dot
+- [x] Button system (Primary coral, Outline, Ghost) with hover states
+- [x] Card system (surface #1A2F45, border #243B55, radius 16px)
+- [x] Top navigation (desktop + mobile)
+- [x] Inline style system with brand constants (no Tailwind dependency)
 - [ ] Global CSS design tokens
-- [ ] Tailwind config with Tapa brand colors and fonts
-- [ ] Inter font loaded
-- [ ] Base layout component (mobile-first)
-- [ ] Button component (Primary, Secondary, Ghost)
-- [ ] Input component
-- [ ] Card component
 - [ ] Bottom navigation (mobile)
-- [ ] Top navigation (desktop)
 - [ ] Loading / skeleton screens
 - [ ] Empty states
 - [ ] Error states
-- [ ] Replace default Next.js boilerplate with Tapa shell
 
 ---
 
-## Phase 2 — Landing Page (Pitch Ready) 📋
-- [ ] Hero section
-- [ ] How it works (Carrier + Sender)
-- [ ] Connected Route explainer
-- [ ] Use case section
-- [ ] Trust signals
-- [ ] Footer
-- [ ] Mobile responsive
-- [ ] Deploy to Vercel (tapa.vercel.app)
+## Phase 2 — Landing Page ✅
+- [x] Hero section with headline, subheadline, CTA buttons
+- [x] Status badge — Live, peer-to-peer delivery across borders
+- [x] How it works (Carrier + Sender flows)
+- [x] Connected Route explainer
+- [x] Use case section
+- [x] Trust signals
+- [x] Footer
+- [x] Mobile responsive
+- [x] Deployed to Vercel (tapa-blue.vercel.app)
+- [x] Landing page buttons wired — Find a Carrier → /search, Become a Carrier → /auth/signup
+- [x] Tapa brand kit built — all logo variants, colors, typography, mockups (HTML)
 
 ---
 
-## Phase 3 — Carrier Listing 📋
-- [ ] Carrier card component
-- [ ] Direct route card
-- [ ] Connected route card
-- [ ] Carrier detail page
-- [ ] Search bar
-- [ ] Filter panel
-- [ ] Search results page
+## Phase 3 — Auth ✅
+- [x] /auth/login — Login page
+- [x] /auth/signup — 3-step signup (create account → phone OTP → role selection)
+- [x] TypeScript errors resolved
+- [ ] Actual authentication logic (Firebase / Supabase / NextAuth)
+- [ ] Session management
+- [ ] Protected routes
 
 ---
 
-## Phase 4 — Booking Flow 📋
-- [ ] Booking request form
+## Phase 4 — Search & Carrier Results ✅
+- [x] /search — Carrier results page
+- [x] Search bar — From / To / Date / Weight fields
+- [x] Popular route chips (Manila→Dubai, Lagos→London, Mumbai→Singapore, São Paulo→Miami)
+- [x] Carrier cards — name, avatar, verified badge, route, flight, tags, rating, price, capacity
+- [x] Filter chips — ID Verified, Top Carrier
+- [x] Sort — Recommended / Price / Rating / Date / Capacity
+- [x] Hover interactions, staggered fade-in animations
+- [x] "View & Book" button linking to /carrier/[id]
+- [ ] Live search against real data
+- [ ] Real filter logic
+
+---
+
+## Phase 5 — Carrier Profile 🔄
+- [ ] /carrier/[id] — Carrier detail page
+- [ ] Carrier bio, photo, verified badges
+- [ ] Route details — origin, destination, date, flight info
+- [ ] Capacity and item types accepted
+- [ ] Ratings and reviews
+- [ ] Pricing breakdown
+- [ ] Book Now CTA → /book/[id]
+
+---
+
+## Phase 6 — Booking Flow 📋
+- [ ] /book/[id] — Booking request form
+- [ ] Item declaration
 - [ ] Accept / Decline flow
 - [ ] Booking confirmation
 - [ ] Messaging
-- [ ] Status tracker
+- [ ] /tracking/[id] — Status tracker
 
 ---
 
-## Phase 5 — Trust & Safety 📋
+## Phase 7 — Dashboards 📋
+- [ ] /dashboard/sender — Sender dashboard
+- [ ] /dashboard/carrier — Carrier dashboard
+- [ ] Active bookings
+- [ ] Trip history
+- [ ] Notifications
+
+---
+
+## Phase 8 — Carrier Posting 📋
+- [ ] /trip/new — Post a new carrier route
+- [ ] Route details form
+- [ ] Available weight, item types, fee
+- [ ] Publish to search results
+
+---
+
+## Phase 9 — Trust & Safety 📋
 - [ ] Item declaration form
 - [ ] Prohibited items checklist
 - [ ] Photo proof at pickup and delivery
@@ -83,15 +128,7 @@ Last updated: May 30, 2026
 
 ---
 
-## Phase 6 — Auth & Profiles 📋
-- [ ] Sign up / Sign in
-- [ ] Carrier profile
-- [ ] Sender profile
-- [ ] Notifications
-
----
-
-## Phase 7 — Payments 📋
+## Phase 10 — Payments 📋
 - [ ] Stripe integration
 - [ ] Escrow logic
 - [ ] Carrier payouts
@@ -99,7 +136,7 @@ Last updated: May 30, 2026
 
 ---
 
-## Phase 8 — Mobile App 💡
+## Phase 11 — Mobile App 💡
 - [ ] React Native project
 - [ ] Core screens
 - [ ] Push notifications
@@ -117,4 +154,4 @@ Last updated: May 30, 2026
 - Commit: `docs: update roadmap — [what was completed]`
 - Push after every session
 
-*Last updated: May 30, 2026*
+*Last updated: May 31, 2026*
