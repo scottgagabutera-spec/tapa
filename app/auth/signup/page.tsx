@@ -36,6 +36,34 @@ const COUNTRY_CODES = [
 
 type Role = "sender" | "carrier" | "both" | null;
 
+// ── Helper style functions (outside the styles object to avoid type conflict) ──
+const roleCardStyle = (selected: boolean): React.CSSProperties => ({
+  background: selected ? C.accentSoft : C.inputBg,
+  border: `2px solid ${selected ? C.accent : C.border}`,
+  borderRadius: "16px",
+  padding: "24px 16px",
+  cursor: "pointer",
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  textAlign: "center",
+  transition: "all 0.2s ease",
+  transform: selected ? "translateY(-2px)" : "none",
+  boxShadow: selected ? `0 8px 24px ${C.accentGlow}` : "none",
+});
+
+const roleIconStyle = (selected: boolean): React.CSSProperties => ({
+  width: "48px",
+  height: "48px",
+  borderRadius: "14px",
+  background: selected ? C.accent : C.border,
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  marginBottom: "14px",
+  transition: "all 0.2s ease",
+});
+
 export default function SignupPage() {
   const [step, setStep] = useState(1);
   const [role, setRole] = useState<Role>(null);
@@ -337,31 +365,6 @@ export default function SignupPage() {
       gap: "12px",
       marginBottom: "16px",
     },
-    roleCard: (selected: boolean): React.CSSProperties => ({
-      background: selected ? C.accentSoft : C.inputBg,
-      border: `2px solid ${selected ? C.accent : C.border}`,
-      borderRadius: "16px",
-      padding: "24px 16px",
-      cursor: "pointer",
-      display: "flex",
-      flexDirection: "column",
-      alignItems: "center",
-      textAlign: "center",
-      transition: "all 0.2s ease",
-      transform: selected ? "translateY(-2px)" : "none",
-      boxShadow: selected ? `0 8px 24px ${C.accentGlow}` : "none",
-    }),
-    roleIcon: (selected: boolean): React.CSSProperties => ({
-      width: "48px",
-      height: "48px",
-      borderRadius: "14px",
-      background: selected ? C.accent : C.border,
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-      marginBottom: "14px",
-      transition: "all 0.2s ease",
-    }),
     roleTitle: {
       fontSize: "16px",
       fontWeight: "700",
@@ -611,7 +614,7 @@ export default function SignupPage() {
               <div style={s.roleGrid}>
                 {/* Sender */}
                 <div
-                  style={s.roleCard(role === "sender")}
+                  style={roleCardStyle(role === "sender")}
                   onClick={() => setRole(role === "sender" ? null : "sender")}
                   onMouseEnter={e => {
                     if (role !== "sender") e.currentTarget.style.borderColor = C.borderHover;
@@ -620,7 +623,7 @@ export default function SignupPage() {
                     if (role !== "sender") e.currentTarget.style.borderColor = C.border;
                   }}
                 >
-                  <div style={s.roleIcon(role === "sender")}>
+                  <div style={roleIconStyle(role === "sender")}>
                     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                       <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
                       <circle cx="12" cy="10" r="3"/>
@@ -632,7 +635,7 @@ export default function SignupPage() {
 
                 {/* Carrier */}
                 <div
-                  style={s.roleCard(role === "carrier")}
+                  style={roleCardStyle(role === "carrier")}
                   onClick={() => setRole(role === "carrier" ? null : "carrier")}
                   onMouseEnter={e => {
                     if (role !== "carrier") e.currentTarget.style.borderColor = C.borderHover;
@@ -641,7 +644,7 @@ export default function SignupPage() {
                     if (role !== "carrier") e.currentTarget.style.borderColor = C.border;
                   }}
                 >
-                  <div style={s.roleIcon(role === "carrier")}>
+                  <div style={roleIconStyle(role === "carrier")}>
                     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                       <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.44 2 2 0 0 1 3.58 1.25h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.82a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
                     </svg>
