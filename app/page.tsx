@@ -1,4 +1,5 @@
 'use client';
+import { useRouter } from 'next/navigation';
 
 import { useState, useEffect } from 'react';
 
@@ -190,6 +191,7 @@ const FeatureCard = ({ icon, title, desc }: { icon: React.ReactNode; title: stri
 
 // ── MAIN COMPONENT ───────────────────────────────────────────
 export default function TapaLanding() {
+  const router = useRouter();
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
@@ -233,7 +235,8 @@ export default function TapaLanding() {
           </button>
           <button style={btnPrimary('sm')}
             onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = C.coralDark; (e.currentTarget as HTMLElement).style.transform = 'translateY(-1px)'; }}
-            onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = C.coral; (e.currentTarget as HTMLElement).style.transform = 'translateY(0)'; }}>
+            onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = C.coral; (e.currentTarget as HTMLElement).style.transform = 'translateY(0)'; }}
+            onClick={() => router.push('/auth/signup')}>
             Get Started
           </button>
         </div>
@@ -272,12 +275,14 @@ export default function TapaLanding() {
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '14px', marginBottom: '72px' }}>
             <button style={btnPrimary('lg')}
               onMouseEnter={e => { (e.currentTarget as HTMLElement).style.transform = 'translateY(-2px)'; (e.currentTarget as HTMLElement).style.boxShadow = '0 12px 36px rgba(232,72,85,0.48)'; }}
-              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.transform = 'translateY(0)'; (e.currentTarget as HTMLElement).style.boxShadow = '0 4px 20px rgba(232,72,85,0.35)'; }}>
+              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.transform = 'translateY(0)'; (e.currentTarget as HTMLElement).style.boxShadow = '0 4px 20px rgba(232,72,85,0.35)'; }}
+              onClick={() => router.push('/search')}>
               Find a Carrier <Icon.Arrow />
             </button>
             <button style={btnOutline('lg')}
               onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(232,72,85,0.07)'; }}
-              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'transparent'; }}>
+              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'transparent'; }}
+              onClick={() => router.push('/auth/signup')}>
               Become a Carrier
             </button>
           </div>
@@ -502,12 +507,14 @@ export default function TapaLanding() {
             <div style={{ display: 'flex', gap: '14px', justifyContent: 'center', flexWrap: 'wrap' }}>
               <button style={{ background: '#fff', color: C.coral, border: 'none', padding: '17px 40px', borderRadius: '12px', fontSize: '16px', fontWeight: 700, cursor: 'pointer', boxShadow: '0 4px 20px rgba(0,0,0,0.12)', transition: 'all 200ms', fontFamily: 'inherit', display: 'inline-flex', alignItems: 'center', gap: '8px' }}
                 onMouseEnter={e => { (e.currentTarget as HTMLElement).style.transform = 'translateY(-2px)'; }}
-                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.transform = 'translateY(0)'; }}>
+                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.transform = 'translateY(0)'; }}
+                onClick={() => router.push('/search')}>
                 Find a Carrier <Icon.Arrow />
               </button>
               <button style={{ background: 'transparent', color: '#fff', border: '1.5px solid rgba(255,255,255,0.4)', padding: '17px 40px', borderRadius: '12px', fontSize: '16px', fontWeight: 600, cursor: 'pointer', transition: 'all 200ms', fontFamily: 'inherit' }}
                 onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor = '#fff'; }}
-                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.borderColor = 'rgba(255,255,255,0.4)'; }}>
+                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.borderColor = 'rgba(255,255,255,0.4)'; }}
+                onClick={() => router.push('/auth/signup')}>
                 Become a Carrier
               </button>
             </div>
