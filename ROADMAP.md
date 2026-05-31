@@ -126,7 +126,21 @@ Last updated: May 31, 2026
 
 ---
 
-## Phase 9 — Real Data Layer ⏳
+
+## Phase 9 — Sender Request Feed ⏳
+Two-sided marketplace: senders can post delivery requests, carriers browse and claim them.
+
+- [ ] /requests/new — Sender posts a delivery request (route, item type, weight, photo, budget)
+- [ ] /requests — Carrier-side feed of open sender requests (browse, filter by route)
+- [ ] Carrier can 'Claim' a request → triggers booking flow in reverse
+- [ ] Claimed requests move to carrier dashboard under active trips
+- [ ] Sender notified when a carrier claims their request
+- [ ] Privacy rule — only city-level route shown publicly, full address revealed after match only
+- [ ] Free tier: post up to 3 requests/month
+- [ ] Future: premium tier unlocks unlimited posts + promoted visibility
+
+---
+## Phase 10 — Real Data Layer ⏳
 - [ ] Firebase / Supabase setup
 - [ ] Auth — login, signup, session, protected routes
 - [ ] Carrier trips stored and queryable
@@ -137,7 +151,7 @@ Last updated: May 31, 2026
 
 ---
 
-## Phase 10 — Trust & Safety 📋
+## Phase 11 — Trust & Safety 📋
 - [ ] Prohibited items checklist
 - [ ] Photo proof at pickup and delivery
 - [ ] Ratings after delivery
@@ -146,7 +160,7 @@ Last updated: May 31, 2026
 
 ---
 
-## Phase 11 — Payments 📋
+## Phase 12 — Payments 📋
 - [ ] Stripe integration
 - [ ] Escrow logic
 - [ ] Carrier payouts
@@ -154,14 +168,14 @@ Last updated: May 31, 2026
 
 ---
 
-## Phase 12 — Tracking 📋
+## Phase 13 — Tracking 📋
 - [ ] /tracking/[id] — Live status tracker
 - [ ] Status updates: Booked → Picked Up → In Transit → Delivered
 - [ ] Push notifications
 
 ---
 
-## Phase 13 — Mobile App 💡
+## Phase 14 — Mobile App 💡
 - [ ] React Native project
 - [ ] Core screens
 - [ ] Push notifications
