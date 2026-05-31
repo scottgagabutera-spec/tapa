@@ -1,5 +1,7 @@
 "use client";
 import React, { useState, useRef, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { supabase } from "@/lib/supabase";
 
 const C = {
   bg: "#0D1B2A",
@@ -71,6 +73,13 @@ export default function SignupPage() {
   const [otpValues, setOtpValues] = useState(["", "", "", "", "", ""]);
   const [mounted, setMounted] = useState(false);
   const [animating, setAnimating] = useState(false);
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [phone, setPhone] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const router = useRouter();
   const otpRefs = useRef<Array<HTMLInputElement | null>>([]);
 
   useEffect(() => { setMounted(true); }, []);
@@ -94,6 +103,29 @@ export default function SignupPage() {
   const handleOtpKeyDown = (index: number, e: React.KeyboardEvent) => {
     if (e.key === "Backspace" && !otpValues[index] && index > 0) {
       otpRefs.current[index - 1]?.focus();
+    }
+  };
+
+  const handleSignup = async () => {
+    if (!role) return;
+    setLoading(true);
+    setError("");
+    try {
+      const { data, error: signUpError } = await supabase.auth.signUp({ email, password });
+      if (signUpError) throw signUpError;
+      if (data.user) {
+        await supabase.from("profiles").insert({
+          id: data.user.id,
+          name,
+          phone: countryCode + phone,
+          role,
+        });
+        router.push(role === "carrier" ? "/dashboard/carrier" : "/dashboard/sender");
+      }
+    } catch (err: any) {
+      setError(err.message || "Something went wrong");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -481,13 +513,13 @@ export default function SignupPage() {
               </div>
 
               <div style={s.inputGroup}>
-                <input type="text" placeholder="Full name" style={s.input}
+                <input type="text" placeholder="Full name" style={s.input} value={name} onChange={e => setName(e.target.value)}
                   onFocus={e => (e.target.style.borderColor = C.accent)}
                   onBlur={e => (e.target.style.borderColor = C.border)} />
-                <input type="email" placeholder="Email address" style={s.input}
+                <input type="email" placeholder="Email address" style={s.input} value={email} onChange={e => setEmail(e.target.value)}
                   onFocus={e => (e.target.style.borderColor = C.accent)}
                   onBlur={e => (e.target.style.borderColor = C.border)} />
-                <input type="password" placeholder="Create password" style={s.input}
+                <input type="password" placeholder="Create password" style={s.input} value={password} onChange={e => setPassword(e.target.value)}
                   onFocus={e => (e.target.style.borderColor = C.accent)}
                   onBlur={e => (e.target.style.borderColor = C.border)} />
               </div>
@@ -670,7 +702,7 @@ export default function SignupPage() {
 
               <button
                 style={role ? s.btnPrimary : s.btnPrimaryDisabled}
-                onClick={() => role && alert(`Role set: ${role}. Redirecting to dashboard...`)}
+                onClick={handleSignup}
                 onMouseEnter={e => {
                   if (role) {
                     e.currentTarget.style.background = C.accentDark;
@@ -683,7 +715,7 @@ export default function SignupPage() {
                     e.currentTarget.style.transform = "translateY(0)";
                   }
                 }}>
-                Get Started
+                {loading ? "Creating account..." : "Get Started"}
               </button>
 
               <p style={s.bottomText}>

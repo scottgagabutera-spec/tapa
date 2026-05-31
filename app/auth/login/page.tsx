@@ -1,5 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { supabase } from "@/lib/supabase";
 
 const C = {
   bg: "#0D1B2A",
@@ -17,6 +19,29 @@ const C = {
 };
 
 export default function LoginPage() {
+  const router = useRouter();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+
+  const handleLogin = async () => {
+    setLoading(true);
+    setError('');
+    try {
+      const { data, error: signInError } = await supabase.auth.signInWithPassword({ email, password });
+      if (signInError) throw signInError;
+      if (data.user) {
+        const { data: profile } = await supabase.from('profiles').select('role').eq('id', data.user.id).single();
+        const role = profile?.role;
+        router.push(role === 'carrier' ? '/dashboard/carrier' : '/dashboard/sender');
+      }
+    } catch (err) {
+      setError((err as any).message || 'Invalid email or password');
+    } finally {
+      setLoading(false);
+    }
+  };
   const [scrolled, setScrolled] = useState(false);
   const [showEmailForm, setShowEmailForm] = useState(false);
   const [mounted, setMounted] = useState(false);
@@ -355,7 +380,7 @@ export default function LoginPage() {
               </div>
               <div style={s.emailForm}>
                 <input
-                  type="email"
+                  type="email" value={email} onChange={e => setEmail(e.target.value)}
                   placeholder="Email address"
                   style={s.input}
                   onFocus={e => (e.target.style.borderColor = C.accent)}
@@ -363,7 +388,7 @@ export default function LoginPage() {
                 />
                 <div>
                   <input
-                    type="password"
+                    type="password" value={password} onChange={e => setPassword(e.target.value)}
                     placeholder="Password"
                     style={s.input}
                     onFocus={e => (e.target.style.borderColor = C.accent)}
@@ -374,7 +399,7 @@ export default function LoginPage() {
                   </div>
                 </div>
                 <button
-                  style={s.btnPrimary}
+                  style={s.btnPrimary} onClick={handleLogin}
                   onMouseEnter={e => {
                     e.currentTarget.style.background = C.accentDark;
                     e.currentTarget.style.transform = "translateY(-1px)";
