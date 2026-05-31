@@ -79,28 +79,30 @@ Last updated: May 31, 2026
 
 ---
 
-## Phase 5 — Carrier Profile 🔄
-- [ ] /carrier/[id] — Carrier detail page
-- [ ] Carrier bio, photo, verified badges
-- [ ] Route details — origin, destination, date, flight info
-- [ ] Capacity and item types accepted
-- [ ] Ratings and reviews
-- [ ] Pricing breakdown
-- [ ] Book Now CTA → /book/[id]
+## Phase 5 — Carrier Profile ✅
+- [x] /carrier/[id] — Carrier detail page
+- [x] Carrier bio, avatar initials, verified badges
+- [x] Route details — origin, destination, date, flight info
+- [x] Capacity and item types accepted
+- [x] Ratings and reviews (mock)
+- [x] Pricing breakdown
+- [x] Book Now CTA → /book/[id]
 
 ---
 
-## Phase 6 — Booking Flow 📋
-- [ ] /book/[id] — Booking request form
-- [ ] Item declaration
-- [ ] Accept / Decline flow
-- [ ] Booking confirmation
-- [ ] Messaging
+## Phase 6 — Booking Flow ✅
+- [x] /book/[id] — 3-step booking request form
+- [x] Step 1 — Item declaration (type, weight, description, photo note)
+- [x] Step 2 — Sender info (name, phone, pickup/dropoff address)
+- [x] Step 3 — Review and confirm
+- [x] Booking confirmation / success screen
+- [ ] Accept / Decline flow (carrier side)
+- [ ] Real messaging
 - [ ] /tracking/[id] — Status tracker
 
 ---
 
-## Phase 7 — Dashboards 📋
+## Phase 7 — Dashboards ⏳
 - [ ] /dashboard/sender — Sender dashboard
 - [ ] /dashboard/carrier — Carrier dashboard
 - [ ] Active bookings
@@ -109,20 +111,20 @@ Last updated: May 31, 2026
 
 ---
 
-## Phase 8 — Carrier Posting 📋
-- [ ] /trip/new — Post a new carrier route
-- [ ] Route details form
-- [ ] Available weight, item types, fee
-- [ ] Publish to search results
+## Phase 8 — Carrier Posting ✅
+- [x] /trip/new — Post a new carrier route
+- [x] Step 1 — Route details (from, to, date, airline, flight number)
+- [x] Step 2 — Capacity and pricing (weight, item types, price/kg)
+- [x] Step 3 — Review and publish
+- [ ] Publish to live search results (requires real data layer)
 
 ---
 
 ## Phase 9 — Trust & Safety 📋
-- [ ] Item declaration form
 - [ ] Prohibited items checklist
 - [ ] Photo proof at pickup and delivery
 - [ ] Escrow payment
-- [ ] Ratings
+- [ ] Ratings after delivery
 - [ ] Verified ID for Carriers
 - [ ] Country customs flagging
 
@@ -136,7 +138,17 @@ Last updated: May 31, 2026
 
 ---
 
-## Phase 11 — Mobile App 💡
+## Phase 11 — Real Data Layer 📋
+- [ ] Firebase / Supabase setup
+- [ ] Auth — login, signup, session, protected routes
+- [ ] Carrier trips stored and queryable
+- [ ] Bookings stored and status-tracked
+- [ ] Search pulls live carrier data
+- [ ] Dashboards pull real user data
+
+---
+
+## Phase 12 — Mobile App 💡
 - [ ] React Native project
 - [ ] Core screens
 - [ ] Push notifications
