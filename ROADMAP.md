@@ -96,18 +96,24 @@ Last updated: May 31, 2026
 - [x] Step 2 — Sender info (name, phone, pickup/dropoff address)
 - [x] Step 3 — Review and confirm
 - [x] Booking confirmation / success screen
-- [ ] Accept / Decline flow (carrier side)
+- [ ] Accept / Decline flow (carrier side — wired in dashboard, needs persistence)
 - [ ] Real messaging
 - [ ] /tracking/[id] — Status tracker
 
 ---
 
-## Phase 7 — Dashboards ⏳
-- [ ] /dashboard/sender — Sender dashboard
-- [ ] /dashboard/carrier — Carrier dashboard
-- [ ] Active bookings
-- [ ] Trip history
-- [ ] Notifications
+## Phase 7 — Dashboards ✅
+- [x] /dashboard/sender — Sender dashboard
+- [x] Active bookings with status badges (Pending, Confirmed, In Transit, Delivered)
+- [x] Booking history tab
+- [x] Stats row — total bookings, active, delivered
+- [x] View Carrier, Track, Message actions (Track + Message pending real data)
+- [x] /dashboard/carrier — Carrier dashboard
+- [x] Incoming booking requests with Accept / Decline (live UI state)
+- [x] My Trips tab with capacity bar and earnings
+- [x] Pending requests badge on tab
+- [x] Stats row — total trips, pending requests, total earned
+- [x] Post a Trip CTA → /trip/new
 
 ---
 
@@ -120,17 +126,27 @@ Last updated: May 31, 2026
 
 ---
 
-## Phase 9 — Trust & Safety 📋
+## Phase 9 — Real Data Layer ⏳
+- [ ] Firebase / Supabase setup
+- [ ] Auth — login, signup, session, protected routes
+- [ ] Carrier trips stored and queryable
+- [ ] Bookings stored and status-tracked
+- [ ] Accept/Decline persisted to database
+- [ ] Search pulls live carrier data
+- [ ] Dashboards pull real user data
+
+---
+
+## Phase 10 — Trust & Safety 📋
 - [ ] Prohibited items checklist
 - [ ] Photo proof at pickup and delivery
-- [ ] Escrow payment
 - [ ] Ratings after delivery
 - [ ] Verified ID for Carriers
 - [ ] Country customs flagging
 
 ---
 
-## Phase 10 — Payments 📋
+## Phase 11 — Payments 📋
 - [ ] Stripe integration
 - [ ] Escrow logic
 - [ ] Carrier payouts
@@ -138,17 +154,14 @@ Last updated: May 31, 2026
 
 ---
 
-## Phase 11 — Real Data Layer 📋
-- [ ] Firebase / Supabase setup
-- [ ] Auth — login, signup, session, protected routes
-- [ ] Carrier trips stored and queryable
-- [ ] Bookings stored and status-tracked
-- [ ] Search pulls live carrier data
-- [ ] Dashboards pull real user data
+## Phase 12 — Tracking 📋
+- [ ] /tracking/[id] — Live status tracker
+- [ ] Status updates: Booked → Picked Up → In Transit → Delivered
+- [ ] Push notifications
 
 ---
 
-## Phase 12 — Mobile App 💡
+## Phase 13 — Mobile App 💡
 - [ ] React Native project
 - [ ] Core screens
 - [ ] Push notifications
