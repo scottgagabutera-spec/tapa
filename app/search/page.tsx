@@ -1,5 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
+import { supabase } from "@/lib/supabase";
 
 const C = {
   bg: "#0D1B2A",
@@ -199,12 +200,51 @@ export default function SearchPage() {
   const [filterTopCarrier, setFilterTopCarrier] = useState(false);
   const [results, setResults] = useState(MOCK_CARRIERS);
   const [hoveredCard, setHoveredCard] = useState<string | null>(null);
+  const [liveCarriers, setLiveCarriers] = useState<any[]>([]);
 
-  useEffect(() => { setMounted(true); }, []);
+  useEffect(() => {
+    setMounted(true);
+    const fetchTrips = async () => {
+      const { data, error } = await supabase
+        .from("trips")
+        .select("*, profiles(name, rating, total_trips, id_verified, avatar_color)")
+        .eq("status", "active")
+        .order("created_at", { ascending: false });
+      if (!error && data && data.length > 0) {
+        const mapped = data.map((t: any) => ({
+          id: t.id,
+          name: t.profiles?.name || "Carrier",
+          avatar: (t.profiles?.name || "CA").split(" ").map((w: string) => w[0]).join("").slice(0,2).toUpperCase(),
+          avatarColor: t.profiles?.avatar_color || "#E84855",
+          from: t.from_city,
+          to: t.to_city,
+          date: new Date(t.date).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }),
+          airline: t.airline,
+          flightNo: t.flight_no,
+          verified: t.profiles?.id_verified || false,
+          idVerified: t.profiles?.id_verified || false,
+          rating: t.profiles?.rating || 0,
+          trips: t.profiles?.total_trips || 0,
+          capacity: t.capacity_kg + " kg",
+          price: t.price_per_kg,
+          currency: "USD",
+          perUnit: "kg",
+          responseTime: "~1 hr",
+          badge: null,
+          tags: t.item_types || [],
+          bio: "",
+        }));
+        setLiveCarriers(mapped);
+        setResults(mapped);
+      }
+    };
+    fetchTrips();
+  }, []);
 
   const handleSearch = () => {
     setSearched(true);
-    let filtered = [...MOCK_CARRIERS];
+    const source = liveCarriers.length > 0 ? liveCarriers : MOCK_CARRIERS;
+    let filtered = [...source];
     if (filterVerified) filtered = filtered.filter(c => c.idVerified);
     if (filterTopCarrier) filtered = filtered.filter(c => c.badge === "Top Carrier");
     if (sort === "price_low") filtered.sort((a, b) => a.price - b.price);
@@ -214,7 +254,8 @@ export default function SearchPage() {
   };
 
   const applyFilters = (newSort: SortKey, newVerified: boolean, newTop: boolean) => {
-    let filtered = [...MOCK_CARRIERS];
+    const source = liveCarriers.length > 0 ? liveCarriers : MOCK_CARRIERS;
+    let filtered = [...source];
     if (newVerified) filtered = filtered.filter(c => c.idVerified);
     if (newTop) filtered = filtered.filter(c => c.badge === "Top Carrier");
     if (newSort === "price_low") filtered.sort((a, b) => a.price - b.price);
