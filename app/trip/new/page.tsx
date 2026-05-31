@@ -1,6 +1,7 @@
 'use client';
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { supabase } from '@/lib/supabase';
 
 const C = {
   bg: '#0D1B2A',
@@ -31,6 +32,8 @@ export default function TripNewPage() {
   const [mounted, setMounted] = useState(false);
   const [step, setStep] = useState(1);
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
 
   // Step 1 — Route
   const [from, setFrom] = useState('');
@@ -51,8 +54,36 @@ export default function TripNewPage() {
     setAcceptedTypes(prev => prev.includes(t) ? prev.filter(x => x !== t) : [...prev, t]);
   };
 
+  undefined
   const step1Valid = from && to && date && airline && flightNo;
   const step2Valid = capacity && price && parseFloat(price) > 0 && acceptedTypes.length > 0;
+
+  const handlePublish = async () => {
+    setLoading(true);
+    setError("");
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) { setError("Not logged in"); setLoading(false); return; }
+      const { error: insertError } = await supabase.from("trips").insert({
+        carrier_id: user.id,
+        from_city: from,
+        to_city: to,
+        date,
+        airline,
+        flight_no: flightNo,
+        capacity_kg: parseFloat(capacity),
+        price_per_kg: parseFloat(price),
+        item_types: acceptedTypes,
+        status: "active",
+      });
+      if (insertError) throw insertError;
+      setSubmitted(true);
+    } catch (err) {
+      setError((err as any).message || "Failed to publish trip");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const stepDot = (n: number): React.CSSProperties => ({
     width: '32px', height: '32px', borderRadius: '50%',
@@ -358,10 +389,10 @@ export default function TripNewPage() {
 
             <div style={{ display: 'flex', gap: '12px' }}>
               <button style={s.backStepBtn} onClick={() => setStep(2)}>Back</button>
-              <button style={s.primaryBtn} onClick={() => setSubmitted(true)}
+              <button style={s.primaryBtn} onClick={handlePublish}
                 onMouseEnter={e => { e.currentTarget.style.background = C.coralDark; e.currentTarget.style.transform = 'translateY(-1px)'; }}
                 onMouseLeave={e => { e.currentTarget.style.background = C.coral; e.currentTarget.style.transform = 'translateY(0)'; }}>
-                Publish Trip
+                {loading ? 'Publishing...' : 'Publish Trip'}
               </button>
             </div>
           </div>
