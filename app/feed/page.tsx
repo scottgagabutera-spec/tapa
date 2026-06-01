@@ -1,6 +1,7 @@
 'use client';
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { supabase } from '@/lib/supabase';
 
 const C = {
   bg: '#0D1B2A',
@@ -22,14 +23,32 @@ const C = {
 };
 
 const MOCK_POSTS = [
-  { id: 'p1', senderName: 'Ana Reyes', senderAvatar: 'AR', senderAvatarColor: '#7C3AED', from: 'Manila', to: 'Dubai', neededBy: 'Jun 15, 2026', itemType: 'Electronics', itemDesc: 'Laptop and charger, well packed', weight: '2', budget: 20, note: 'Item is fragile, please handle with care', postedOn: 'May 31, 2026', isOwn: true },
-  { id: 'p2', senderName: 'Ben Cruz', senderAvatar: 'BC', senderAvatarColor: '#0891B2', from: 'Manila', to: 'Singapore', neededBy: 'Jun 10, 2026', itemType: 'Documents', itemDesc: 'Legal contracts in sealed envelope', weight: '0.3', budget: 10, note: '', postedOn: 'May 30, 2026', isOwn: false },
-  { id: 'p3', senderName: 'Chloe Tan', senderAvatar: 'CT', senderAvatarColor: '#DC2626', from: 'Lagos', to: 'London', neededBy: 'Jun 20, 2026', itemType: 'Clothes', itemDesc: 'Traditional garments for family event', weight: '1.5', budget: 15, note: 'No wrinkles please!', postedOn: 'May 29, 2026', isOwn: false },
-  { id: 'p4', senderName: 'David Kim', senderAvatar: 'DK', senderAvatarColor: '#059669', from: 'Tokyo', to: 'Sydney', neededBy: 'Jun 25, 2026', itemType: 'Gifts', itemDesc: 'Birthday gifts, small boxes', weight: '1', budget: 18, note: '', postedOn: 'May 28, 2026', isOwn: false },
-  { id: 'p5', senderName: 'Eva Santos', senderAvatar: 'ES', senderAvatarColor: '#D97706', from: 'Mumbai', to: 'Singapore', neededBy: 'Flexible', itemType: 'Medicine', itemDesc: 'OTC medicine, all sealed', weight: '0.5', budget: 8, note: 'Can adjust budget if needed', postedOn: 'May 27, 2026', isOwn: false },
+  { id: 'p1', senderId: '', senderName: 'Ana Reyes', senderAvatar: 'AR', senderAvatarColor: '#7C3AED', from: 'Manila', to: 'Dubai', neededBy: 'Jun 15, 2026', itemType: 'Electronics', itemDesc: 'Laptop and charger, well packed', weight: '2', budget: 20, note: 'Item is fragile, please handle with care', postedOn: 'May 31, 2026', status: 'open' },
+  { id: 'p2', senderId: '', senderName: 'Ben Cruz', senderAvatar: 'BC', senderAvatarColor: '#0891B2', from: 'Manila', to: 'Singapore', neededBy: 'Jun 10, 2026', itemType: 'Documents', itemDesc: 'Legal contracts in sealed envelope', weight: '0.3', budget: 10, note: '', postedOn: 'May 30, 2026', status: 'open' },
+  { id: 'p3', senderId: '', senderName: 'Chloe Tan', senderAvatar: 'CT', senderAvatarColor: '#DC2626', from: 'Lagos', to: 'London', neededBy: 'Jun 20, 2026', itemType: 'Clothes', itemDesc: 'Traditional garments for family event', weight: '1.5', budget: 15, note: 'No wrinkles please!', postedOn: 'May 29, 2026', status: 'open' },
+  { id: 'p4', senderId: '', senderName: 'David Kim', senderAvatar: 'DK', senderAvatarColor: '#059669', from: 'Tokyo', to: 'Sydney', neededBy: 'Jun 25, 2026', itemType: 'Gifts', itemDesc: 'Birthday gifts, small boxes', weight: '1', budget: 18, note: '', postedOn: 'May 28, 2026', status: 'open' },
+  { id: 'p5', senderId: '', senderName: 'Eva Santos', senderAvatar: 'ES', senderAvatarColor: '#D97706', from: 'Mumbai', to: 'Singapore', neededBy: 'Flexible', itemType: 'Medicine', itemDesc: 'OTC medicine, all sealed', weight: '0.5', budget: 8, note: 'Can adjust budget if needed', postedOn: 'May 27, 2026', status: 'open' },
 ];
 
 const ROUTES = ['All routes', 'Manila → Dubai', 'Manila → Singapore', 'Lagos → London', 'Tokyo → Sydney', 'Mumbai → Singapore'];
+
+type Post = {
+  id: string;
+  senderId: string;
+  senderName: string;
+  senderAvatar: string;
+  senderAvatarColor: string;
+  from: string;
+  to: string;
+  neededBy: string;
+  itemType: string;
+  itemDesc: string;
+  weight: string;
+  budget: number;
+  note: string;
+  postedOn: string;
+  status: string;
+};
 
 export default function FeedPage() {
   const router = useRouter();
@@ -38,11 +57,109 @@ export default function FeedPage() {
   const [routeFilter, setRouteFilter] = useState('All routes');
   const [claimedIds, setClaimedIds] = useState<string[]>([]);
   const [hoveredCard, setHoveredCard] = useState<string | null>(null);
+  const [posts, setPosts] = useState<Post[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [currentUserId, setCurrentUserId] = useState<string | null>(null);
+  const [usingMock, setUsingMock] = useState(false);
 
-  useEffect(() => { setMounted(true); }, []);
-  if (!mounted) return null;
+  useEffect(() => {
+    setMounted(true);
+    const load = async () => {
+      try {
+        // Get current user
+        const { data: { user } } = await supabase.auth.getUser();
+        if (user) {
+          setCurrentUserId(user.id);
+          // Set role from profile
+          const { data: profile } = await supabase
+            .from('profiles')
+            .select('role')
+            .eq('id', user.id)
+            .single();
+          if (profile?.role === 'carrier') setRole('carrier');
+          else setRole('sender');
+        }
 
-  const filtered = MOCK_POSTS.filter(p => {
+        // Fetch live posts
+        const { data: rawPosts, error } = await supabase
+          .from('posts')
+          .select(`
+            id,
+            from_city,
+            to_city,
+            needed_by,
+            item_type,
+            item_desc,
+            weight_kg,
+            budget,
+            note,
+            status,
+            created_at,
+            sender_id,
+            sender:profiles!posts_sender_id_fkey (
+              name,
+              avatar_color
+            )
+          `)
+          .eq('status', 'open')
+          .order('created_at', { ascending: false });
+
+        if (!error && rawPosts && rawPosts.length > 0) {
+          const mapped: Post[] = rawPosts.map((p: any) => {
+            const sender = p.sender as any;
+            const senderName = sender?.name || 'Sender';
+            const initials = senderName.split(' ').map((w: string) => w[0]).join('').slice(0, 2).toUpperCase();
+            const colors = ['#7C3AED', '#0891B2', '#DC2626', '#059669', '#D97706', '#E84855', '#3B82F6'];
+            const colorIndex = senderName.charCodeAt(0) % colors.length;
+            return {
+              id: p.id,
+              senderId: p.sender_id || '',
+              senderName,
+              senderAvatar: initials,
+              senderAvatarColor: sender?.avatar_color || colors[colorIndex],
+              from: p.from_city,
+              to: p.to_city,
+              neededBy: p.needed_by ? new Date(p.needed_by).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : 'Flexible',
+              itemType: p.item_type || '—',
+              itemDesc: p.item_desc || '',
+              weight: String(p.weight_kg || 0),
+              budget: p.budget || 0,
+              note: p.note || '',
+              postedOn: new Date(p.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
+              status: p.status,
+            };
+          });
+          setPosts(mapped);
+        } else {
+          setPosts(MOCK_POSTS);
+          setUsingMock(true);
+        }
+      } catch {
+        setPosts(MOCK_POSTS);
+        setUsingMock(true);
+      } finally {
+        setLoading(false);
+      }
+    };
+    load();
+  }, []);
+
+  const handleClaim = async (postId: string) => {
+    setClaimedIds(prev => [...prev, postId]);
+    // Update post status in Supabase if real post (UUID)
+    const isUUID = /^[0-9a-f-]{36}$/.test(postId);
+    if (isUUID) {
+      const { data: { user } } = await supabase.auth.getUser();
+      await supabase
+        .from('posts')
+        .update({ status: 'claimed', claimed_by: user?.id || null })
+        .eq('id', postId);
+    }
+  };
+
+  if (!mounted || loading) return null;
+
+  const filtered = posts.filter(p => {
     if (routeFilter !== 'All routes') {
       const [f, t] = routeFilter.split(' → ');
       if (p.from !== f || p.to !== t) return false;
@@ -50,9 +167,9 @@ export default function FeedPage() {
     return true;
   });
 
-  function handleClaim(id: string) {
-    setClaimedIds(prev => [...prev, id]);
-  }
+  // Build dynamic route filters from real posts
+  const liveRoutes = ['All routes', ...Array.from(new Set(posts.map(p => `${p.from} → ${p.to}`)))];
+  const routeOptions = usingMock ? ROUTES : liveRoutes;
 
   return (
     <div style={{ minHeight: '100vh', background: C.bg, color: C.text, fontFamily: "'Inter', sans-serif" }}>
@@ -65,7 +182,6 @@ export default function FeedPage() {
           <span style={{ fontSize: '20px', fontWeight: '700', color: C.text, letterSpacing: '-0.5px' }}>tapa</span>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-          {/* Role toggle */}
           <div style={{ display: 'flex', gap: '4px', background: C.surface, border: `1px solid ${C.border}`, borderRadius: '10px', padding: '3px' }}>
             {(['carrier', 'sender'] as const).map(r => (
               <button key={r} onClick={() => setRole(r)} style={{ padding: '6px 14px', borderRadius: '8px', border: 'none', background: role === r ? C.coral : 'transparent', color: role === r ? C.text : C.muted, fontSize: '13px', fontWeight: '600', cursor: 'pointer', fontFamily: 'inherit', transition: 'all 0.2s' }}>
@@ -93,9 +209,16 @@ export default function FeedPage() {
           </p>
         </div>
 
+        {/* Mock notice */}
+        {usingMock && (
+          <div style={{ background: C.goldSoft, border: `1px solid ${C.goldBorder}`, borderRadius: '12px', padding: '12px 16px', marginBottom: '20px', fontSize: '13px', color: C.gold }}>
+            Showing sample posts — real sender posts will appear here once senders start posting.
+          </div>
+        )}
+
         {/* Route filters */}
         <div style={{ display: 'flex', gap: '8px', overflowX: 'auto', paddingBottom: '4px', marginBottom: '20px', scrollbarWidth: 'none' }}>
-          {ROUTES.map(r => (
+          {routeOptions.map(r => (
             <button key={r} onClick={() => setRouteFilter(r)} style={{ padding: '7px 14px', background: routeFilter === r ? C.accentGlow : 'transparent', border: `1px solid ${routeFilter === r ? C.coral : C.border}`, borderRadius: '100px', color: routeFilter === r ? C.coral : C.muted, fontSize: '13px', fontWeight: '500', cursor: 'pointer', fontFamily: 'inherit', whiteSpace: 'nowrap', transition: 'all 0.2s', flexShrink: 0 }}>
               {r}
             </button>
@@ -111,15 +234,15 @@ export default function FeedPage() {
           ) : filtered.map(post => {
             const hovered = hoveredCard === post.id;
             const claimed = claimedIds.includes(post.id);
-            const isOwn = post.isOwn && role === 'sender';
+            const isOwn = post.senderId === currentUserId;
+            const showAsOwn = isOwn && role === 'sender';
             return (
               <div key={post.id}
                 onMouseEnter={() => setHoveredCard(post.id)}
                 onMouseLeave={() => setHoveredCard(null)}
-                style={{ background: hovered ? C.surfaceHover : C.surface, border: `1px solid ${isOwn ? C.coral : hovered ? C.borderHover : C.border}`, borderRadius: '16px', padding: '20px', transition: 'all 0.2s', position: 'relative' }}>
+                style={{ background: hovered ? C.surfaceHover : C.surface, border: `1px solid ${showAsOwn ? C.coral : hovered ? C.borderHover : C.border}`, borderRadius: '16px', padding: '20px', transition: 'all 0.2s', position: 'relative' }}>
 
-                {/* Own post badge */}
-                {isOwn && (
+                {showAsOwn && (
                   <div style={{ position: 'absolute', top: '14px', right: '14px', padding: '3px 10px', background: C.accentGlow, border: `1px solid rgba(232,72,85,0.3)`, borderRadius: '100px', fontSize: '11px', color: C.coral, fontWeight: '600' }}>
                     Your post
                   </div>
@@ -131,7 +254,7 @@ export default function FeedPage() {
                     {post.senderAvatar}
                   </div>
                   <div>
-                    <div style={{ fontWeight: '700', fontSize: '14px' }}>{isOwn ? 'You' : post.senderName}</div>
+                    <div style={{ fontWeight: '700', fontSize: '14px' }}>{showAsOwn ? 'You' : post.senderName}</div>
                     <div style={{ fontSize: '12px', color: C.muted }}>Posted {post.postedOn}</div>
                   </div>
                 </div>
@@ -147,17 +270,17 @@ export default function FeedPage() {
                   <span style={{ fontSize: '13px', color: C.muted }}>· by {post.neededBy}</span>
                 </div>
 
-                {/* Item tags */}
-                <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginBottom: post.note ? '10px' : '0' }}>
+                {/* Tags */}
+                <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginBottom: post.itemDesc ? '10px' : '0' }}>
                   <span style={{ padding: '4px 10px', background: C.accentGlow, border: `1px solid rgba(232,72,85,0.2)`, borderRadius: '8px', fontSize: '12px', color: C.coral, fontWeight: '500' }}>{post.itemType}</span>
                   <span style={{ padding: '4px 10px', background: 'rgba(139,155,180,0.1)', border: `1px solid rgba(139,155,180,0.2)`, borderRadius: '8px', fontSize: '12px', color: C.muted }}>{post.weight} kg</span>
-                  <span style={{ padding: '4px 10px', background: C.goldSoft, border: `1px solid ${C.goldBorder}`, borderRadius: '8px', fontSize: '12px', color: C.gold, fontWeight: '600' }}>${post.budget} budget</span>
+                  {post.budget > 0 && <span style={{ padding: '4px 10px', background: C.goldSoft, border: `1px solid ${C.goldBorder}`, borderRadius: '8px', fontSize: '12px', color: C.gold, fontWeight: '600' }}>${post.budget} budget</span>}
                 </div>
 
-                {/* Item desc */}
+                {/* Description */}
                 {post.itemDesc && <p style={{ fontSize: '13px', color: C.muted, margin: '10px 0 0', lineHeight: '1.5' }}>{post.itemDesc}{post.note ? ` — ${post.note}` : ''}</p>}
 
-                {/* Claim button — carrier only, not own post */}
+                {/* Claim — carrier only, not own post */}
                 {role === 'carrier' && !isOwn && (
                   <div style={{ marginTop: '16px', paddingTop: '16px', borderTop: `1px solid ${C.border}` }}>
                     {claimed ? (
