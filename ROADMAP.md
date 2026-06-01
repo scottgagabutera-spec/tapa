@@ -195,4 +195,4 @@ Two-sided marketplace: senders post delivery requests, carriers browse and claim
 - Commit: `docs: update roadmap — [what was completed]`
 - Push after every session
 
-*Last updated: May 31, 2026*
+*Last updated: Jun 1, 2026*
