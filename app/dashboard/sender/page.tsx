@@ -1,6 +1,7 @@
 'use client';
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { supabase } from '@/lib/supabase';
 
 const C = {
   bg: '#0D1B2A',
@@ -86,11 +87,31 @@ const MOCK_BOOKINGS = [
 ];
 
 const STATUS_CONFIG: Record<string, { label: string; color: string; bg: string; border: string }> = {
-  pending:   { label: 'Pending',    color: C.gold,  bg: C.goldSoft,  border: C.goldBorder },
-  confirmed: { label: 'Confirmed',  color: C.blue,  bg: C.blueSoft,  border: C.blueBorder },
-  in_transit:{ label: 'In Transit', color: C.coral, bg: C.accentGlow,border: 'rgba(232,72,85,0.3)' },
-  delivered: { label: 'Delivered',  color: C.green, bg: C.greenSoft, border: C.greenBorder },
-  cancelled: { label: 'Cancelled',  color: C.muted, bg: 'rgba(139,155,180,0.1)', border: 'rgba(139,155,180,0.2)' },
+  pending:    { label: 'Pending',    color: C.gold,  bg: C.goldSoft,   border: C.goldBorder },
+  confirmed:  { label: 'Confirmed',  color: C.blue,  bg: C.blueSoft,   border: C.blueBorder },
+  in_transit: { label: 'In Transit', color: C.coral, bg: C.accentGlow, border: 'rgba(232,72,85,0.3)' },
+  delivered:  { label: 'Delivered',  color: C.green, bg: C.greenSoft,  border: C.greenBorder },
+  cancelled:  { label: 'Cancelled',  color: C.muted, bg: 'rgba(139,155,180,0.1)', border: 'rgba(139,155,180,0.2)' },
+};
+
+type Booking = {
+  id: string;
+  carrierId: string;
+  carrierName: string;
+  carrierAvatar: string;
+  carrierAvatarColor: string;
+  carrierRating: number;
+  from: string;
+  to: string;
+  date: string;
+  airline: string;
+  flightNo: string;
+  itemType: string;
+  itemDesc: string;
+  weight: string;
+  totalPrice: number;
+  status: string;
+  bookedOn: string;
 };
 
 export default function SenderDashboard() {
@@ -98,13 +119,121 @@ export default function SenderDashboard() {
   const [mounted, setMounted] = useState(false);
   const [activeTab, setActiveTab] = useState<'active' | 'history'>('active');
   const [hoveredCard, setHoveredCard] = useState<string | null>(null);
+  const [bookings, setBookings] = useState<Booking[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [userName, setUserName] = useState('');
+  const [userInitials, setUserInitials] = useState('');
+  const [usingMock, setUsingMock] = useState(false);
 
-  useEffect(() => { setMounted(true); }, []);
-  if (!mounted) return null;
+  useEffect(() => {
+    setMounted(true);
+    const load = async () => {
+      try {
+        // Get logged-in user
+        const { data: { user } } = await supabase.auth.getUser();
 
-  const active = MOCK_BOOKINGS.filter(b => b.status !== 'delivered' && b.status !== 'cancelled');
-  const history = MOCK_BOOKINGS.filter(b => b.status === 'delivered' || b.status === 'cancelled');
+        if (user) {
+          // Load profile
+          const { data: profile } = await supabase
+            .from('profiles')
+            .select('name, avatar_color')
+            .eq('id', user.id)
+            .single();
+
+          if (profile?.name) {
+            setUserName(profile.name);
+            const parts = profile.name.trim().split(' ');
+            setUserInitials(parts.map((p: string) => p[0]).join('').slice(0, 2).toUpperCase());
+          } else {
+            setUserInitials((user.email || 'U').substring(0, 2).toUpperCase());
+          }
+
+          // Load real bookings
+          const { data: rawBookings, error } = await supabase
+            .from('bookings')
+            .select(`
+              id,
+              item_type,
+              item_desc,
+              weight_kg,
+              total_price,
+              status,
+              created_at,
+              carrier_id,
+              trip_id,
+              trips (
+                from_city,
+                to_city,
+                date,
+                airline,
+                flight_no
+              ),
+              carrier:profiles!bookings_carrier_id_fkey (
+                name,
+                rating,
+                avatar_color
+              )
+            `)
+            .eq('sender_id', user.id)
+            .order('created_at', { ascending: false });
+
+          if (!error && rawBookings && rawBookings.length > 0) {
+            const mapped: Booking[] = rawBookings.map((b: any) => {
+              const trip = b.trips as any;
+              const carrier = b.carrier as any;
+              const carrierName = carrier?.name || 'Carrier';
+              const initials = carrierName.split(' ').map((w: string) => w[0]).join('').slice(0, 2).toUpperCase();
+              return {
+                id: b.id,
+                carrierId: b.carrier_id || '',
+                carrierName,
+                carrierAvatar: initials,
+                carrierAvatarColor: carrier?.avatar_color || '#E84855',
+                carrierRating: carrier?.rating || 0,
+                from: trip?.from_city || '—',
+                to: trip?.to_city || '—',
+                date: trip?.date ? new Date(trip.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : '—',
+                airline: trip?.airline || '—',
+                flightNo: trip?.flight_no || '—',
+                itemType: b.item_type || '—',
+                itemDesc: b.item_desc || '',
+                weight: String(b.weight_kg || 0),
+                totalPrice: b.total_price || 0,
+                status: b.status || 'pending',
+                bookedOn: new Date(b.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
+              };
+            });
+            setBookings(mapped);
+          } else {
+            // No real bookings yet — show mock data
+            setBookings(MOCK_BOOKINGS);
+            setUsingMock(true);
+          }
+        } else {
+          // Not logged in — show mock
+          setUserName('Scott C.');
+          setUserInitials('SC');
+          setBookings(MOCK_BOOKINGS);
+          setUsingMock(true);
+        }
+      } catch {
+        setBookings(MOCK_BOOKINGS);
+        setUsingMock(true);
+      } finally {
+        setLoading(false);
+      }
+    };
+    load();
+  }, []);
+
+  if (!mounted || loading) return null;
+
+  const active = bookings.filter(b => b.status !== 'delivered' && b.status !== 'cancelled');
+  const history = bookings.filter(b => b.status === 'delivered' || b.status === 'cancelled');
   const displayed = activeTab === 'active' ? active : history;
+
+  const displayName = userName || 'there';
+  const firstWord = displayName.split(' ')[0];
 
   return (
     <div style={{ minHeight: '100vh', background: C.bg, color: C.text, fontFamily: "'Inter', sans-serif" }}>
@@ -124,24 +253,31 @@ export default function SenderDashboard() {
             Find a Carrier
           </button>
           <div style={{ width: '36px', height: '36px', borderRadius: '50%', background: '#3B82F6', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '14px', fontWeight: '700', cursor: 'pointer' }}>
-            SC
+            {userInitials}
           </div>
         </div>
       </nav>
 
-      <div style={{ paddingTop: '64px', maxWidth: '900px', margin: '0 auto', padding: '80px clamp(16px,4vw,48px) 60px' }}>
+      <div style={{ maxWidth: '900px', margin: '0 auto', padding: '80px clamp(16px,4vw,48px) 60px' }}>
 
         {/* Header */}
         <div style={{ marginBottom: '32px' }}>
           <p style={{ fontSize: '14px', color: C.muted, marginBottom: '6px' }}>Welcome back</p>
-          <h1 style={{ fontSize: 'clamp(24px,4vw,32px)', fontWeight: '800', margin: '0 0 4px', letterSpacing: '-0.5px' }}>Scott C.</h1>
+          <h1 style={{ fontSize: 'clamp(24px,4vw,32px)', fontWeight: '800', margin: '0 0 4px', letterSpacing: '-0.5px' }}>{firstWord}.</h1>
           <p style={{ fontSize: '14px', color: C.muted, margin: 0 }}>Sender account · Manila, PH</p>
         </div>
+
+        {/* Mock notice */}
+        {usingMock && (
+          <div style={{ background: C.goldSoft, border: `1px solid ${C.goldBorder}`, borderRadius: '12px', padding: '12px 16px', marginBottom: '24px', fontSize: '13px', color: C.gold }}>
+            Showing sample bookings — your real bookings will appear here once you make one.
+          </div>
+        )}
 
         {/* Stats row */}
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '12px', marginBottom: '32px' }}>
           {[
-            { label: 'Total Bookings', value: MOCK_BOOKINGS.length },
+            { label: 'Total Bookings', value: bookings.length },
             { label: 'Active', value: active.length, color: C.blue },
             { label: 'Delivered', value: history.length, color: C.green },
           ].map(stat => (
@@ -171,7 +307,7 @@ export default function SenderDashboard() {
         ) : (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
             {displayed.map(booking => {
-              const status = STATUS_CONFIG[booking.status];
+              const status = STATUS_CONFIG[booking.status] || STATUS_CONFIG['pending'];
               const hovered = hoveredCard === booking.id;
               return (
                 <div key={booking.id}
@@ -187,14 +323,14 @@ export default function SenderDashboard() {
                       </div>
                       <div>
                         <div style={{ fontWeight: '700', fontSize: '15px' }}>{booking.carrierName}</div>
-                        <div style={{ fontSize: '13px', color: C.muted }}>⭐ {booking.carrierRating} · {booking.airline} {booking.flightNo}</div>
+                        <div style={{ fontSize: '13px', color: C.muted }}>
+                          {booking.carrierRating > 0 ? `⭐ ${booking.carrierRating} · ` : ''}{booking.airline} {booking.flightNo}
+                        </div>
                       </div>
                     </div>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                      <span style={{ padding: '4px 12px', borderRadius: '100px', fontSize: '12px', fontWeight: '600', color: status.color, background: status.bg, border: `1px solid ${status.border}` }}>
-                        {status.label}
-                      </span>
-                    </div>
+                    <span style={{ padding: '4px 12px', borderRadius: '100px', fontSize: '12px', fontWeight: '600', color: status.color, background: status.bg, border: `1px solid ${status.border}` }}>
+                      {status.label}
+                    </span>
                   </div>
 
                   {/* Route */}
@@ -221,9 +357,11 @@ export default function SenderDashboard() {
                   {/* Actions */}
                   {booking.status !== 'delivered' && booking.status !== 'cancelled' && (
                     <div style={{ display: 'flex', gap: '8px', marginTop: '16px', paddingTop: '16px', borderTop: `1px solid ${C.border}` }}>
-                      <button onClick={() => router.push(`/carrier/${booking.carrierId}`)} style={{ padding: '8px 16px', background: 'transparent', border: `1px solid ${C.border}`, borderRadius: '9px', color: C.text, fontSize: '13px', fontWeight: '500', cursor: 'pointer', fontFamily: 'inherit', transition: 'all 0.2s' }}>
-                        View Carrier
-                      </button>
+                      {booking.carrierId && !booking.carrierId.startsWith('c') && (
+                        <button onClick={() => router.push(`/carrier/${booking.carrierId}`)} style={{ padding: '8px 16px', background: 'transparent', border: `1px solid ${C.border}`, borderRadius: '9px', color: C.text, fontSize: '13px', fontWeight: '500', cursor: 'pointer', fontFamily: 'inherit', transition: 'all 0.2s' }}>
+                          View Carrier
+                        </button>
+                      )}
                       <button style={{ padding: '8px 16px', background: 'transparent', border: `1px solid ${C.border}`, borderRadius: '9px', color: C.muted, fontSize: '13px', fontWeight: '500', cursor: 'not-allowed', fontFamily: 'inherit', opacity: 0.6 }}>
                         Track
                       </button>
