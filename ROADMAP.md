@@ -2,7 +2,7 @@
 
 > Mobile first. User friendly. Modern. Premium. Giants Way. Long term. Consistent. Unique.
 
-Last updated: May 31, 2026
+Last updated: Jun 1, 2026
 
 ## Status Legend
 ✅ Done | 🔄 In progress | ⏳ Up next | 📋 Planned | 💡 Future
@@ -59,9 +59,9 @@ Last updated: May 31, 2026
 - [x] /auth/login — Login page
 - [x] /auth/signup — 3-step signup (create account → phone OTP → role selection)
 - [x] TypeScript errors resolved
-- [ ] Actual authentication logic (Firebase / Supabase / NextAuth)
-- [ ] Session management
-- [ ] Protected routes
+- [x] Supabase Auth — real signup with email confirmation
+- [x] Session management — user persisted across pages
+- [x] Login routes by role to correct dashboard
 
 ---
 
@@ -74,8 +74,8 @@ Last updated: May 31, 2026
 - [x] Sort — Recommended / Price / Rating / Date / Capacity
 - [x] Hover interactions, staggered fade-in animations
 - [x] "View & Book" button linking to /carrier/[id]
-- [ ] Live search against real data
-- [ ] Real filter logic
+- [x] Live search pulls real trips from Supabase (falls back to mock if empty)
+- [ ] Real filter logic (route, date, weight)
 
 ---
 
@@ -96,7 +96,7 @@ Last updated: May 31, 2026
 - [x] Step 2 — Sender info (name, phone, pickup/dropoff address)
 - [x] Step 3 — Review and confirm
 - [x] Booking confirmation / success screen
-- [ ] Accept / Decline flow (carrier side — wired in dashboard, needs persistence)
+- [x] Accept / Decline flow — wired in carrier dashboard, persists to Supabase
 - [ ] Real messaging
 - [ ] /tracking/[id] — Status tracker
 
@@ -122,32 +122,34 @@ Last updated: May 31, 2026
 - [x] Step 1 — Route details (from, to, date, airline, flight number)
 - [x] Step 2 — Capacity and pricing (weight, item types, price/kg)
 - [x] Step 3 — Review and publish
-- [ ] Publish to live search results (requires real data layer)
+- [x] Publish to live search results — trips saved to Supabase, appear in /search
 
 ---
 
 
-## Phase 9 — Sender Request Feed ⏳
-Two-sided marketplace: senders can post delivery requests, carriers browse and claim them.
+## Phase 9 — Sender Post Feed ✅
+Two-sided marketplace: senders post delivery requests, carriers browse and claim them.
 
-- [ ] /requests/new — Sender posts a delivery request (route, item type, weight, photo, budget)
-- [ ] /requests — Carrier-side feed of open sender requests (browse, filter by route)
-- [ ] Carrier can 'Claim' a request → triggers booking flow in reverse
-- [ ] Claimed requests move to carrier dashboard under active trips
-- [ ] Sender notified when a carrier claims their request
-- [ ] Privacy rule — only city-level route shown publicly, full address revealed after match only
-- [ ] Free tier: post up to 3 requests/month
-- [ ] Future: premium tier unlocks unlimited posts + promoted visibility
+- [x] /posts/new — Sender creates a delivery post (3-step: route, item details, review)
+- [x] /feed — Role-aware feed (carriers see all posts with Claim, senders see their own posts)
+- [x] Privacy rule — city-level route shown publicly only
+- [ ] Claim flow — carrier claims a post → triggers reverse booking (Phase 11)
+- [ ] Sender notified when carrier claims their post
+- [ ] Free tier: 3 posts/month limit (Phase 12)
 
 ---
-## Phase 10 — Real Data Layer ⏳
-- [ ] Firebase / Supabase setup
-- [ ] Auth — login, signup, session, protected routes
-- [ ] Carrier trips stored and queryable
-- [ ] Bookings stored and status-tracked
-- [ ] Accept/Decline persisted to database
-- [ ] Search pulls live carrier data
-- [ ] Dashboards pull real user data
+## Phase 10 — Real Data Layer ✅
+- [x] Supabase project created (Singapore region, PostgreSQL)
+- [x] Schema — profiles, trips, bookings, posts tables with RLS policies
+- [x] Auth — signup with email confirmation, login routes by role
+- [x] Carrier trips stored and queryable
+- [x] Bookings stored and status-tracked
+- [x] Accept/Decline persisted to database
+- [x] Search pulls live carrier data, falls back to mock
+- [x] Sender dashboard pulls real bookings
+- [x] Carrier dashboard pulls real trips and booking requests
+- [x] Booking page pre-fills sender info from logged-in profile
+- [x] Vercel env vars configured — live on tapa-blue.vercel.app
 
 ---
 
