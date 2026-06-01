@@ -197,7 +197,18 @@ export default function CarrierProfilePage({ params }: { params: Promise<{ id: s
     );
   }
 
-  return (
+    // MOBILE_PATCHED
+  const MobileStyle = () => (
+    <style>{`
+      @media (max-width: 520px) {
+        .carrier-sticky-bar { flex-direction: column !important; align-items: stretch !important; gap: 12px !important; }
+        .carrier-sticky-bar button { width: 100% !important; }
+        .carrier-stats-row { gap: 12px !important; }
+        .carrier-avatar-row { flex-wrap: wrap !important; }
+      }
+    `}</style>
+  );
+return (
     <div style={s.page}>
       <nav style={s.nav}>
         <div style={s.logoWrap} onClick={() => router.push('/')}>

@@ -412,7 +412,15 @@ export default function SignupPage() {
     </div>
   );
 
-  return (
+    // MOBILE_PATCHED
+  const MobileStyle = () => (
+    <style>{`
+      @media (max-width: 400px) {
+        .role-grid-wrap { grid-template-columns: 1fr !important; }
+      }
+    `}</style>
+  );
+return (
     <div style={s.page}>
       {/* Nav */}
       <nav style={s.nav}>
