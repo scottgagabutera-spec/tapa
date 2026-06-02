@@ -1,6 +1,7 @@
 'use client';
 import { useRouter } from 'next/navigation';
 import { useState, useEffect, useRef, useCallback } from 'react';
+import { supabase } from '@/lib/supabase';
 
 const C = {
   bg: '#0D1B2A', surface: '#1A2F45', border: '#243B55',
@@ -128,6 +129,8 @@ const FCard = ({ icon, title, desc }: { icon: React.ReactNode; title: string; de
   </div>
 );
 
+type UserSession = { initials: string; role: 'carrier' | 'sender' | null; name: string; } | null;
+
 export default function TapaLanding() {
   const router = useRouter();
   const [scrolled, setScrolled] = useState(false);
@@ -135,12 +138,48 @@ export default function TapaLanding() {
   const [to, setTo] = useState('');
   const [date, setDate] = useState('');
   const [weight, setWeight] = useState('');
+  const [user, setUser] = useState<UserSession>(null);
+  const [userLoaded, setUserLoaded] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const fn = () => setScrolled(window.scrollY > 30);
     window.addEventListener('scroll', fn);
     return () => window.removeEventListener('scroll', fn);
   }, []);
+
+  // Load signed-in user
+  useEffect(() => {
+    const load = async () => {
+      try {
+        const { data: { user: u } } = await supabase.auth.getUser();
+        if (u) {
+          const { data: profile } = await supabase.from('profiles').select('name, role').eq('id', u.id).single();
+          const name = profile?.name || u.email || '';
+          const initials = name.trim().split(' ').map((p: string) => p[0]).join('').slice(0, 2).toUpperCase() || 'U';
+          setUser({ initials, role: profile?.role || 'sender', name });
+        }
+      } catch { /* not logged in */ }
+      finally { setUserLoaded(true); }
+    };
+    load();
+  }, []);
+
+  // Close menu on outside click
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(e.target as Node)) setMenuOpen(false);
+    };
+    document.addEventListener('mousedown', handler);
+    return () => document.removeEventListener('mousedown', handler);
+  }, []);
+
+  const handleSignOut = async () => {
+    await supabase.auth.signOut();
+    setUser(null);
+    setMenuOpen(false);
+  };
 
   const handleSearch = () => {
     const params = new URLSearchParams();
@@ -171,6 +210,10 @@ export default function TapaLanding() {
         .sbox { display: flex; align-items: stretch; background: ${C.surface}; border: 1px solid ${C.border}; border-radius: 18px; overflow: visible; box-shadow: 0 8px 48px rgba(0,0,0,0.28); }
         .sfields { display: flex; align-items: stretch; flex: 1; min-width: 0; }
         .sdiv { width: 1px; background: ${C.border}; flex-shrink: 0; margin: 10px 0; }
+        .user-menu { position: absolute; top: 'calc(100% + 8px)'; right: 0; background: #162738; border: 1px solid ${C.border}; border-radius: 14px; overflow: hidden; box-shadow: 0 16px 48px rgba(0,0,0,0.5); min-width: 180px; z-index: 300; }
+        .user-menu-item { width: 100%; text-align: left; padding: 11px 16px; background: transparent; border: none; color: ${C.text}; font-size: 13px; font-weight: 500; cursor: pointer; font-family: inherit; display: block; transition: background 100ms; }
+        .user-menu-item:hover { background: rgba(255,255,255,0.05); }
+        .user-menu-item.danger { color: ${C.coral}; }
         @media (max-width: 768px) {
           .sbox { flex-direction: column; }
           .sfields { flex-direction: column; }
@@ -194,10 +237,58 @@ export default function TapaLanding() {
           <div style={{ width: '36px', height: '36px', borderRadius: '10px', background: `linear-gradient(135deg,${C.coral},${C.coralDark})`, display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 4px 12px rgba(232,72,85,0.38)' }}><Icon.Logo /></div>
           <span style={{ fontSize: '19px', fontWeight: 800, letterSpacing: '-0.5px' }}>tapa</span>
         </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <button className="tb hide-mobile" style={{ background: 'transparent', color: C.text, border: `1.5px solid ${C.border}`, padding: '8px 16px', borderRadius: '12px', fontFamily: 'inherit', fontSize: '13px', fontWeight: 600, cursor: 'pointer' }} onClick={() => router.push('/auth/signup?role=carrier')}>I'm a Carrier</button>
-          <button className="tb" style={{ background: C.coral, color: '#fff', border: 'none', padding: '8px 16px', borderRadius: '12px', fontFamily: 'inherit', fontSize: '13px', fontWeight: 700, cursor: 'pointer', boxShadow: '0 4px 20px rgba(232,72,85,0.35)' }} onClick={() => router.push('/auth/signup')}>Get Started</button>
-        </div>
+
+        {/* Nav right — signed in vs signed out */}
+        {userLoaded && (
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            {user ? (
+              // SIGNED IN
+              <>
+                {user.role === 'carrier' ? (
+                  <button className="tb hide-mobile" style={{ background: C.coral, color: '#fff', border: 'none', padding: '8px 16px', borderRadius: '12px', fontFamily: 'inherit', fontSize: '13px', fontWeight: 700, cursor: 'pointer' }} onClick={() => router.push('/trip/new')}>
+                    + Post a Trip
+                  </button>
+                ) : (
+                  <button className="tb hide-mobile" style={{ background: C.coral, color: '#fff', border: 'none', padding: '8px 16px', borderRadius: '12px', fontFamily: 'inherit', fontSize: '13px', fontWeight: 700, cursor: 'pointer' }} onClick={() => router.push('/search')}>
+                    Find a Carrier
+                  </button>
+                )}
+                {/* Avatar + dropdown */}
+                <div ref={menuRef} style={{ position: 'relative' }}>
+                  <button onClick={() => setMenuOpen(v => !v)} style={{ width: '38px', height: '38px', borderRadius: '50%', background: C.coral, border: `2px solid ${menuOpen ? C.text : 'transparent'}`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '13px', fontWeight: 700, color: '#fff', cursor: 'pointer', fontFamily: 'inherit', transition: 'border-color 150ms' }}>
+                    {user.initials}
+                  </button>
+                  {menuOpen && (
+                    <div className="user-menu" style={{ position: 'absolute', top: 'calc(100% + 10px)', right: 0 }}>
+                      <div style={{ padding: '12px 16px', borderBottom: `1px solid ${C.border}` }}>
+                        <div style={{ fontSize: '13px', fontWeight: 700, color: C.text, marginBottom: '2px' }}>{user.name.split(' ')[0]}</div>
+                        <div style={{ fontSize: '11px', color: C.muted, textTransform: 'capitalize' }}>{user.role} account</div>
+                      </div>
+                      <button className="user-menu-item" onClick={() => { router.push(user.role === 'carrier' ? '/dashboard/carrier' : '/dashboard/sender'); setMenuOpen(false); }}>My Dashboard</button>
+                      {user.role === 'carrier'
+                        ? <button className="user-menu-item" onClick={() => { router.push('/trip/new'); setMenuOpen(false); }}>Post a Trip</button>
+                        : <button className="user-menu-item" onClick={() => { router.push('/search'); setMenuOpen(false); }}>Find a Carrier</button>
+                      }
+                      <button className="user-menu-item" onClick={() => { router.push('/feed'); setMenuOpen(false); }}>Feed</button>
+                      <div style={{ height: '1px', background: C.border, margin: '4px 0' }} />
+                      <button className="user-menu-item danger" onClick={handleSignOut}>Sign Out</button>
+                    </div>
+                  )}
+                </div>
+              </>
+            ) : (
+              // SIGNED OUT
+              <>
+                <button className="tb hide-mobile" style={{ background: 'transparent', color: C.text, border: `1.5px solid ${C.border}`, padding: '8px 16px', borderRadius: '12px', fontFamily: 'inherit', fontSize: '13px', fontWeight: 600, cursor: 'pointer' }} onClick={() => router.push('/auth/signup?role=carrier')}>
+                  I'm a Carrier
+                </button>
+                <button className="tb" style={{ background: C.coral, color: '#fff', border: 'none', padding: '8px 16px', borderRadius: '12px', fontFamily: 'inherit', fontSize: '13px', fontWeight: 700, cursor: 'pointer', boxShadow: '0 4px 20px rgba(232,72,85,0.35)' }} onClick={() => router.push('/auth/signup')}>
+                  Get Started
+                </button>
+              </>
+            )}
+          </div>
+        )}
       </nav>
 
       {/* HERO */}
@@ -207,7 +298,7 @@ export default function TapaLanding() {
         <div style={{ ...W, position: 'relative' }}>
           <div style={{ display: 'inline-flex', alignItems: 'center', gap: '10px', background: C.greenBg, border: `1px solid ${C.greenBorder}`, borderRadius: '100px', padding: '8px 18px', marginBottom: '36px' }}>
             <span style={{ width: '7px', height: '7px', borderRadius: '50%', background: C.green, boxShadow: `0 0 8px ${C.green}`, display: 'inline-block' }} />
-            <span style={{ fontSize: '13px', fontWeight: 600, color: C.green }}>Live — peer-to-peer delivery across borders</span>
+            <span style={{ fontSize: '13px', fontWeight: 600, color: C.green }}>Now open — peer-to-peer delivery across borders</span>
           </div>
           <h1 style={{ fontSize: 'clamp(38px,7.5vw,84px)', fontWeight: 800, lineHeight: 1.02, letterSpacing: 'clamp(-1.5px,-0.03em,-3px)', marginBottom: '20px', maxWidth: '860px' }}>
             Your item.<br /><span style={{ color: C.coral }}>Their journey.</span><br />Delivered.
@@ -222,7 +313,6 @@ export default function TapaLanding() {
               <div className="sfields">
                 <AirportInput placeholder="From — city, country or IATA" value={from} onChange={setFrom} icon={<Icon.Pin />} />
                 <div className="sdiv" />
-                {/* swap button */}
                 <div style={{ display: 'flex', alignItems: 'center', padding: '0 4px', flexShrink: 0 }}>
                   <button className="tb" onClick={() => { const t = from; setFrom(to); setTo(t); }}
                     style={{ width: '32px', height: '32px', borderRadius: '8px', background: 'rgba(232,72,85,0.1)', border: `1px solid rgba(232,72,85,0.22)`, color: C.coral, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -250,7 +340,6 @@ export default function TapaLanding() {
               </button>
             </div>
 
-            {/* Quick routes */}
             <div style={{ display: 'flex', gap: '8px', marginTop: '12px', flexWrap: 'wrap', alignItems: 'center' }}>
               <span style={{ fontSize: '12px', color: '#3D5166' }}>Popular:</span>
               {[
@@ -268,22 +357,29 @@ export default function TapaLanding() {
             </div>
           </div>
 
-          <div style={{ display: 'flex', alignItems: 'center', gap: '20px', flexWrap: 'wrap', marginTop: '12px' }}>
-            <button className="tb" style={{ background: 'transparent', color: C.coral, border: `1.5px solid rgba(232,72,85,0.35)`, padding: '11px 24px', borderRadius: '12px', fontFamily: 'inherit', fontSize: '14px', fontWeight: 600, cursor: 'pointer' }} onClick={() => router.push('/auth/signup?role=carrier')}>
-              Become a Carrier — earn on your travels
-            </button>
-            <span style={{ fontSize: '13px', color: '#3D5166' }}>No subscription. Free to join.</span>
-          </div>
+          {!user && (
+            <div style={{ display: 'flex', alignItems: 'center', gap: '20px', flexWrap: 'wrap', marginTop: '12px' }}>
+              <button className="tb" style={{ background: 'transparent', color: C.coral, border: `1.5px solid rgba(232,72,85,0.35)`, padding: '11px 24px', borderRadius: '12px', fontFamily: 'inherit', fontSize: '14px', fontWeight: 600, cursor: 'pointer' }} onClick={() => router.push('/auth/signup?role=carrier')}>
+                Become a Carrier — earn on your travels
+              </button>
+              <span style={{ fontSize: '13px', color: '#3D5166' }}>No subscription. Free to join.</span>
+            </div>
+          )}
         </div>
       </section>
 
-      {/* STATS */}
+      {/* STATS — honest for a new product */}
       <section style={{ padding: '0 clamp(20px,5vw,48px) 80px' }}>
         <div style={W}>
           <div className="tapa-stats" style={{ border: `1px solid ${C.border}`, borderRadius: '20px', overflow: 'hidden' }}>
-            {[{ n: '180+', l: 'Countries covered' }, { n: '70%', l: 'Cheaper than DHL' }, { n: '48h', l: 'Average delivery' }, { n: '100%', l: 'Escrow protected' }].map((s, i) => (
+            {[
+              { n: '195', l: 'Countries reachable' },
+              { n: 'Up to 70%', l: 'Cheaper than couriers' },
+              { n: '6,072+', l: 'Airports in our network' },
+              { n: '100%', l: 'Escrow protected' },
+            ].map((s, i) => (
               <div key={i} style={{ background: C.surface, padding: 'clamp(20px,3vw,36px) clamp(12px,2vw,24px)', textAlign: 'center', borderRight: i < 3 ? `1px solid ${C.border}` : 'none' }}>
-                <div style={{ fontSize: 'clamp(26px,4vw,40px)', fontWeight: 800, color: C.coral, letterSpacing: '-1px', marginBottom: '6px' }}>{s.n}</div>
+                <div style={{ fontSize: 'clamp(22px,3.5vw,36px)', fontWeight: 800, color: C.coral, letterSpacing: '-1px', marginBottom: '6px' }}>{s.n}</div>
                 <div style={{ fontSize: '12px', color: C.muted, fontWeight: 500 }}>{s.l}</div>
               </div>
             ))}
@@ -320,7 +416,7 @@ export default function TapaLanding() {
         </div>
       </section>
 
-      {/* CONNECTED ROUTE */}
+      {/* CONNECTED ROUTE — concept illustration, not live data */}
       <section style={S}>
         <div style={W}>
           <div style={{ background: 'linear-gradient(140deg,#112236,#0D1B2A)', border: `1px solid ${C.border}`, borderRadius: '28px', padding: 'clamp(28px,5vw,64px)', position: 'relative', overflow: 'hidden' }}>
@@ -329,26 +425,42 @@ export default function TapaLanding() {
               <div>
                 <SL text="Key innovation" />
                 <h2 style={{ fontSize: 'clamp(24px,3.5vw,42px)', fontWeight: 800, letterSpacing: '-1px', lineHeight: 1.1, marginBottom: '20px' }}>No direct route?<br />No problem.</h2>
-                <p style={{ color: C.muted, fontSize: '15px', lineHeight: 1.8, marginBottom: '32px' }}>Like a flight with a layover, Tapa chains two carriers together. No one flies Zurich to Manila directly — but two travelers can make it happen, fully coordinated through the platform.</p>
+                <p style={{ color: C.muted, fontSize: '15px', lineHeight: 1.8, marginBottom: '32px' }}>Like a flight with a layover, Tapa chains two carriers together. No one flies Zürich to Manila directly — but two travelers can make it happen, fully coordinated through the platform.</p>
                 <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
                   {['Automated matching', 'Secure handoff', 'Full tracking'].map(tag => (
                     <span key={tag} style={{ background: 'rgba(232,72,85,0.08)', border: `1px solid rgba(232,72,85,0.22)`, color: '#F9A8B0', fontSize: '12px', fontWeight: 600, padding: '6px 14px', borderRadius: '100px' }}>{tag}</span>
                   ))}
                 </div>
               </div>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                {[{ city: 'Zürich', role: 'Carrier A departs', dot: C.coral }, { city: 'Singapore', role: 'Secure handoff', dot: '#F59E0B' }, { city: 'Manila', role: 'Carrier B delivers', dot: C.green }].map((n, i) => (
-                  <div key={n.city}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '16px', background: 'rgba(255,255,255,0.03)', border: `1px solid ${C.border}`, borderRadius: '14px', padding: '16px 20px' }}>
-                      <div style={{ width: '40px', height: '40px', borderRadius: '10px', background: C.surface, border: `1px solid ${C.border}`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="10" r="3" stroke={n.dot} strokeWidth="2"/><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" stroke={n.dot} strokeWidth="2"/></svg>
+              <div>
+                <div style={{ fontSize: '11px', color: C.muted, fontWeight: 600, letterSpacing: '1px', textTransform: 'uppercase' as const, marginBottom: '12px', opacity: 0.6 }}>Example route</div>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                  {[
+                    { city: 'Zürich', role: 'Carrier A departs', dot: C.coral },
+                    { city: 'Singapore', role: 'Secure handoff', dot: '#F59E0B' },
+                    { city: 'Manila', role: 'Carrier B delivers', dot: C.green },
+                  ].map((n, i) => (
+                    <div key={n.city}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '16px', background: 'rgba(255,255,255,0.03)', border: `1px solid ${C.border}`, borderRadius: '14px', padding: '16px 20px' }}>
+                        <div style={{ width: '40px', height: '40px', borderRadius: '10px', background: C.surface, border: `1px solid ${C.border}`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="10" r="3" stroke={n.dot} strokeWidth="2"/><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" stroke={n.dot} strokeWidth="2"/></svg>
+                        </div>
+                        <div style={{ flex: 1 }}>
+                          <div style={{ fontSize: '15px', fontWeight: 700 }}>{n.city}</div>
+                          <div style={{ fontSize: '12px', color: C.muted, marginTop: '2px' }}>{n.role}</div>
+                        </div>
+                        <span style={{ width: '9px', height: '9px', borderRadius: '50%', background: n.dot, boxShadow: `0 0 8px ${n.dot}`, display: 'inline-block', flexShrink: 0 }} />
                       </div>
-                      <div style={{ flex: 1 }}><div style={{ fontSize: '15px', fontWeight: 700 }}>{n.city}</div><div style={{ fontSize: '12px', color: C.muted, marginTop: '2px' }}>{n.role}</div></div>
-                      <span style={{ width: '9px', height: '9px', borderRadius: '50%', background: n.dot, boxShadow: `0 0 8px ${n.dot}`, display: 'inline-block', flexShrink: 0 }} />
+                      {i < 2 && (
+                        <div style={{ display: 'flex', alignItems: 'center', padding: '4px 28px' }}>
+                          <div style={{ flex: 1, height: '1px', background: `linear-gradient(90deg,${C.border},transparent)` }} />
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" style={{ margin: '0 8px' }}><path d="M21 16l-9-9-1 5-5 1 9 9 1-5 5-1z" stroke={C.muted} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                          <div style={{ flex: 1, height: '1px', background: `linear-gradient(270deg,${C.border},transparent)` }} />
+                        </div>
+                      )}
                     </div>
-                    {i < 2 && <div style={{ display: 'flex', alignItems: 'center', padding: '4px 28px' }}><div style={{ flex: 1, height: '1px', background: `linear-gradient(90deg,${C.border},transparent)` }} /><svg width="14" height="14" viewBox="0 0 24 24" fill="none" style={{ margin: '0 8px' }}><path d="M21 16l-9-9-1 5-5 1 9 9 1-5 5-1z" stroke={C.muted} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg><div style={{ flex: 1, height: '1px', background: `linear-gradient(270deg,${C.border},transparent)` }} /></div>}
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
             </div>
           </div>
@@ -368,21 +480,26 @@ export default function TapaLanding() {
             <FCard icon={<Icon.Shield />} title="Escrow protection" desc="Payments are held securely until delivery is confirmed. Zero risk on both sides." />
             <FCard icon={<Icon.MapPin />} title="Real-time tracking" desc="Know exactly where your item is at every step of the journey." />
             <FCard icon={<Icon.Verify />} title="Verified carriers" desc="Every carrier completes identity verification before they can carry items." />
-            <FCard icon={<Icon.Globe />} title="Any route worldwide" desc="If someone flies it, Tapa covers it. 180+ countries, any direction." />
+            <FCard icon={<Icon.Globe />} title="Any route worldwide" desc="If someone flies it, Tapa covers it. 195 countries, any direction." />
             <FCard icon={<Icon.Camera />} title="Photo proof" desc="Full photo documentation at pickup and delivery — complete accountability." />
           </div>
         </div>
       </section>
 
-      {/* USE CASES */}
+      {/* USE CASES — framed as possibilities, not past events */}
       <section style={{ ...S, background: 'rgba(255,255,255,0.01)' }}>
         <div style={W}>
           <div style={{ textAlign: 'center', marginBottom: '60px' }}>
-            <SL text="Real people. Real routes." />
-            <h2 style={{ fontSize: 'clamp(26px,4vw,46px)', fontWeight: 800, letterSpacing: '-1px' }}>Who uses Tapa</h2>
+            <SL text="What you can send" />
+            <h2 style={{ fontSize: 'clamp(26px,4vw,46px)', fontWeight: 800, letterSpacing: '-1px' }}>Any item. Any route.</h2>
+            <p style={{ color: C.muted, fontSize: '15px', marginTop: '14px', maxWidth: '440px', margin: '14px auto 0', lineHeight: 1.7 }}>If a traveler is going there, your item can go with them.</p>
           </div>
           <div className="tapa-use">
-            {[{ from: 'Vietnam', to: 'Cameroon', item: 'Hair extensions', saving: 'Saves $280 vs DHL' }, { from: 'Switzerland', to: 'Philippines', item: 'Medicine & vitamins', saving: 'Saves $150 vs FedEx' }, { from: 'New York', to: 'Lagos', item: 'Sneakers & clothing', saving: 'Saves $200 vs courier' }].map(c => (
+            {[
+              { from: 'Vietnam', to: 'Cameroon', item: 'Hair extensions', saving: 'Est. 70% cheaper than DHL' },
+              { from: 'Switzerland', to: 'Philippines', item: 'Medicine & vitamins', saving: 'Est. 65% cheaper than FedEx' },
+              { from: 'New York', to: 'Lagos', item: 'Sneakers & clothing', saving: 'Est. 60% cheaper than courier' },
+            ].map(c => (
               <div key={c.item} style={{ background: C.surface, border: `1px solid ${C.border}`, borderRadius: '20px', padding: '28px' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '10px', flexWrap: 'wrap' }}>
                   <span style={{ fontSize: '13px', fontWeight: 600, color: C.muted }}>{c.from}</span>
@@ -397,14 +514,14 @@ export default function TapaLanding() {
         </div>
       </section>
 
-      {/* CTA */}
+      {/* CTA — honest for a new product */}
       <section style={S}>
         <div style={W}>
           <div style={{ background: `linear-gradient(140deg,${C.coral},${C.coralDark})`, borderRadius: '28px', padding: 'clamp(40px,6vw,80px) clamp(24px,5vw,80px)', textAlign: 'center', position: 'relative', overflow: 'hidden', boxShadow: '0 24px 80px rgba(232,72,85,0.28)' }}>
             <div style={{ position: 'absolute', top: '-80px', right: '-80px', width: '320px', height: '320px', borderRadius: '50%', background: 'rgba(255,255,255,0.06)', pointerEvents: 'none' }} />
-            <p style={{ color: 'rgba(255,255,255,0.7)', fontWeight: 700, fontSize: '11px', letterSpacing: '3px', textTransform: 'uppercase' as const, marginBottom: '16px' }}>Join the movement</p>
+            <p style={{ color: 'rgba(255,255,255,0.7)', fontWeight: 700, fontSize: '11px', letterSpacing: '3px', textTransform: 'uppercase' as const, marginBottom: '16px' }}>Be an early mover</p>
             <h2 style={{ fontSize: 'clamp(28px,5vw,56px)', fontWeight: 800, letterSpacing: '-1.5px', color: '#fff', marginBottom: '16px', lineHeight: 1.05 }}>Ready to ship smarter?</h2>
-            <p style={{ fontSize: 'clamp(14px,2vw,17px)', color: 'rgba(255,255,255,0.72)', maxWidth: '420px', margin: '0 auto 44px', lineHeight: 1.75 }}>Thousands of people already ship across borders the human way.</p>
+            <p style={{ fontSize: 'clamp(14px,2vw,17px)', color: 'rgba(255,255,255,0.72)', maxWidth: '420px', margin: '0 auto 44px', lineHeight: 1.75 }}>Join now and be among the first to ship across borders the human way.</p>
             <div className="tapa-cta">
               <button className="tb" style={{ background: '#fff', color: C.coral, border: 'none', padding: 'clamp(14px,2vw,17px) clamp(28px,4vw,40px)', borderRadius: '12px', fontSize: 'clamp(14px,2vw,16px)', fontWeight: 700, cursor: 'pointer', boxShadow: '0 4px 20px rgba(0,0,0,0.12)', fontFamily: 'inherit', display: 'inline-flex', alignItems: 'center', gap: '8px' }} onClick={() => router.push('/search')}>
                 Find a Carrier <Icon.Arrow />
@@ -429,7 +546,10 @@ export default function TapaLanding() {
             <p style={{ fontSize: '12px', color: '#3D5166', marginTop: '20px' }}>© 2026 Tapa. All rights reserved.</p>
           </div>
           <div style={{ display: 'flex', gap: '56px', flexWrap: 'wrap' }}>
-            {[{ heading: 'Product', links: ['How it works', 'Find a Carrier', 'Become a Carrier', 'Connected Routes'] }, { heading: 'Company', links: ['About', 'Safety', 'Trust & Verify', 'Contact'] }].map(col => (
+            {[
+              { heading: 'Product', links: ['How it works', 'Find a Carrier', 'Become a Carrier', 'Connected Routes'] },
+              { heading: 'Company', links: ['About', 'Safety', 'Trust & Verify', 'Contact'] },
+            ].map(col => (
               <div key={col.heading}>
                 <p style={{ fontSize: '11px', fontWeight: 700, color: C.muted, letterSpacing: '2px', textTransform: 'uppercase' as const, marginBottom: '18px' }}>{col.heading}</p>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
