@@ -15,12 +15,6 @@ const C = {
   inputBg: '#0A1520',
 };
 
-const MOCK_BOOKINGS = [
-  { id: 'b1', carrierId: 'c1', carrierName: 'Maria Santos', carrierAvatar: 'MS', carrierAvatarColor: '#7C3AED', carrierRating: 4.9, from: 'Manila', to: 'Dubai', date: 'Jun 12, 2026', airline: 'Emirates', flightNo: 'EK 334', itemType: 'Electronics', itemDesc: 'Laptop and accessories', weight: '2', totalPrice: 16, status: 'confirmed', bookedOn: 'May 28, 2026' },
-  { id: 'b2', carrierId: 'c4', carrierName: 'Carlos Mendez', carrierAvatar: 'CM', carrierAvatarColor: '#059669', carrierRating: 5.0, from: 'Sao Paulo', to: 'Miami', date: 'Jun 17, 2026', airline: 'LATAM Airlines', flightNo: 'LA 8084', itemType: 'Clothes', itemDesc: 'Seasonal clothing', weight: '3', totalPrice: 27, status: 'pending', bookedOn: 'May 30, 2026' },
-  { id: 'b3', carrierId: 'c2', carrierName: 'James Okonkwo', carrierAvatar: 'JO', carrierAvatarColor: '#0891B2', carrierRating: 4.8, from: 'Lagos', to: 'London', date: 'May 20, 2026', airline: 'British Airways', flightNo: 'BA 076', itemType: 'Documents', itemDesc: 'Legal documents', weight: '0.5', totalPrice: 5, status: 'delivered', bookedOn: 'May 15, 2026' },
-];
-
 const STATUS_CONFIG: Record<string, { label: string; color: string; bg: string; border: string }> = {
   pending:    { label: 'Pending',    color: C.gold,  bg: C.goldSoft,   border: C.goldBorder },
   confirmed:  { label: 'Confirmed',  color: C.blue,  bg: C.blueSoft,   border: C.blueBorder },
@@ -29,7 +23,12 @@ const STATUS_CONFIG: Record<string, { label: string; color: string; bg: string; 
   cancelled:  { label: 'Cancelled',  color: C.muted, bg: 'rgba(139,155,180,0.1)', border: 'rgba(139,155,180,0.2)' },
 };
 
-type Booking = { id: string; carrierId: string; carrierName: string; carrierAvatar: string; carrierAvatarColor: string; carrierRating: number; from: string; to: string; date: string; airline: string; flightNo: string; itemType: string; itemDesc: string; weight: string; totalPrice: number; status: string; bookedOn: string; };
+type Booking = {
+  id: string; carrierId: string; carrierName: string; carrierAvatar: string;
+  carrierAvatarColor: string; carrierRating: number; from: string; to: string;
+  date: string; airline: string; flightNo: string; itemType: string; itemDesc: string;
+  weight: string; totalPrice: number; status: string; bookedOn: string;
+};
 
 export default function SenderDashboard() {
   const router = useRouter();
@@ -39,30 +38,99 @@ export default function SenderDashboard() {
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [loading, setLoading] = useState(true);
   const [userName, setUserName] = useState('');
-  const [userInitials, setUserInitials] = useState('');
-  const [usingMock, setUsingMock] = useState(false);
+  const [userInitials, setUserInitials] = useState('U');
+  const [notLoggedIn, setNotLoggedIn] = useState(false);
 
   useEffect(() => {
     setMounted(true);
     const load = async () => {
       try {
         const { data: { user } } = await supabase.auth.getUser();
-        if (user) {
-          const { data: profile } = await supabase.from('profiles').select('name, avatar_color').eq('id', user.id).single();
-          if (profile?.name) { setUserName(profile.name); setUserInitials(profile.name.trim().split(' ').map((p: string) => p[0]).join('').slice(0, 2).toUpperCase()); }
-          else { setUserInitials((user.email || 'U').substring(0, 2).toUpperCase()); }
-          const { data: rawBookings, error } = await supabase.from('bookings').select(`id,item_type,item_desc,weight_kg,total_price,status,created_at,carrier_id,trip_id,trips(from_city,to_city,date,airline,flight_no),carrier:profiles!bookings_carrier_id_fkey(name,rating,avatar_color)`).eq('sender_id', user.id).order('created_at', { ascending: false });
-          if (!error && rawBookings && rawBookings.length > 0) {
-            setBookings(rawBookings.map((b: any) => { const trip = b.trips as any; const carrier = b.carrier as any; const carrierName = carrier?.name || 'Carrier'; return { id: b.id, carrierId: b.carrier_id || '', carrierName, carrierAvatar: carrierName.split(' ').map((w: string) => w[0]).join('').slice(0, 2).toUpperCase(), carrierAvatarColor: carrier?.avatar_color || '#E84855', carrierRating: carrier?.rating || 0, from: trip?.from_city || '—', to: trip?.to_city || '—', date: trip?.date ? new Date(trip.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : '—', airline: trip?.airline || '—', flightNo: trip?.flight_no || '—', itemType: b.item_type || '—', itemDesc: b.item_desc || '', weight: String(b.weight_kg || 0), totalPrice: b.total_price || 0, status: b.status || 'pending', bookedOn: new Date(b.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) }; }));
-          } else { setBookings(MOCK_BOOKINGS); setUsingMock(true); }
-        } else { setUserName('Scott C.'); setUserInitials('SC'); setBookings(MOCK_BOOKINGS); setUsingMock(true); }
-      } catch { setBookings(MOCK_BOOKINGS); setUsingMock(true); }
-      finally { setLoading(false); }
+        if (!user) {
+          setNotLoggedIn(true);
+          setLoading(false);
+          return;
+        }
+
+        const { data: profile } = await supabase
+          .from('profiles')
+          .select('name, avatar_color')
+          .eq('id', user.id)
+          .single();
+
+        if (profile?.name) {
+          setUserName(profile.name);
+          setUserInitials(
+            profile.name.trim().split(' ').map((p: string) => p[0]).join('').slice(0, 2).toUpperCase()
+          );
+        } else {
+          setUserInitials((user.email || 'U').substring(0, 2).toUpperCase());
+        }
+
+        const { data: rawBookings, error } = await supabase
+          .from('bookings')
+          .select(`
+            id, item_type, item_desc, weight_kg, total_price, status, created_at,
+            carrier_id, trip_id,
+            trips(from_city, to_city, date, airline, flight_no),
+            carrier:profiles!bookings_carrier_id_fkey(name, rating, avatar_color)
+          `)
+          .eq('sender_id', user.id)
+          .order('created_at', { ascending: false });
+
+        if (!error && rawBookings) {
+          setBookings(rawBookings.map((b: any) => {
+            const trip = b.trips as any;
+            const carrier = b.carrier as any;
+            const carrierName = carrier?.name || 'Carrier';
+            return {
+              id: b.id,
+              carrierId: b.carrier_id || '',
+              carrierName,
+              carrierAvatar: carrierName.split(' ').map((w: string) => w[0]).join('').slice(0, 2).toUpperCase(),
+              carrierAvatarColor: carrier?.avatar_color || '#E84855',
+              carrierRating: carrier?.rating || 0,
+              from: trip?.from_city || '—',
+              to: trip?.to_city || '—',
+              date: trip?.date
+                ? new Date(trip.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+                : '—',
+              airline: trip?.airline || '—',
+              flightNo: trip?.flight_no || '—',
+              itemType: b.item_type || '—',
+              itemDesc: b.item_desc || '',
+              weight: String(b.weight_kg || 0),
+              totalPrice: b.total_price || 0,
+              status: b.status || 'pending',
+              bookedOn: new Date(b.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
+            };
+          }));
+        }
+      } catch {
+        // silent — empty state handles it
+      } finally {
+        setLoading(false);
+      }
     };
     load();
   }, []);
 
   if (!mounted || loading) return null;
+
+  if (notLoggedIn) {
+    return (
+      <div style={{ minHeight: '100vh', background: C.bg, color: C.text, fontFamily: "'Inter', sans-serif", display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px' }}>
+        <div style={{ textAlign: 'center', maxWidth: '360px' }}>
+          <div style={{ fontSize: '40px', marginBottom: '16px' }}>🔒</div>
+          <h2 style={{ fontSize: '22px', fontWeight: '800', marginBottom: '10px' }}>Sign in to view your bookings</h2>
+          <p style={{ color: C.muted, fontSize: '14px', marginBottom: '24px' }}>Track your deliveries and manage your orders.</p>
+          <button onClick={() => router.push('/auth/login')} style={{ padding: '12px 28px', background: C.coral, border: 'none', borderRadius: '12px', color: C.text, fontSize: '15px', fontWeight: '700', cursor: 'pointer', fontFamily: 'inherit' }}>
+            Sign In
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   const active = bookings.filter(b => b.status !== 'delivered' && b.status !== 'cancelled');
   const history = bookings.filter(b => b.status === 'delivered' || b.status === 'cancelled');
@@ -84,12 +152,18 @@ export default function SenderDashboard() {
 
       <nav style={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 100, height: '64px', background: 'rgba(13,27,42,0.95)', backdropFilter: 'blur(12px)', borderBottom: `1px solid ${C.border}`, display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 clamp(16px,4vw,48px)' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer' }} onClick={() => router.push('/')}>
-          <div style={{ width: '36px', height: '36px', background: C.coral, borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 3L20 20H4L12 3Z" fill="white"/></svg></div>
+          <div style={{ width: '36px', height: '36px', background: C.coral, borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 3L20 20H4L12 3Z" fill="white"/></svg>
+          </div>
           <span style={{ fontSize: '20px', fontWeight: '700', color: C.text, letterSpacing: '-0.5px' }}>tapa</span>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-          <button onClick={() => router.push('/search')} style={{ padding: '8px clamp(12px,2vw,20px)', background: C.coral, border: 'none', borderRadius: '10px', color: C.text, fontSize: '13px', fontWeight: '600', cursor: 'pointer', fontFamily: 'inherit', whiteSpace: 'nowrap' }}>Find a Carrier</button>
-          <div style={{ width: '36px', height: '36px', borderRadius: '50%', background: '#3B82F6', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '14px', fontWeight: '700', flexShrink: 0 }}>{userInitials}</div>
+          <button onClick={() => router.push('/search')} style={{ padding: '8px clamp(12px,2vw,20px)', background: C.coral, border: 'none', borderRadius: '10px', color: C.text, fontSize: '13px', fontWeight: '600', cursor: 'pointer', fontFamily: 'inherit', whiteSpace: 'nowrap' }}>
+            Find a Carrier
+          </button>
+          <div style={{ width: '36px', height: '36px', borderRadius: '50%', background: '#3B82F6', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '14px', fontWeight: '700', flexShrink: 0 }}>
+            {userInitials}
+          </div>
         </div>
       </nav>
 
@@ -97,20 +171,14 @@ export default function SenderDashboard() {
         <div style={{ marginBottom: '32px' }}>
           <p style={{ fontSize: '14px', color: C.muted, marginBottom: '6px' }}>Welcome back</p>
           <h1 style={{ fontSize: 'clamp(22px,4vw,32px)', fontWeight: '800', margin: '0 0 4px', letterSpacing: '-0.5px' }}>{firstWord}.</h1>
-          <p style={{ fontSize: '14px', color: C.muted, margin: 0 }}>Sender account · Manila, PH</p>
+          <p style={{ fontSize: '14px', color: C.muted, margin: 0 }}>Sender account</p>
         </div>
-
-        {usingMock && (
-          <div style={{ background: C.goldSoft, border: `1px solid ${C.goldBorder}`, borderRadius: '12px', padding: '12px 16px', marginBottom: '24px', fontSize: '13px', color: C.gold }}>
-            Showing sample bookings — your real bookings will appear here once you make one.
-          </div>
-        )}
 
         <div className="sender-stats">
           {[
             { label: 'Total Bookings', value: bookings.length },
             { label: 'Active', value: active.length, color: C.blue },
-            { label: 'Delivered', value: history.length, color: C.green },
+            { label: 'Delivered', value: history.filter(b => b.status === 'delivered').length, color: C.green },
           ].map(stat => (
             <div key={stat.label} style={{ background: C.surface, border: `1px solid ${C.border}`, borderRadius: '14px', padding: '16px', textAlign: 'center' }}>
               <div style={{ fontSize: 'clamp(22px,4vw,32px)', fontWeight: '800', color: stat.color || C.text, letterSpacing: '-1px' }}>{stat.value}</div>
@@ -130,8 +198,15 @@ export default function SenderDashboard() {
         {displayed.length === 0 ? (
           <div style={{ textAlign: 'center', padding: '60px 20px', background: C.surface, border: `1px solid ${C.border}`, borderRadius: '16px' }}>
             <div style={{ fontSize: '40px', marginBottom: '12px' }}>📦</div>
-            <p style={{ color: C.muted, fontSize: '15px', margin: 0 }}>No bookings here yet.</p>
-            <button onClick={() => router.push('/search')} style={{ marginTop: '20px', padding: '10px 24px', background: C.coral, border: 'none', borderRadius: '10px', color: C.text, fontSize: '14px', fontWeight: '600', cursor: 'pointer', fontFamily: 'inherit' }}>Find a Carrier</button>
+            <p style={{ color: C.muted, fontSize: '15px', margin: '0 0 6px' }}>
+              {activeTab === 'active' ? 'No active bookings yet.' : 'No completed deliveries yet.'}
+            </p>
+            <p style={{ color: C.muted, fontSize: '13px', margin: '0 0 20px' }}>
+              Find a carrier going your way and send your first package.
+            </p>
+            <button onClick={() => router.push('/search')} style={{ padding: '10px 24px', background: C.coral, border: 'none', borderRadius: '10px', color: C.text, fontSize: '14px', fontWeight: '600', cursor: 'pointer', fontFamily: 'inherit' }}>
+              Find a Carrier
+            </button>
           </div>
         ) : (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
@@ -139,21 +214,32 @@ export default function SenderDashboard() {
               const status = STATUS_CONFIG[booking.status] || STATUS_CONFIG['pending'];
               const hovered = hoveredCard === booking.id;
               return (
-                <div key={booking.id} onMouseEnter={() => setHoveredCard(booking.id)} onMouseLeave={() => setHoveredCard(null)}
+                <div key={booking.id}
+                  onMouseEnter={() => setHoveredCard(booking.id)}
+                  onMouseLeave={() => setHoveredCard(null)}
                   style={{ background: hovered ? C.surfaceHover : C.surface, border: `1px solid ${hovered ? C.borderHover : C.border}`, borderRadius: '16px', padding: 'clamp(16px,3vw,20px) clamp(16px,3vw,24px)', transition: 'all 0.2s' }}>
                   <div className="booking-top-row">
                     <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                      <div style={{ width: '42px', height: '42px', borderRadius: '50%', background: booking.carrierAvatarColor, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '14px', fontWeight: '700', flexShrink: 0 }}>{booking.carrierAvatar}</div>
+                      <div style={{ width: '42px', height: '42px', borderRadius: '50%', background: booking.carrierAvatarColor, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '14px', fontWeight: '700', flexShrink: 0 }}>
+                        {booking.carrierAvatar}
+                      </div>
                       <div>
                         <div style={{ fontWeight: '700', fontSize: '15px' }}>{booking.carrierName}</div>
-                        <div style={{ fontSize: '13px', color: C.muted }}>{booking.carrierRating > 0 ? `⭐ ${booking.carrierRating} · ` : ''}{booking.airline} {booking.flightNo}</div>
+                        <div style={{ fontSize: '13px', color: C.muted }}>
+                          {booking.carrierRating > 0 ? `⭐ ${booking.carrierRating} · ` : ''}{booking.airline} {booking.flightNo}
+                        </div>
                       </div>
                     </div>
-                    <span style={{ padding: '4px 12px', borderRadius: '100px', fontSize: '12px', fontWeight: '600', color: status.color, background: status.bg, border: `1px solid ${status.border}` }}>{status.label}</span>
+                    <span style={{ padding: '4px 12px', borderRadius: '100px', fontSize: '12px', fontWeight: '600', color: status.color, background: status.bg, border: `1px solid ${status.border}` }}>
+                      {status.label}
+                    </span>
                   </div>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '14px', flexWrap: 'wrap' }}>
                     <span style={{ fontSize: '15px', fontWeight: '700' }}>{booking.from}</span>
-                    <svg width="20" height="12" viewBox="0 0 20 12" fill="none"><line x1="0" y1="6" x2="15" y2="6" stroke={C.coral} strokeWidth="1.5"/><path d="M12 3l3 3-3 3" stroke={C.coral} strokeWidth="1.5" strokeLinecap="round"/></svg>
+                    <svg width="20" height="12" viewBox="0 0 20 12" fill="none">
+                      <line x1="0" y1="6" x2="15" y2="6" stroke={C.coral} strokeWidth="1.5"/>
+                      <path d="M12 3l3 3-3 3" stroke={C.coral} strokeWidth="1.5" strokeLinecap="round"/>
+                    </svg>
                     <span style={{ fontSize: '15px', fontWeight: '700' }}>{booking.to}</span>
                     <span style={{ fontSize: '13px', color: C.muted }}>· {booking.date}</span>
                   </div>
@@ -166,11 +252,12 @@ export default function SenderDashboard() {
                   </div>
                   {booking.status !== 'delivered' && booking.status !== 'cancelled' && (
                     <div className="booking-actions">
-                      {booking.carrierId && !booking.carrierId.startsWith('c') && (
-                        <button onClick={() => router.push(`/carrier/${booking.carrierId}`)} style={{ padding: '8px 16px', background: 'transparent', border: `1px solid ${C.border}`, borderRadius: '9px', color: C.text, fontSize: '13px', fontWeight: '500', cursor: 'pointer', fontFamily: 'inherit' }}>View Carrier</button>
-                      )}
-                      <button style={{ padding: '8px 16px', background: 'transparent', border: `1px solid ${C.border}`, borderRadius: '9px', color: C.muted, fontSize: '13px', fontWeight: '500', cursor: 'not-allowed', fontFamily: 'inherit', opacity: 0.6 }}>Track</button>
-                      <button style={{ padding: '8px 16px', background: 'transparent', border: `1px solid ${C.border}`, borderRadius: '9px', color: C.muted, fontSize: '13px', fontWeight: '500', cursor: 'not-allowed', fontFamily: 'inherit', opacity: 0.6 }}>Message</button>
+                      <button onClick={() => router.push(`/carrier/${booking.carrierId}`)} style={{ padding: '8px 16px', background: 'transparent', border: `1px solid ${C.border}`, borderRadius: '9px', color: C.text, fontSize: '13px', fontWeight: '500', cursor: 'pointer', fontFamily: 'inherit' }}>
+                        View Carrier
+                      </button>
+                      <button onClick={() => router.push(`/tracking/${booking.id}`)} style={{ padding: '8px 16px', background: 'transparent', border: `1px solid ${C.border}`, borderRadius: '9px', color: C.text, fontSize: '13px', fontWeight: '500', cursor: 'pointer', fontFamily: 'inherit' }}>
+                        Track
+                      </button>
                     </div>
                   )}
                 </div>
@@ -184,7 +271,9 @@ export default function SenderDashboard() {
             <div style={{ fontWeight: '700', fontSize: '16px', marginBottom: '4px' }}>Need to send something?</div>
             <div style={{ fontSize: '14px', color: C.muted }}>Browse verified carriers going your way.</div>
           </div>
-          <button onClick={() => router.push('/search')} style={{ padding: '12px 28px', background: C.coral, border: 'none', borderRadius: '12px', color: C.text, fontSize: '15px', fontWeight: '700', cursor: 'pointer', fontFamily: 'inherit' }}>Find a Carrier</button>
+          <button onClick={() => router.push('/search')} style={{ padding: '12px 28px', background: C.coral, border: 'none', borderRadius: '12px', color: C.text, fontSize: '15px', fontWeight: '700', cursor: 'pointer', fontFamily: 'inherit' }}>
+            Find a Carrier
+          </button>
         </div>
       </div>
     </div>

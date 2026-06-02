@@ -1,138 +1,61 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
-@import "tailwindcss";
-
-/* ============================================================
-   TAPA DESIGN SYSTEM — globals.css
-   Brand: Mobile first. Premium. Giants Way.
-   Last updated: May 30, 2026
-   ============================================================ */
-
-:root {
-  --color-midnight: #0D1B2A;
-  --color-midnight-light: #1A2F45;
-  --color-midnight-lighter: #243B55;
-  --color-coral: #E84855;
-  --color-coral-dark: #C73641;
-  --color-coral-light: #FF6B75;
-  --color-sand: #F5F0E8;
-  --color-emerald: #2D6A4F;
-
-  --color-bg: #0D1B2A;
-  --color-surface: #1A2F45;
-  --color-border: #243B55;
-  --color-primary: #E84855;
-  --color-primary-hover: #C73641;
-  --color-text: #F8F9FA;
-  --color-text-muted: #8B9BB4;
-  --color-success: #2D6A4F;
-  --color-error: #FF4444;
-
-  --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-
-  --radius-sm: 8px;
-  --radius-md: 12px;
-  --radius-lg: 16px;
-  --radius-xl: 24px;
-  --radius-full: 9999px;
-
-  --shadow-sm: 0 2px 8px rgba(0,0,0,0.2);
-  --shadow-md: 0 4px 24px rgba(0,0,0,0.3);
-  --shadow-lg: 0 8px 40px rgba(0,0,0,0.4);
-  --shadow-coral: 0 4px 20px rgba(232,72,85,0.3);
-
-  --duration-fast: 150ms;
-  --duration-base: 200ms;
-  --duration-slow: 300ms;
-  --ease: cubic-bezier(0.4, 0, 0.2, 1);
-
-  --bottom-nav-height: 68px;
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
 
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-html { font-size: 16px; scroll-behavior: smooth; }
-
+html,
 body {
-  font-family: var(--font-primary);
-  color: var(--color-text);
-  background-color: var(--color-bg);
-  line-height: 1.6;
+  margin: 0;
+  padding: 0;
   -webkit-font-smoothing: antialiased;
-  padding-bottom: var(--bottom-nav-height);
+  -moz-osx-font-smoothing: grayscale;
 }
 
-@media (min-width: 768px) {
-  body { padding-bottom: 0; }
+/* Global button active/tap states — applies across every page */
+button:active,
+a[role="button"]:active {
+  opacity: 0.82;
+  transform: scale(0.97);
+  transition: opacity 0.08s ease, transform 0.08s ease;
 }
 
-img, video { max-width: 100%; display: block; }
-a { color: inherit; text-decoration: none; }
-button { cursor: pointer; border: none; background: none; font-family: inherit; }
-
-.btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  height: 48px;
-  padding: 0 24px;
-  border-radius: var(--radius-md);
-  font-size: 1rem;
-  font-weight: 600;
-  transition: all var(--duration-base) var(--ease);
-  white-space: nowrap;
+/* Scrollbar — thin and dark across the app */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
 }
-
-.btn-primary {
-  background: var(--color-coral);
-  color: #fff;
-  box-shadow: var(--shadow-coral);
-}
-
-.btn-primary:hover {
-  background: var(--color-coral-dark);
-  transform: translateY(-1px);
-}
-
-.btn-secondary {
+::-webkit-scrollbar-track {
   background: transparent;
-  color: var(--color-coral);
-  border: 1.5px solid var(--color-coral);
+}
+::-webkit-scrollbar-thumb {
+  background: #243B55;
+  border-radius: 100px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #2E4A6A;
 }
 
-.btn-secondary:hover { background: rgba(232,72,85,0.08); }
-
-.btn-full { width: 100%; }
-
-.card {
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
-  padding: 20px;
-  box-shadow: var(--shadow-md);
-  transition: transform var(--duration-base) var(--ease), box-shadow var(--duration-base) var(--ease);
+/* Hide scrollbar for horizontal filter rows */
+.hide-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
 }
 
-.card:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
-
-.input {
-  width: 100%;
-  height: 52px;
-  padding: 0 16px;
-  background: var(--color-bg);
-  border: 1.5px solid var(--color-border);
-  border-radius: var(--radius-md);
-  color: var(--color-text);
-  font-size: 1rem;
-  outline: none;
-  transition: border-color var(--duration-base) var(--ease);
+/* Input autofill — override browser yellow */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0 1000px #0A1520 inset;
+  -webkit-text-fill-color: #F8F9FA;
+  caret-color: #F8F9FA;
 }
 
-.input::placeholder { color: var(--color-text-muted); }
-.input:focus { border-color: var(--color-coral); box-shadow: 0 0 0 3px rgba(232,72,85,0.15); }
-
-.container { width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 16px; }
-
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+/* Date input dark mode */
+input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(0.6);
+  cursor: pointer;
 }
