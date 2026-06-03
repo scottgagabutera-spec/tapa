@@ -63,7 +63,7 @@ function AirportField({ label, value, onChange }: { label: string; value: string
         onChange={e => { onChange(e.target.value); setOpen(true); }}
         onFocus={e => { setOpen(true); e.target.style.borderColor = C.coral; }}
         onBlur={e => { e.target.style.borderColor = C.border; }}
-        placeholder={`e.g. Kigali or KGL`}
+        placeholder="City or country"
         style={inp} />
       {open && results.length > 0 && (
         <div style={{ position: 'absolute', top: 'calc(100% + 4px)', left: 0, right: 0, background: '#162738', border: `1px solid ${C.border}`, borderRadius: '12px', zIndex: 500, overflow: 'hidden', boxShadow: '0 12px 40px rgba(0,0,0,0.5)' }}>
@@ -121,7 +121,6 @@ export default function TripNewPage() {
         capacity_kg: parseFloat(capacity),
         price_per_kg: parseFloat(price),
         item_types: acceptedTypes,
-        notes: bio || null,
         status: 'active',
       });
       if (insertError) throw insertError;
