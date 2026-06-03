@@ -264,13 +264,12 @@ export default function TapaLanding() {
                         <div style={{ fontSize: '13px', fontWeight: 700, color: C.text, marginBottom: '2px' }}>{user.name.split(' ')[0]}</div>
                         <div style={{ fontSize: '11px', color: C.muted, textTransform: 'capitalize' }}>{user.role} account</div>
                       </div>
-                      <button className="user-menu-item" onClick={() => { router.push(user.role === 'carrier' ? '/dashboard/carrier' : '/dashboard/sender'); setMenuOpen(false); }}>My Dashboard</button>
+                      <button className="user-menu-item" onClick={() => { router.push('/dashboard'); setMenuOpen(false); }}>My Dashboard</button>
                       {user.role === 'carrier'
                         ? <button className="user-menu-item" onClick={() => { router.push('/trip/new'); setMenuOpen(false); }}>Post a Trip</button>
                         : <button className="user-menu-item" onClick={() => { router.push('/search'); setMenuOpen(false); }}>Find a Carrier</button>
                       }
                       <button className="user-menu-item" onClick={() => { router.push('/feed'); setMenuOpen(false); }}>Feed</button>
-                      <button className="user-menu-item" style={{ color: '#3B82F6', fontWeight: 600 }} onClick={() => { router.push(user.role === 'carrier' ? '/dashboard/sender' : '/dashboard/carrier'); setMenuOpen(false); }}>Switch to {user.role === 'carrier' ? 'Sender' : 'Carrier'}</button>
                       <div style={{ height: '1px', background: C.border, margin: '4px 0' }} />
                       <button className="user-menu-item danger" onClick={handleSignOut}>Sign Out</button>
                     </div>

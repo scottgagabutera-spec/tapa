@@ -68,7 +68,7 @@ export default function SignupPage() {
       if (user) {
         await supabase.from("profiles").update({ role }).eq("id", user.id);
       }
-      router.push(role === "carrier" ? "/dashboard/carrier" : "/dashboard/sender");
+      router.push("/dashboard");
     } catch (err: any) {
       setError(err.message || "Something went wrong.");
     } finally {
