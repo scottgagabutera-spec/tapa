@@ -203,7 +203,7 @@ export default function SenderDashboard() {
     setTimeout(() => { setModal({ type: null, bookingId: null }); setModalText(''); setModalSubmitted(false); }, 2000);
   };
 
-  if (!mounted || loading) return null;
+  if (!mounted || loading) return (<div style={{ minHeight: "100vh", background: "#0D1B2A" }} />);
 
   if (notLoggedIn) {
     return (

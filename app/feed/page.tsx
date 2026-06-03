@@ -106,7 +106,7 @@ export default function FeedPage() {
 
   const handleSignOut = async () => { await supabase.auth.signOut(); router.push('/'); };
 
-  if (!mounted || loading) return null;
+  if (!mounted || loading) return (<div style={{ minHeight: "100vh", background: "#0D1B2A" }} />);
 
   const routeOptions = ['All routes', ...Array.from(new Set(posts.map(p => `${p.from} → ${p.to}`)))];
   const filtered = posts.filter(p => {

@@ -52,7 +52,7 @@ export default function PostsNew() {
   const [note, setNote] = useState('');
 
   useEffect(() => { setMounted(true); }, []);
-  if (!mounted) return null;
+  if (!mounted) return (<div style={{ minHeight: "100vh", background: "#0D1B2A" }} />);
 
   const handlePost = async () => {
     setLoading(true);

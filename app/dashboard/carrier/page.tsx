@@ -163,7 +163,7 @@ export default function CarrierDashboard() {
   };
   const getMilestoneLabel = (key: string) => MILESTONES.find(m => m.key === key)?.label || key;
 
-  if (!mounted || loading) return null;
+  if (!mounted || loading) return (<div style={{ minHeight: "100vh", background: "#0D1B2A" }} />);
 
   if (notLoggedIn) {
     return (

@@ -48,7 +48,7 @@ export default function TripNewPage() {
   const stepDot = (n: number): React.CSSProperties => ({ width: '32px', height: '32px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '13px', fontWeight: '700', flexShrink: 0, background: step > n ? C.green : step === n ? C.coral : C.border, color: step >= n ? '#fff' : C.muted, transition: 'all 0.3s ease' });
   const typeChip = (sel: boolean): React.CSSProperties => ({ padding: '8px 14px', borderRadius: '100px', fontSize: '13px', fontWeight: '500', cursor: 'pointer', background: sel ? C.coral : 'rgba(255,255,255,0.04)', color: sel ? '#fff' : C.muted, border: `1px solid ${sel ? C.coral : C.border}`, transition: 'all 0.15s ease' });
 
-  if (!mounted) return null;
+  if (!mounted) return (<div style={{ minHeight: "100vh", background: "#0D1B2A" }} />);
 
   if (submitted) return (
     <div style={{ minHeight: '100vh', background: C.bg, color: C.text, fontFamily: "'Inter', sans-serif", display: 'flex', flexDirection: 'column' }}>
