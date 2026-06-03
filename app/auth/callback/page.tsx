@@ -5,29 +5,27 @@ import { supabase } from "@/lib/supabase";
 
 export default function AuthCallback() {
   const router = useRouter();
-
   useEffect(() => {
     const handleCallback = async () => {
       const { data: { session } } = await supabase.auth.getSession();
       if (session?.user) {
-        // Check if profile exists
         const { data: profile } = await supabase
           .from("profiles")
-          .select("role, name")
+          .select("id")
           .eq("id", session.user.id)
           .single();
 
         if (!profile) {
-          // New Google user — create profile
+          // New user — create profile with default role sender
           await supabase.from("profiles").upsert({
             id: session.user.id,
             name: session.user.user_metadata?.full_name || session.user.email?.split("@")[0] || "User",
             role: "sender",
+            avatar_color: "#E84855",
           });
-          router.push("/dashboard/sender");
-        } else {
-          router.push(profile.role === "carrier" ? "/dashboard/carrier" : "/dashboard/sender");
         }
+        // Always go to unified dashboard — no role-based routing
+        router.push("/dashboard");
       } else {
         router.push("/auth/login");
       }
