@@ -191,7 +191,7 @@ export default function TapaLanding() {
   };
 
   const W = { maxWidth: '1100px', margin: '0 auto', width: '100%' };
-  const S = { padding: 'clamp(64px, 9vw, 112px) clamp(20px, 5vw, 48px)' };
+  const S = { padding: 'clamp(48px, 7vw, 72px) clamp(20px, 5vw, 48px)' };
 
   return (
     <div style={{ fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, sans-serif", background: C.bg, color: C.text, minHeight: '100vh', overflowX: 'hidden' }}>
@@ -270,6 +270,7 @@ export default function TapaLanding() {
                         : <button className="user-menu-item" onClick={() => { router.push('/search'); setMenuOpen(false); }}>Find a Carrier</button>
                       }
                       <button className="user-menu-item" onClick={() => { router.push('/feed'); setMenuOpen(false); }}>Feed</button>
+                      <button className="user-menu-item" style={{ color: '#3B82F6', fontWeight: 600 }} onClick={() => { router.push(user.role === 'carrier' ? '/dashboard/sender' : '/dashboard/carrier'); setMenuOpen(false); }}>Switch to {user.role === 'carrier' ? 'Sender' : 'Carrier'}</button>
                       <div style={{ height: '1px', background: C.border, margin: '4px 0' }} />
                       <button className="user-menu-item danger" onClick={handleSignOut}>Sign Out</button>
                     </div>

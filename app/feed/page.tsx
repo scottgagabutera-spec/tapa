@@ -139,7 +139,7 @@ export default function FeedPage() {
             {(['carrier', 'sender'] as const).map(r => (
               <button key={r} className="feed-role-btn" onClick={() => setRole(r)}
                 style={{ background: role === r ? C.coral : 'transparent', color: role === r ? C.text : C.muted }}>
-                {r === 'carrier' ? '✈️ Carrier' : '📦 Sender'}
+                {r === 'carrier' ? 'Carrier' : '📦 Sender'}
               </button>
             ))}
           </div>

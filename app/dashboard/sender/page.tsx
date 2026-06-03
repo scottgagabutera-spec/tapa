@@ -339,7 +339,7 @@ export default function SenderDashboard() {
               {[
                 { icon: '📋', label: 'Post a request', sub: 'Let carriers find you', action: () => router.push('/posts/new') },
                 { icon: '📬', label: 'Browse feed', sub: 'See all open posts', action: () => router.push('/feed') },
-                { icon: '✈️', label: 'Become a carrier', sub: 'Earn on your travels', action: handleSwitchRole },
+                { icon: '✈️', label: 'Switch to Carrier', sub: 'Earn on your travels', action: handleSwitchRole },
               ].map(item => (
                 <button key={item.label} onClick={item.action} style={{ background: C.surface, border: `1px solid ${C.border}`, borderRadius: '16px', padding: '20px', textAlign: 'left', cursor: 'pointer', fontFamily: 'inherit', transition: 'all 0.2s' }}
                   onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor = C.borderHover; (e.currentTarget as HTMLElement).style.background = C.surfaceHover; }}

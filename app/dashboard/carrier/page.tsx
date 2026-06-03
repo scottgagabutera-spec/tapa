@@ -262,7 +262,7 @@ export default function CarrierDashboard() {
           </button>
           <button className="cd-tab" onClick={() => setActiveTab('trips')}
             style={{ background: activeTab === 'trips' ? C.coral : 'transparent', color: activeTab === 'trips' ? C.text : C.muted }}>
-            ✈️ My Trips{trips.length > 0 ? ` (${trips.length})` : ''}
+            My Trips{trips.length > 0 ? ` (${trips.length})` : ''}
           </button>
         </div>
 
