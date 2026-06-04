@@ -294,7 +294,7 @@ export default function Dashboard() {
   };
   const getMilestoneLabel = (key: string) => ({ confirmed: 'Confirmed', item_received: 'Item Received', in_transit: 'Departed', landed: 'Landed', out_for_delivery: 'Out for Delivery', delivered: 'Delivered' }[key] || key);
 
-  if (!mounted || loading) return <div style={{ minHeight: '100vh', background: C.bg }} />;
+  if (!mounted) return <div style={{ minHeight: '100vh', background: C.bg }} />;
 
   if (notLoggedIn) return (
     <div style={{ minHeight: '100vh', background: C.bg, color: C.text, fontFamily: "'Inter', sans-serif", display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px' }}>

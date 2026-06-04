@@ -239,8 +239,7 @@ export default function TapaLanding() {
         </div>
 
         {/* Nav right — signed in vs signed out */}
-        {userLoaded && (
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', opacity: userLoaded ? 1 : 0, transition: 'opacity 150ms ease' }}>
             {user ? (
               // SIGNED IN
               <>
@@ -288,7 +287,6 @@ export default function TapaLanding() {
               </>
             )}
           </div>
-        )}
       </nav>
 
       {/* HERO */}
