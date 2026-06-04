@@ -22,6 +22,7 @@ This is the GIANTS WAY standard.
 | Giants Way | Airbnb, Uber, Grab, DHL, Google Flights level of execution |
 | Long term | Built to scale. Architecture and design that lasts years |
 | Consistency | Same design language on every screen, every state, every platform |
+| Very Logical | Every interaction is self-explanatory. No instructions needed |
 | Unique | Tapa has its own identity. Not a clone of anything |
 
 ## Colors
@@ -71,4 +72,4 @@ Simple. Scalable. Works as app icon at 16px and billboard at 10 feet.
 - Slow: 300ms — transitions
 - Easing: cubic-bezier(0.4, 0, 0.2, 1)
 
-*Last updated: May 30, 2026*
+*Last updated: Jun 4, 2026*

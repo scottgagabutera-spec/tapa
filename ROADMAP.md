@@ -2,7 +2,7 @@
 
 > Mobile first. User friendly. Modern. Premium. Giants Way. Long term. Consistent. Unique.
 
-Last updated: Jun 1, 2026
+Last updated: Jun 4, 2026
 
 ## Status Legend
 ✅ Done | 🔄 In progress | ⏳ Up next | 📋 Planned | 💡 Future
@@ -153,6 +153,17 @@ Two-sided marketplace: senders post delivery requests, carriers browse and claim
 
 ---
 
+
+## Audit Fixes — Jun 4, 2026 ✅
+- [x] Search normalization — strips airport codes before filtering
+- [x] Airport dataset upgraded to OurAirports (4,052 airports, full country names, lat/lng, keywords)
+- [x] Keyboard navigation on airport autocomplete (arrows, Enter, Escape)
+- [x] Feed filter scroll fade indicator
+- [x] Feed role toggle routing fixed
+- [x] Tracking expanded to 7 stages with full milestone chain
+- [x] Sender confirm delivery button and modal
+- [x] Search results not showing on desktop — fixed (URL param state initialization)
+
 ## Phase 11 — Trust & Safety 📋
 - [ ] Prohibited items checklist
 - [ ] Photo proof at pickup and delivery
@@ -170,9 +181,10 @@ Two-sided marketplace: senders post delivery requests, carriers browse and claim
 
 ---
 
-## Phase 13 — Tracking 📋
-- [ ] /tracking/[id] — Live status tracker
-- [ ] Status updates: Booked → Picked Up → In Transit → Delivered
+## Phase 13 — Tracking 🔄
+- [x] /tracking/[id] — Live status tracker
+- [x] Status updates: 7 stages — Pending → Confirmed → Item Received → In Transit → Landed → Out for Delivery → Delivered
+- [x] Sender confirm delivery button
 - [ ] Push notifications
 
 ---

@@ -63,7 +63,7 @@ Both must accept. Handoff is coordinated through the platform.
 
 | Layer | Technology |
 |---|---|
-| Frontend | Next.js 15 + React + TypeScript |
+| Frontend | Next.js 16.2.6 + React + TypeScript |
 | Styling | Tailwind CSS + Custom Design System |
 | Hosting | Vercel |
 | Mobile (future) | React Native |
@@ -86,7 +86,7 @@ See BRAND.md for the full design system.
 |---|---|
 | GitHub | github.com/scottgagabutera-spec/tapa |
 | Owner | Scott Gaga Butera (scottgagabutera@gmail.com) |
-| Live URL | tapa.vercel.app (temporary — own domain planned when budget allows) |
+| Live URL | tapa-blue.vercel.app (temporary — own domain planned when budget allows) |
 | Started | May 30, 2026 |
 
 ---
@@ -112,4 +112,4 @@ The two projects are completely independent — separate repos, separate Vercel 
 
 ---
 
-*Last updated: May 30, 2026*
+*Last updated: Jun 4, 2026*
