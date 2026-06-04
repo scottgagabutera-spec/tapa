@@ -139,7 +139,7 @@ export default function TapaLanding() {
   const [date, setDate] = useState('');
   const [weight, setWeight] = useState('');
   const [user, setUser] = useState<UserSession>(null);
-  const [userLoaded, setUserLoaded] = useState(false);
+  const [userLoaded, setUserLoaded] = useState(true);
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
 
