@@ -66,7 +66,7 @@ export default function CarrierProfilePage({ params }: { params: Promise<{ id: s
         // Try loading as a trip ID first (search results link to trips)
         const { data: tripData, error: tripError } = await supabase
           .from('trips')
-          .select('*, profiles(id, name, rating, id_verified, avatar_color, bio)')
+          .select('*, profiles(id, name, rating, id_verified, avatar_color)')
           .eq('id', id)
           .single();
 
@@ -88,14 +88,14 @@ export default function CarrierProfilePage({ params }: { params: Promise<{ id: s
             verified: true,
             idVerified: profile?.id_verified || false,
             rating: profile?.rating || 0,
-            trips: profile?.trip_count || 1,
+            trips: profile?.total_trips || 1,
             capacity: tripData.capacity_kg + ' kg',
             price: tripData.price_per_kg,
             perUnit: 'kg',
             responseTime: '~1 hr',
             badge: profile?.rating >= 4.8 ? 'Top Carrier' : null,
             tags: tripData.item_types || [],
-            bio: profile?.bio || 'Verified carrier on Tapa.',
+            bio: 'Verified carrier on Tapa.',
             reviews: [],
           });
           setLoading(false);
@@ -127,14 +127,14 @@ export default function CarrierProfilePage({ params }: { params: Promise<{ id: s
             verified: true,
             idVerified: profileData.id_verified || false,
             rating: profileData.rating || 0,
-            trips: profileData.trip_count || 0,
+            trips: profileData.total_trips || 0,
             capacity: activeTrip ? activeTrip.capacity_kg + ' kg' : '—',
             price: activeTrip?.price_per_kg || 0,
             perUnit: 'kg',
             responseTime: '~1 hr',
             badge: profileData.rating >= 4.8 ? 'Top Carrier' : null,
             tags: activeTrip?.item_types || [],
-            bio: profileData.bio || 'Verified carrier on Tapa.',
+            bio: 'Verified carrier on Tapa.',
             reviews: [],
           });
           setLoading(false);
