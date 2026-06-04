@@ -14,28 +14,36 @@ const C = {
 };
 
 const STATUS_CONFIG: Record<string, { label: string; color: string; bg: string; border: string; step: number }> = {
-  pending:    { label: 'Pending',    color: C.gold,  bg: C.goldSoft,   border: C.goldBorder,  step: 0 },
-  confirmed:  { label: 'Confirmed',  color: C.blue,  bg: C.blueSoft,   border: C.blueBorder,  step: 1 },
-  in_transit: { label: 'In Transit', color: C.coral, bg: C.accentGlow, border: 'rgba(232,72,85,0.3)', step: 2 },
-  landed:     { label: 'Landed',     color: C.gold,  bg: C.goldSoft,   border: C.goldBorder,  step: 2 },
-  delivered:  { label: 'Delivered',  color: C.green, bg: C.greenSoft,  border: C.greenBorder, step: 3 },
-  cancelled:  { label: 'Cancelled',  color: C.muted, bg: 'rgba(139,155,180,0.1)', border: 'rgba(139,155,180,0.2)', step: -1 },
-  active:     { label: 'Active',     color: C.blue,  bg: C.blueSoft,   border: C.blueBorder,  step: 0 },
-  completed:  { label: 'Completed',  color: C.green, bg: C.greenSoft,  border: C.greenBorder, step: 3 },
+  pending:          { label: 'Pending',          color: C.gold,  bg: C.goldSoft,   border: C.goldBorder,  step: 0 },
+  confirmed:        { label: 'Confirmed',        color: C.blue,  bg: C.blueSoft,   border: C.blueBorder,  step: 1 },
+  item_received:    { label: 'Item Received',    color: C.blue,  bg: C.blueSoft,   border: C.blueBorder,  step: 2 },
+  in_transit:       { label: 'In Transit',       color: C.coral, bg: C.accentGlow, border: 'rgba(232,72,85,0.3)', step: 3 },
+  landed:           { label: 'Landed',           color: C.gold,  bg: C.goldSoft,   border: C.goldBorder,  step: 4 },
+  customs_hold:     { label: 'Customs Hold',     color: C.gold,  bg: C.goldSoft,   border: C.goldBorder,  step: 4 },
+  out_for_delivery: { label: 'Out for Delivery', color: C.coral, bg: C.accentGlow, border: 'rgba(232,72,85,0.3)', step: 5 },
+  delivered:        { label: 'Delivered',        color: C.green, bg: C.greenSoft,  border: C.greenBorder, step: 6 },
+  completed:        { label: 'Completed',        color: C.green, bg: C.greenSoft,  border: C.greenBorder, step: 6 },
+  cancelled:        { label: 'Cancelled',        color: C.muted, bg: 'rgba(139,155,180,0.1)', border: 'rgba(139,155,180,0.2)', step: -1 },
+  active:           { label: 'Active',           color: C.blue,  bg: C.blueSoft,   border: C.blueBorder,  step: 0 },
 };
 
 const TRACKING_STEPS = [
-  { key: 'pending',    label: 'Booked',     desc: 'Waiting for carrier to confirm', icon: '📦' },
-  { key: 'confirmed',  label: 'Confirmed',  desc: 'Carrier accepted your booking',  icon: '✅' },
-  { key: 'in_transit', label: 'In Transit', desc: 'Your item is on its way',        icon: '✈️' },
-  { key: 'delivered',  label: 'Delivered',  desc: 'Item delivered successfully',    icon: '🎉' },
+  { key: 'pending',          label: 'Booked',           desc: 'Waiting for carrier to confirm',  icon: '📦' },
+  { key: 'confirmed',        label: 'Confirmed',        desc: 'Carrier accepted your booking',   icon: '✅' },
+  { key: 'item_received',    label: 'Item Received',    desc: 'Carrier collected your item',     icon: '🤝' },
+  { key: 'in_transit',       label: 'In Transit',       desc: 'Your item is on its way',         icon: '✈️' },
+  { key: 'landed',           label: 'Landed',           desc: 'Carrier has landed',              icon: '🛬' },
+  { key: 'out_for_delivery', label: 'Out for Delivery', desc: 'Carrier is heading to you',       icon: '🏍️' },
+  { key: 'delivered',        label: 'Delivered',        desc: 'Item delivered successfully',     icon: '🎉' },
 ];
 
 const MILESTONES = [
-  { key: 'confirmed',  label: 'Confirmed', nextLabel: 'Mark Departed' },
-  { key: 'in_transit', label: 'Departed',  nextLabel: 'Mark Landed' },
-  { key: 'landed',     label: 'Landed',    nextLabel: 'Mark Delivered' },
-  { key: 'delivered',  label: 'Delivered', nextLabel: null },
+  { key: 'confirmed',        label: 'Confirmed',        nextLabel: 'Mark Item Received' },
+  { key: 'item_received',    label: 'Item Received',    nextLabel: 'Mark Departed' },
+  { key: 'in_transit',       label: 'Departed',         nextLabel: 'Mark Landed' },
+  { key: 'landed',           label: 'Landed',           nextLabel: 'Mark Out for Delivery' },
+  { key: 'out_for_delivery', label: 'Out for Delivery', nextLabel: 'Mark Delivered' },
+  { key: 'delivered',        label: 'Delivered',        nextLabel: null },
 ];
 
 interface Airport { name: string; city: string; country: string; iata: string; }
@@ -114,7 +122,7 @@ type CarryTrip = {
   flightNo: string; capacity: string; status: string;
   bookings: { id: string; senderName: string; status: string; itemType: string; weight: string; totalPrice: number }[];
 };
-type ModalType = 'report' | 'cancel' | 'dispute' | 'help' | 'review' | 'report_delay' | 'flag_item' | 'no_show' | 'cancel_trip' | 'customs' | null;
+type ModalType = 'report' | 'cancel' | 'dispute' | 'help' | 'review' | 'report_delay' | 'flag_item' | 'no_show' | 'cancel_trip' | 'customs' | 'confirm_delivery' | null;
 
 export default function Dashboard() {
   const router = useRouter();
@@ -280,11 +288,11 @@ export default function Dashboard() {
   const closeModal = () => { setModal({ type: null, id: null }); setModalText(''); setModalDone(false); };
 
   const getNextMilestone = (status: string) => {
-    const order = ['confirmed', 'in_transit', 'landed', 'delivered'];
+    const order = ['confirmed', 'item_received', 'in_transit', 'landed', 'out_for_delivery', 'delivered'];
     const idx = order.indexOf(status);
     return idx >= 0 && idx < order.length - 1 ? order[idx + 1] : null;
   };
-  const getMilestoneLabel = (key: string) => ({ confirmed: 'Confirmed', in_transit: 'Departed', landed: 'Landed', delivered: 'Delivered' }[key] || key);
+  const getMilestoneLabel = (key: string) => ({ confirmed: 'Confirmed', item_received: 'Item Received', in_transit: 'Departed', landed: 'Landed', out_for_delivery: 'Out for Delivery', delivered: 'Delivered' }[key] || key);
 
   if (!mounted || loading) return <div style={{ minHeight: '100vh', background: C.bg }} />;
 
@@ -517,6 +525,7 @@ export default function Dashboard() {
                           <button className="action-btn" onClick={() => setModal({ type: 'report', id: b.id })}>Report Issue</button>
                           {b.status === 'pending' && <button className="action-btn danger" onClick={() => setModal({ type: 'cancel', id: b.id })}>Cancel</button>}
                           {b.status === 'in_transit' && <button className="action-btn danger" onClick={() => setModal({ type: 'dispute', id: b.id })}>Raise Dispute</button>}
+                          {b.status === 'delivered' && <button onClick={() => setModal({ type: 'confirm_delivery', id: b.id })} style={{ padding: '7px 14px', background: C.green, border: 'none', borderRadius: '8px', color: '#fff', fontSize: '12px', fontWeight: '700', cursor: 'pointer', fontFamily: 'inherit' }}>✓ Confirm Received</button>}
                         </div>
                       </div>
                       {/* Inline tracking */}
@@ -783,15 +792,15 @@ export default function Dashboard() {
               </>
             )}
 
-            {['report', 'dispute', 'review', 'report_delay', 'flag_item', 'customs', 'no_show', 'cancel_trip'].includes(modal.type!) && (
+            {['report', 'dispute', 'review', 'report_delay', 'flag_item', 'customs', 'no_show', 'cancel_trip', 'confirm_delivery'].includes(modal.type!) && (
               <>
                 {!modalDone ? (
                   <>
                     <h3 style={{ fontSize: '18px', fontWeight: '800', marginBottom: '8px' }}>
-                      {{ report: 'Report an issue', cancel: 'Cancel booking', help: 'Help & Support', dispute: modal.type === 'dispute' && sendSubTab === 'history' ? "Didn't receive it?" : 'Raise a dispute', review: 'Leave a review', report_delay: 'Report a delay', flag_item: 'Flag item issue', customs: 'Customs hold', no_show: 'Sender no-show', cancel_trip: 'Cancel this trip?' }[modal.type!]}
+                      {{ report: 'Report an issue', cancel: 'Cancel booking', help: 'Help & Support', dispute: modal.type === 'dispute' && sendSubTab === 'history' ? "Didn't receive it?" : 'Raise a dispute', review: 'Leave a review', report_delay: 'Report a delay', flag_item: 'Flag item issue', customs: 'Customs hold', no_show: 'Sender no-show', cancel_trip: 'Cancel this trip?', confirm_delivery: 'Confirm delivery?' }[modal.type!]}
                     </h3>
                     <p style={{ fontSize: '14px', color: C.muted, marginBottom: '16px' }}>
-                      {{ report: 'Describe what happened. Our team reviews within 24 hours.', cancel: 'This will cancel your booking. This action cannot be undone.', help: 'Contact our support team for assistance.', dispute: 'Escrow is held until this is resolved. Our team will mediate within 48 hours.', review: 'How was your experience?', report_delay: "Let senders know about the delay. They'll be notified automatically.", flag_item: "Item doesn't match description, is overweight, or has a packaging issue.", customs: "Item is held at customs. We'll notify the sender and pause the escrow clock.", no_show: "The sender didn't show up for pickup. This will trigger a refund review.", cancel_trip: 'All active bookings will be cancelled and senders refunded. This cannot be undone.' }[modal.type!]}
+                      {{ report: 'Describe what happened. Our team reviews within 24 hours.', cancel: 'This will cancel your booking. This action cannot be undone.', help: 'Contact our support team for assistance.', dispute: 'Escrow is held until this is resolved. Our team will mediate within 48 hours.', review: 'How was your experience?', report_delay: "Let senders know about the delay. They'll be notified automatically.", flag_item: "Item doesn't match description, is overweight, or has a packaging issue.", customs: "Item is held at customs. We'll notify the sender and pause the escrow clock.", no_show: "The sender didn't show up for pickup. This will trigger a refund review.", cancel_trip: 'All active bookings will be cancelled and senders refunded. This cannot be undone.', confirm_delivery: 'Confirm you received your item. This releases the escrow to the carrier.' }[modal.type!]}
                     </p>
                     <textarea value={modalText} onChange={e => setModalText(e.target.value)} placeholder="Add details..." rows={4}
                       style={{ width: '100%', padding: '12px 14px', background: C.inputBg, border: `1px solid ${C.border}`, borderRadius: '10px', color: C.text, fontSize: '14px', fontFamily: 'inherit', outline: 'none', resize: 'none', marginBottom: '12px', boxSizing: 'border-box' }} />
