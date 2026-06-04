@@ -191,8 +191,8 @@ function SearchPageInner() {
 
   const applyFilters = (newSort: SortKey, newVerified: boolean, newTop: boolean) => {
     let filtered = [...allCarriers];
-    const f = from.toLowerCase();
-    const t = to.toLowerCase();
+    const f = from.toLowerCase().replace(/\s*\([^)]*\)/g, "").trim();
+    const t = to.toLowerCase().replace(/\s*\([^)]*\)/g, "").trim();
     if (f) filtered = filtered.filter(c => c.from.toLowerCase().includes(f) || c.from.toLowerCase().includes(f.split(",")[0]));
     if (t) filtered = filtered.filter(c => c.to.toLowerCase().includes(t) || c.to.toLowerCase().includes(t.split(",")[0]));
     if (date) filtered = filtered.filter(c => c.date.includes(date));

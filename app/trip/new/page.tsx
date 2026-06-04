@@ -14,7 +14,7 @@ const C = {
 const ITEM_TYPES = ['Electronics', 'Documents', 'Clothes', 'Food', 'Cosmetics', 'Small items', 'Medicine', 'Books', 'Gifts', 'Other'];
 const AIRLINES = ['Emirates', 'British Airways', 'Singapore Airlines', 'LATAM Airlines', 'Qantas', 'Delta', 'Lufthansa', 'Air France', 'KLM', 'Turkish Airlines', 'Qatar Airways', 'Etihad Airways', 'Philippine Airlines', 'Cebu Pacific', 'Kenya Airways', 'Ethiopian Airlines', 'Other'];
 
-interface Airport { name: string; city: string; country: string; iata: string; }
+interface Airport { name: string; city: string; country: string; iata: string; type?: string; lat?: number; lng?: number; keywords?: string; }
 let _cache: Airport[] | null = null;
 async function loadAirports(): Promise<Airport[]> {
   if (_cache) return _cache;
@@ -30,7 +30,7 @@ function useAirportSearch(query: string) {
     const lower = q.toLowerCase();
     const matches = airports.filter(a =>
       a.iata.toLowerCase().startsWith(lower) || a.city.toLowerCase().includes(lower) ||
-      a.country.toLowerCase().includes(lower) || a.name.toLowerCase().includes(lower)
+      a.country.toLowerCase().includes(lower) || a.name.toLowerCase().includes(lower) || (a.keywords && a.keywords.toLowerCase().includes(lower))
     );
     matches.sort((a, b) => {
       const ai = a.iata.toLowerCase() === lower ? 0 : a.city.toLowerCase().startsWith(lower) ? 1 : 2;
