@@ -280,7 +280,7 @@ export default function BookingPage({ params }: { params: Promise<{ id: string }
       <div style={s.page}>
         <nav style={s.nav}>
           <div style={s.logoWrap} onClick={() => router.push('/')}>
-            <div style={s.logoIcon}><svg width="18" height="18" viewBox="0 0 48 48" fill="none"><circle cx="13" cy="18" r="4" fill="none" stroke="white" stroke-width="1.8"/><circle cx="13" cy="18" r="1.6" fill="white"/><line x1="13" y1="22" x2="13" y2="28" stroke="white" stroke-width="1.8" stroke-linecap="round"/><line x1="13" y1="26" x2="35" y2="16" stroke="white" stroke-width="1" stroke-dasharray="3 2.5" stroke-linecap="round"/><circle cx="35" cy="13" r="5" fill="white"/><circle cx="35" cy="13" r="2" fill="#E84855"/><line x1="35" y1="18" x2="35" y2="24" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+            <div style={s.logoIcon}><svg width="18" height="18" viewBox="0 0 48 48" fill="none"><circle cx="12" cy="20" r="6" fill="none" stroke="white" stroke-width="2.5"/><circle cx="12" cy="20" r="2.5" fill="white"/><line x1="12" y1="26" x2="12" y2="36" stroke="white" stroke-width="2.5" stroke-linecap="round"/><line x1="15" y1="33" x2="33" y2="18" stroke="white" stroke-width="1.5" stroke-dasharray="4 3" stroke-linecap="round"/><circle cx="36" cy="12" r="8" fill="white"/><circle cx="36" cy="12" r="3.5" fill="#E84855"/><line x1="36" y1="20" x2="36" y2="30" stroke="white" stroke-width="2.5" stroke-linecap="round"/></svg></div>
             <span style={s.logoText}>tapa</span>
           </div>
         </nav>
@@ -318,7 +318,7 @@ export default function BookingPage({ params }: { params: Promise<{ id: string }
     <div style={s.page}>
       <nav style={s.nav}>
         <div style={s.logoWrap} onClick={() => router.push('/')}>
-          <div style={s.logoIcon}><svg width="18" height="18" viewBox="0 0 48 48" fill="none"><circle cx="13" cy="18" r="4" fill="none" stroke="white" stroke-width="1.8"/><circle cx="13" cy="18" r="1.6" fill="white"/><line x1="13" y1="22" x2="13" y2="28" stroke="white" stroke-width="1.8" stroke-linecap="round"/><line x1="13" y1="26" x2="35" y2="16" stroke="white" stroke-width="1" stroke-dasharray="3 2.5" stroke-linecap="round"/><circle cx="35" cy="13" r="5" fill="white"/><circle cx="35" cy="13" r="2" fill="#E84855"/><line x1="35" y1="18" x2="35" y2="24" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+          <div style={s.logoIcon}><svg width="18" height="18" viewBox="0 0 48 48" fill="none"><circle cx="12" cy="20" r="6" fill="none" stroke="white" stroke-width="2.5"/><circle cx="12" cy="20" r="2.5" fill="white"/><line x1="12" y1="26" x2="12" y2="36" stroke="white" stroke-width="2.5" stroke-linecap="round"/><line x1="15" y1="33" x2="33" y2="18" stroke="white" stroke-width="1.5" stroke-dasharray="4 3" stroke-linecap="round"/><circle cx="36" cy="12" r="8" fill="white"/><circle cx="36" cy="12" r="3.5" fill="#E84855"/><line x1="36" y1="20" x2="36" y2="30" stroke="white" stroke-width="2.5" stroke-linecap="round"/></svg></div>
           <span style={s.logoText}>tapa</span>
         </div>
         <a href="/auth/login" style={{ padding: '8px 20px', background: 'transparent', border: `1px solid ${C.border}`, borderRadius: '10px', color: C.text, fontSize: '14px', fontWeight: '500', textDecoration: 'none' }}>Sign in</a>
