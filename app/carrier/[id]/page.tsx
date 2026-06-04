@@ -66,7 +66,7 @@ export default function CarrierProfilePage({ params }: { params: Promise<{ id: s
         // Try loading as a trip ID first (search results link to trips)
         const { data: tripData, error: tripError } = await supabase
           .from('trips')
-          .select('*, profiles(id, name, rating, id_verified, avatar_color, trip_count, bio)')
+          .select('*, profiles(id, name, rating, id_verified, avatar_color, bio)')
           .eq('id', id)
           .single();
 
