@@ -187,7 +187,7 @@ function SearchPageInner() {
   // Re-apply filters whenever allCarriers, filters, or sort change after a search
   useEffect(() => {
     if (searched) applyFilters(sort, filterVerified, filterTopCarrier, from, to);
-  }, [allCarriers, searched]);
+  }, [allCarriers, searched, from, to]);
 
   const applyFilters = (newSort: SortKey, newVerified: boolean, newTop: boolean, newFrom?: string, newTo?: string) => {
     let filtered = [...allCarriers];
