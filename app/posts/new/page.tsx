@@ -143,7 +143,7 @@ export default function PostsNew() {
       <nav style={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 100, height: '64px', background: 'rgba(13,27,42,0.95)', backdropFilter: 'blur(12px)', borderBottom: `1px solid ${C.border}`, display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 clamp(16px,4vw,48px)' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer' }} onClick={() => router.push('/')}>
           <div style={{ width: '36px', height: '36px', background: C.coral, borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="4" cy="18" r="2.5" fill="white"/><path d="M6.5 18 Q9 7 18 6" stroke="white" stroke-width="2" fill="none" stroke-linecap="round"/><circle cx="18" cy="6" r="3.5" fill="white"/><circle cx="18" cy="6" r="1.5" fill="#E84855"/></svg>
+            <svg width="18" height="18" viewBox="0 0 48 48" fill="none"><circle cx="13" cy="31" r="3" fill="white"/><path d="M16 31 Q24 12 37 17" stroke="white" stroke-width="2.5" fill="none" stroke-linecap="round"/><circle cx="37" cy="17" r="4.5" fill="white"/><circle cx="37" cy="17" r="2" fill="#E84855"/></svg>
           </div>
           <span style={{ fontSize: '20px', fontWeight: '700', color: C.text, letterSpacing: '-0.5px' }}>tapa</span>
         </div>

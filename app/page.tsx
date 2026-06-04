@@ -43,20 +43,20 @@ function useAirportSearch(query: string) {
 }
 
 const Icon = {
-  Logo: () => (<svg width="20" height="20" viewBox="0 0 24 24" fill="none"><circle cx="4" cy="18" r="2.5" fill="white"/><path d="M6.5 18 Q9 7 18 6" stroke="white" stroke-width="2" fill="none" stroke-linecap="round"/><circle cx="18" cy="6" r="3.5" fill="white"/><circle cx="18" cy="6" r="1.5" fill="#E84855"/></svg>),
+  Logo: () => (<svg width="20" height="20" viewBox="0 0 48 48" fill="none"><circle cx="13" cy="31" r="3" fill="white"/><path d="M16 31 Q24 12 37 17" stroke="white" stroke-width="2.5" fill="none" stroke-linecap="round"/><circle cx="37" cy="17" r="4.5" fill="white"/><circle cx="37" cy="17" r="2" fill="#E84855"/></svg>),
   Arrow: () => (<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>),
-  Swap: () => (<svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M7 16V4m0 0L3 8m4-4l4 4M17 8v12m0 0l4-4m-4 4l-4-4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>),
-  Pin: () => (<svg width="15" height="15" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="10" r="3" stroke={C.muted} strokeWidth="2"/><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" stroke={C.muted} strokeWidth="2"/></svg>),
-  Cal: () => (<svg width="15" height="15" viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="18" rx="3" stroke={C.muted} strokeWidth="2"/><path d="M3 9h18M8 2v4M16 2v4" stroke={C.muted} strokeWidth="2" strokeLinecap="round"/></svg>),
-  Wgt: () => (<svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M12 3a3 3 0 100 6 3 3 0 000-6z" stroke={C.muted} strokeWidth="2"/><path d="M6.5 9h11l2 12h-15L6.5 9z" stroke={C.muted} strokeWidth="2" strokeLinejoin="round"/></svg>),
-  Search: () => (<svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="currentColor" strokeWidth="2"/><path d="M16.5 16.5L21 21" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/></svg>),
-  Plane: () => (<svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M21 16l-9-9-1 5-5 1 9 9 1-5 5-1z" stroke={C.coral} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>),
-  Savings: ({ color = C.coral }: { color?: string }) => (<svg width="28" height="28" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke={color} strokeWidth="1.8"/><path d="M12 6v12M9 9h4.5a1.5 1.5 0 010 3H9m0 0h5.5a1.5 1.5 0 010 3H9" stroke={color} strokeWidth="1.8" strokeLinecap="round"/></svg>),
-  Shield: ({ color = C.coral }: { color?: string }) => (<svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M12 3l8 3v5c0 5-3.5 9-8 10C7.5 20 4 16 4 11V6l8-3z" stroke={color} strokeWidth="1.8" strokeLinejoin="round"/><path d="M9 12l2 2 4-4" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>),
-  MapPin: ({ color = C.coral }: { color?: string }) => (<svg width="28" height="28" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="10" r="3" stroke={color} strokeWidth="1.8"/><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" stroke={color} strokeWidth="1.8"/></svg>),
-  Verify: ({ color = C.coral }: { color?: string }) => (<svg width="28" height="28" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" stroke={color} strokeWidth="1.8"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" stroke={color} strokeWidth="1.8" strokeLinecap="round"/><path d="M16 6l1.5 1.5L21 4" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>),
-  Globe: ({ color = C.coral }: { color?: string }) => (<svg width="28" height="28" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke={color} strokeWidth="1.8"/><path d="M12 3c-4 3-4 15 0 18M12 3c4 3 4 15 0 18M3 12h18" stroke={color} strokeWidth="1.8" strokeLinecap="round"/></svg>),
-  Camera: ({ color = C.coral }: { color?: string }) => (<svg width="28" height="28" viewBox="0 0 24 24" fill="none"><rect x="2" y="7" width="20" height="14" rx="3" stroke={color} strokeWidth="1.8"/><circle cx="12" cy="14" r="3.5" stroke={color} strokeWidth="1.8"/><path d="M8 7l2-3h4l2 3" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>),
+  Swap: () => (<svg width="16" height="16" viewBox="0 0 48 48" fill="none"><path d="M7 16V4m0 0L3 8m4-4l4 4M17 8v12m0 0l4-4m-4 4l-4-4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>),
+  Pin: () => (<svg width="15" height="15" viewBox="0 0 48 48" fill="none"><circle cx="12" cy="10" r="3" stroke={C.muted} strokeWidth="2"/><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" stroke={C.muted} strokeWidth="2"/></svg>),
+  Cal: () => (<svg width="15" height="15" viewBox="0 0 48 48" fill="none"><rect x="3" y="4" width="18" height="18" rx="3" stroke={C.muted} strokeWidth="2"/><path d="M3 9h18M8 2v4M16 2v4" stroke={C.muted} strokeWidth="2" strokeLinecap="round"/></svg>),
+  Wgt: () => (<svg width="15" height="15" viewBox="0 0 48 48" fill="none"><path d="M12 3a3 3 0 100 6 3 3 0 000-6z" stroke={C.muted} strokeWidth="2"/><path d="M6.5 9h11l2 12h-15L6.5 9z" stroke={C.muted} strokeWidth="2" strokeLinejoin="round"/></svg>),
+  Search: () => (<svg width="18" height="18" viewBox="0 0 48 48" fill="none"><circle cx="11" cy="11" r="7" stroke="currentColor" strokeWidth="2"/><path d="M16.5 16.5L21 21" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/></svg>),
+  Plane: () => (<svg width="13" height="13" viewBox="0 0 48 48" fill="none"><path d="M21 16l-9-9-1 5-5 1 9 9 1-5 5-1z" stroke={C.coral} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>),
+  Savings: ({ color = C.coral }: { color?: string }) => (<svg width="28" height="28" viewBox="0 0 48 48" fill="none"><circle cx="12" cy="12" r="9" stroke={color} strokeWidth="1.8"/><path d="M12 6v12M9 9h4.5a1.5 1.5 0 010 3H9m0 0h5.5a1.5 1.5 0 010 3H9" stroke={color} strokeWidth="1.8" strokeLinecap="round"/></svg>),
+  Shield: ({ color = C.coral }: { color?: string }) => (<svg width="28" height="28" viewBox="0 0 48 48" fill="none"><path d="M12 3l8 3v5c0 5-3.5 9-8 10C7.5 20 4 16 4 11V6l8-3z" stroke={color} strokeWidth="1.8" strokeLinejoin="round"/><path d="M9 12l2 2 4-4" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>),
+  MapPin: ({ color = C.coral }: { color?: string }) => (<svg width="28" height="28" viewBox="0 0 48 48" fill="none"><circle cx="12" cy="10" r="3" stroke={color} strokeWidth="1.8"/><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" stroke={color} strokeWidth="1.8"/></svg>),
+  Verify: ({ color = C.coral }: { color?: string }) => (<svg width="28" height="28" viewBox="0 0 48 48" fill="none"><circle cx="12" cy="8" r="4" stroke={color} strokeWidth="1.8"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" stroke={color} strokeWidth="1.8" strokeLinecap="round"/><path d="M16 6l1.5 1.5L21 4" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>),
+  Globe: ({ color = C.coral }: { color?: string }) => (<svg width="28" height="28" viewBox="0 0 48 48" fill="none"><circle cx="12" cy="12" r="9" stroke={color} strokeWidth="1.8"/><path d="M12 3c-4 3-4 15 0 18M12 3c4 3 4 15 0 18M3 12h18" stroke={color} strokeWidth="1.8" strokeLinecap="round"/></svg>),
+  Camera: ({ color = C.coral }: { color?: string }) => (<svg width="28" height="28" viewBox="0 0 48 48" fill="none"><rect x="2" y="7" width="20" height="14" rx="3" stroke={color} strokeWidth="1.8"/><circle cx="12" cy="14" r="3.5" stroke={color} strokeWidth="1.8"/><path d="M8 7l2-3h4l2 3" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>),
 };
 
 function AirportInput({ placeholder, value, onChange, icon }: {
@@ -396,9 +396,9 @@ export default function TapaLanding() {
           </div>
           <div className="tapa-how">
             {[
-              { role: 'For Senders', sub: 'Need something delivered?', icon: <svg width="26" height="26" viewBox="0 0 24 24" fill="none"><rect x="3" y="9" width="18" height="13" rx="2" stroke={C.coral} strokeWidth="2"/><path d="M8 9V7a4 4 0 018 0v2" stroke={C.coral} strokeWidth="2" strokeLinecap="round"/></svg>,
+              { role: 'For Senders', sub: 'Need something delivered?', icon: <svg width="26" height="26" viewBox="0 0 48 48" fill="none"><rect x="3" y="9" width="18" height="13" rx="2" stroke={C.coral} strokeWidth="2"/><path d="M8 9V7a4 4 0 018 0v2" stroke={C.coral} strokeWidth="2" strokeLinecap="round"/></svg>,
                 steps: ['Search for a carrier going to your destination', 'Book based on dates, weight, and price', 'Hand over item with photo documentation', 'Confirm delivery and release payment'] },
-              { role: 'For Carriers', sub: 'Travelling? Earn on the way.', icon: <svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M20 12V22H4V12" stroke={C.coral} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/><path d="M22 7H2v5h20V7z" stroke={C.coral} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/><path d="M12 22V7M12 7H7.5a2.5 2.5 0 010-5C11 2 12 7 12 7zM12 7h4.5a2.5 2.5 0 000-5C13 2 12 7 12 7z" stroke={C.coral} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>,
+              { role: 'For Carriers', sub: 'Travelling? Earn on the way.', icon: <svg width="26" height="26" viewBox="0 0 48 48" fill="none"><path d="M20 12V22H4V12" stroke={C.coral} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/><path d="M22 7H2v5h20V7z" stroke={C.coral} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/><path d="M12 22V7M12 7H7.5a2.5 2.5 0 010-5C11 2 12 7 12 7zM12 7h4.5a2.5 2.5 0 000-5C13 2 12 7 12 7z" stroke={C.coral} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>,
                 steps: ['Post your route, dates, and available space', 'Receive and accept delivery requests', 'Carry the item on your journey', 'Deliver and get paid instantly'] },
             ].map(card => (
               <div key={card.role} style={{ background: C.surface, border: `1px solid ${C.border}`, borderRadius: '24px', padding: 'clamp(24px,3vw,36px)' }}>
@@ -443,7 +443,7 @@ export default function TapaLanding() {
                     <div key={n.city}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '16px', background: 'rgba(255,255,255,0.03)', border: `1px solid ${C.border}`, borderRadius: '14px', padding: '16px 20px' }}>
                         <div style={{ width: '40px', height: '40px', borderRadius: '10px', background: C.surface, border: `1px solid ${C.border}`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="10" r="3" stroke={n.dot} strokeWidth="2"/><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" stroke={n.dot} strokeWidth="2"/></svg>
+                          <svg width="18" height="18" viewBox="0 0 48 48" fill="none"><circle cx="12" cy="10" r="3" stroke={n.dot} strokeWidth="2"/><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" stroke={n.dot} strokeWidth="2"/></svg>
                         </div>
                         <div style={{ flex: 1 }}>
                           <div style={{ fontSize: '15px', fontWeight: 700 }}>{n.city}</div>
@@ -454,7 +454,7 @@ export default function TapaLanding() {
                       {i < 2 && (
                         <div style={{ display: 'flex', alignItems: 'center', padding: '4px 28px' }}>
                           <div style={{ flex: 1, height: '1px', background: `linear-gradient(90deg,${C.border},transparent)` }} />
-                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" style={{ margin: '0 8px' }}><path d="M21 16l-9-9-1 5-5 1 9 9 1-5 5-1z" stroke={C.muted} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                          <svg width="14" height="14" viewBox="0 0 48 48" fill="none" style={{ margin: '0 8px' }}><path d="M21 16l-9-9-1 5-5 1 9 9 1-5 5-1z" stroke={C.muted} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>
                           <div style={{ flex: 1, height: '1px', background: `linear-gradient(270deg,${C.border},transparent)` }} />
                         </div>
                       )}

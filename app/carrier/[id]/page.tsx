@@ -26,7 +26,7 @@ const Stars = ({ rating }: { rating: number }) => {
   return (
     <span style={{ display: 'inline-flex', gap: '2px', alignItems: 'center' }}>
       {[1,2,3,4,5].map(i => (
-        <svg key={i} width="14" height="14" viewBox="0 0 24 24"
+        <svg key={i} width="14" height="14" viewBox="0 0 48 48"
           fill={i <= full ? C.gold : (i === full + 1 && half ? 'url(#half)' : C.border)}>
           <defs>
             <linearGradient id="half">
@@ -200,7 +200,7 @@ export default function CarrierProfilePage({ params }: { params: Promise<{ id: s
       <nav style={s.nav}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer' }} onClick={() => router.push('/')}>
           <div style={{ width: '36px', height: '36px', background: C.coral, borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: `0 4px 16px ${C.accentGlow}` }}>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="4" cy="18" r="2.5" fill="white"/><path d="M6.5 18 Q9 7 18 6" stroke="white" stroke-width="2" fill="none" stroke-linecap="round"/><circle cx="18" cy="6" r="3.5" fill="white"/><circle cx="18" cy="6" r="1.5" fill="#E84855"/></svg>
+            <svg width="18" height="18" viewBox="0 0 48 48" fill="none"><circle cx="13" cy="31" r="3" fill="white"/><path d="M16 31 Q24 12 37 17" stroke="white" stroke-width="2.5" fill="none" stroke-linecap="round"/><circle cx="37" cy="17" r="4.5" fill="white"/><circle cx="37" cy="17" r="2" fill="#E84855"/></svg>
           </div>
           <span style={{ fontSize: '20px', fontWeight: '700', color: C.text, letterSpacing: '-0.5px' }}>tapa</span>
         </div>
@@ -211,7 +211,7 @@ export default function CarrierProfilePage({ params }: { params: Promise<{ id: s
 
       <main style={s.main}>
         <button onClick={() => router.back()} style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', color: C.muted, fontSize: '14px', background: 'none', border: 'none', cursor: 'pointer', marginBottom: '28px', padding: '0', fontFamily: 'inherit' }}>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+          <svg width="16" height="16" viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
           Back to results
         </button>
 
@@ -226,19 +226,19 @@ export default function CarrierProfilePage({ params }: { params: Promise<{ id: s
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
                 {carrier.badge && (
                   <span style={badgeStyle('top')}>
-                    <svg width="10" height="10" viewBox="0 0 24 24" fill={C.gold}><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                    <svg width="10" height="10" viewBox="0 0 48 48" fill={C.gold}><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
                     {carrier.badge}
                   </span>
                 )}
                 {carrier.verified && (
                   <span style={badgeStyle('verified')}>
-                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke={C.green} strokeWidth="2.5"><path d="M20 6L9 17l-5-5"/></svg>
+                    <svg width="10" height="10" viewBox="0 0 48 48" fill="none" stroke={C.green} strokeWidth="2.5"><path d="M20 6L9 17l-5-5"/></svg>
                     Verified
                   </span>
                 )}
                 {carrier.idVerified && (
                   <span style={badgeStyle('id')}>
-                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#818CF8" strokeWidth="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 3l-4 4-4-4"/></svg>
+                    <svg width="10" height="10" viewBox="0 0 48 48" fill="none" stroke="#818CF8" strokeWidth="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 3l-4 4-4-4"/></svg>
                     ID Verified
                   </span>
                 )}
@@ -279,7 +279,7 @@ export default function CarrierProfilePage({ params }: { params: Promise<{ id: s
               </div>
               <div style={{ flex: 1, display: 'flex', alignItems: 'center', gap: '4px' }}>
                 <div style={{ flex: 1, height: '1px', background: C.border }} />
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={C.coral} strokeWidth="2" strokeLinecap="round">
+                <svg width="20" height="20" viewBox="0 0 48 48" fill="none" stroke={C.coral} strokeWidth="2" strokeLinecap="round">
                   <path d="M21 16l-9-9-1 5-5 1 9 9 1-5 5-1z"/>
                 </svg>
                 <div style={{ flex: 1, height: '1px', background: C.border }} />
@@ -290,7 +290,7 @@ export default function CarrierProfilePage({ params }: { params: Promise<{ id: s
               </div>
             </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px', background: C.inputBg, borderRadius: '12px', padding: '12px 16px' }}>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={C.coral} strokeWidth="2" strokeLinecap="round"><path d="M21 16l-9-9-1 5-5 1 9 9 1-5 5-1z"/></svg>
+              <svg width="16" height="16" viewBox="0 0 48 48" fill="none" stroke={C.coral} strokeWidth="2" strokeLinecap="round"><path d="M21 16l-9-9-1 5-5 1 9 9 1-5 5-1z"/></svg>
               <span style={{ fontSize: '14px', color: C.muted }}>{carrier.airline}</span>
               <span style={{ fontSize: '14px', color: C.muted }}>·</span>
               <span style={{ fontSize: '14px', fontWeight: '600', color: C.text }}>{carrier.flightNo}</span>

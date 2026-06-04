@@ -103,7 +103,7 @@ const Stars = ({ rating }: { rating: number }) => {
   return (
     <span style={{ display: "inline-flex", gap: "2px", alignItems: "center" }}>
       {[1,2,3,4,5].map(i => (
-        <svg key={i} width="12" height="12" viewBox="0 0 24 24" fill={i <= full ? C.gold : (i === full + 1 && half ? "url(#half)" : C.border)}>
+        <svg key={i} width="12" height="12" viewBox="0 0 48 48" fill={i <= full ? C.gold : (i === full + 1 && half ? "url(#half)" : C.border)}>
           <defs><linearGradient id="half"><stop offset="50%" stopColor={C.gold}/><stop offset="50%" stopColor={C.border}/></linearGradient></defs>
           <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
         </svg>
@@ -251,7 +251,7 @@ function SearchPageInner() {
       <nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 200, padding: "0 clamp(16px,4vw,24px)", height: "64px", display: "flex", alignItems: "center", justifyContent: "space-between", background: `${C.bg}EE`, backdropFilter: "blur(12px)", borderBottom: `1px solid ${C.border}` }}>
         <a href="/" style={{ display: "flex", alignItems: "center", gap: "10px", textDecoration: "none" }}>
           <div style={{ width: "34px", height: "34px", background: C.accent, borderRadius: "9px", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: `0 4px 12px ${C.accentGlow}` }}>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="4" cy="18" r="2.5" fill="white"/><path d="M6.5 18 Q9 7 18 6" stroke="white" stroke-width="2" fill="none" stroke-linecap="round"/><circle cx="18" cy="6" r="3.5" fill="white"/><circle cx="18" cy="6" r="1.5" fill="#E84855"/></svg>
+            <svg width="16" height="16" viewBox="0 0 48 48" fill="none"><circle cx="13" cy="31" r="3" fill="white"/><path d="M16 31 Q24 12 37 17" stroke="white" stroke-width="2.5" fill="none" stroke-linecap="round"/><circle cx="37" cy="17" r="4.5" fill="white"/><circle cx="37" cy="17" r="2" fill="#E84855"/></svg>
           </div>
           <span style={{ fontSize: "19px", fontWeight: 700, color: C.text, letterSpacing: "-0.5px" }}>tapa</span>
         </a>
@@ -295,7 +295,7 @@ function SearchPageInner() {
         ) : !searched ? (
           <div style={{ textAlign: "center", padding: "60px 24px" }}>
             <div style={{ width: "72px", height: "72px", borderRadius: "20px", background: C.accentSoft, border: `1px solid ${C.border}`, display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 20px" }}>
-              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke={C.accent} strokeWidth="1.5" strokeLinecap="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+              <svg width="32" height="32" viewBox="0 0 48 48" fill="none" stroke={C.accent} strokeWidth="1.5" strokeLinecap="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
             </div>
             <h2 style={{ fontSize: "20px", fontWeight: 700, color: C.text, marginBottom: "8px" }}>Find carriers going your way</h2>
             <p style={{ fontSize: "15px", color: C.muted, maxWidth: "360px", margin: "0 auto", lineHeight: 1.6 }}>Enter your origin, destination, and travel date above to see verified carriers on that route.</p>
@@ -345,7 +345,7 @@ function SearchPageInner() {
 
             {results.length === 0 ? (
               <div style={{ textAlign: "center", padding: "60px 24px", background: C.surface, border: `1px solid ${C.border}`, borderRadius: "16px" }}>
-                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke={C.muted} strokeWidth="1.5" strokeLinecap="round" style={{ marginBottom: "16px" }}><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+                <svg width="48" height="48" viewBox="0 0 48 48" fill="none" stroke={C.muted} strokeWidth="1.5" strokeLinecap="round" style={{ marginBottom: "16px" }}><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
                 <h3 style={{ fontSize: "18px", fontWeight: 700, color: C.text, marginBottom: "8px" }}>No carriers on this route yet</h3>
                 <p style={{ fontSize: "14px", color: C.muted, maxWidth: "320px", margin: "0 auto", lineHeight: 1.6 }}>Be the first to post this route, or try a nearby city. Carriers are added daily.</p>
                 <button className="tb" onClick={() => router.push("/trip/new")} style={{ marginTop: "24px", padding: "10px 24px", background: C.accent, border: "none", borderRadius: "10px", color: C.white, fontSize: "14px", fontWeight: 700, cursor: "pointer", fontFamily: "inherit" }}>
@@ -364,7 +364,7 @@ function SearchPageInner() {
                         {carrier.avatar}
                         {carrier.verified && (
                           <div style={{ position: "absolute", bottom: "-4px", right: "-4px", width: "18px", height: "18px", borderRadius: "50%", background: C.green, display: "flex", alignItems: "center", justifyContent: "center", border: `2px solid ${C.surface}` }}>
-                            <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3" strokeLinecap="round"><path d="M20 6L9 17l-5-5"/></svg>
+                            <svg width="9" height="9" viewBox="0 0 48 48" fill="none" stroke="white" strokeWidth="3" strokeLinecap="round"><path d="M20 6L9 17l-5-5"/></svg>
                           </div>
                         )}
                       </div>
@@ -376,7 +376,7 @@ function SearchPageInner() {
                         </div>
                         <div style={{ display: "flex", alignItems: "center", gap: "6px", marginBottom: "8px", flexWrap: "wrap" }}>
                           <span style={{ fontSize: "14px", color: C.text, fontWeight: 600 }}>{carrier.from}</span>
-                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={C.accent} strokeWidth="2" strokeLinecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                          <svg width="14" height="14" viewBox="0 0 48 48" fill="none" stroke={C.accent} strokeWidth="2" strokeLinecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
                           <span style={{ fontSize: "14px", color: C.text, fontWeight: 600 }}>{carrier.to}</span>
                           <span style={{ fontSize: "13px", color: C.muted }}>· {carrier.date}</span>
                           {carrier.airline && <span style={{ fontSize: "13px", color: C.muted }}>· {carrier.airline} {carrier.flightNo}</span>}

@@ -101,7 +101,7 @@ export default function SignupPage() {
       <nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 50, padding: "16px 24px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
         <a href="/" style={{ display: "flex", alignItems: "center", gap: "10px", textDecoration: "none" }}>
           <div style={{ width: "36px", height: "36px", background: C.accent, borderRadius: "10px", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: `0 4px 16px ${C.accentGlow}` }}>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="4" cy="18" r="2.5" fill="white"/><path d="M6.5 18 Q9 7 18 6" stroke="white" stroke-width="2" fill="none" stroke-linecap="round"/><circle cx="18" cy="6" r="3.5" fill="white"/><circle cx="18" cy="6" r="1.5" fill="#E84855"/></svg>
+            <svg width="18" height="18" viewBox="0 0 48 48" fill="none"><circle cx="13" cy="31" r="3" fill="white"/><path d="M16 31 Q24 12 37 17" stroke="white" stroke-width="2.5" fill="none" stroke-linecap="round"/><circle cx="37" cy="17" r="4.5" fill="white"/><circle cx="37" cy="17" r="2" fill="#E84855"/></svg>
           </div>
           <span style={{ fontSize: "20px", fontWeight: 700, color: C.text, letterSpacing: "-0.5px" }}>tapa</span>
         </a>
@@ -124,7 +124,7 @@ export default function SignupPage() {
           <div style={{ textAlign: "center", marginBottom: "28px" }}>
             <div style={{ display: "inline-flex", alignItems: "center", gap: "10px", marginBottom: "20px" }}>
               <div style={{ width: "36px", height: "36px", background: C.accent, borderRadius: "10px", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="4" cy="18" r="2.5" fill="white"/><path d="M6.5 18 Q9 7 18 6" stroke="white" stroke-width="2" fill="none" stroke-linecap="round"/><circle cx="18" cy="6" r="3.5" fill="white"/><circle cx="18" cy="6" r="1.5" fill="#E84855"/></svg>
+                <svg width="18" height="18" viewBox="0 0 48 48" fill="none"><circle cx="13" cy="31" r="3" fill="white"/><path d="M16 31 Q24 12 37 17" stroke="white" stroke-width="2.5" fill="none" stroke-linecap="round"/><circle cx="37" cy="17" r="4.5" fill="white"/><circle cx="37" cy="17" r="2" fill="#E84855"/></svg>
               </div>
               <span style={{ fontSize: "22px", fontWeight: 700, color: C.text }}>tapa</span>
             </div>
@@ -160,7 +160,7 @@ export default function SignupPage() {
               {/* Google */}
               <button className="tb" onClick={handleGoogleSignup} disabled={googleLoading}
                 style={{ width: "100%", padding: "13px 16px", borderRadius: "12px", border: `1px solid ${C.border}`, background: C.white, color: "#1A1A2E", fontSize: "15px", fontWeight: 600, cursor: googleLoading ? "wait" : "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: "10px", fontFamily: "inherit", marginBottom: "10px", opacity: googleLoading ? 0.7 : 1 }}>
-                <svg width="20" height="20" viewBox="0 0 24 24">
+                <svg width="20" height="20" viewBox="0 0 48 48">
                   <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
                   <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
                   <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
@@ -197,8 +197,8 @@ export default function SignupPage() {
             <>
               <div className="role-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px", marginBottom: "16px" }}>
                 {[
-                  { r: "sender" as Role, label: "Sender", desc: "Ship items with real travelers going your way", icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> },
-                  { r: "carrier" as Role, label: "Carrier", desc: "Earn money carrying items on your trips", icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.44 2 2 0 0 1 3.58 1.25h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.82a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg> },
+                  { r: "sender" as Role, label: "Sender", desc: "Ship items with real travelers going your way", icon: <svg width="22" height="22" viewBox="0 0 48 48" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> },
+                  { r: "carrier" as Role, label: "Carrier", desc: "Earn money carrying items on your trips", icon: <svg width="22" height="22" viewBox="0 0 48 48" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.44 2 2 0 0 1 3.58 1.25h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.82a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg> },
                 ].map(({ r, label, desc, icon }) => (
                   <div key={r} style={roleCard(r)} onClick={() => setRole(role === r ? null : r)}>
                     <div style={{ width: "48px", height: "48px", borderRadius: "14px", background: role === r ? C.accent : C.border, display: "flex", alignItems: "center", justifyContent: "center", marginBottom: "14px", transition: "all 0.2s ease" }}>{icon}</div>

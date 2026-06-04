@@ -149,14 +149,14 @@ export default function TripNewPage() {
     <div style={{ minHeight: '100vh', background: C.bg, color: C.text, fontFamily: "'Inter', sans-serif", display: 'flex', flexDirection: 'column' }}>
       <nav style={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 50, padding: '16px clamp(16px,4vw,24px)', display: 'flex', alignItems: 'center', background: 'rgba(13,27,42,0.92)', backdropFilter: 'blur(12px)', borderBottom: `1px solid ${C.border}` }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer' }} onClick={() => router.push('/')}>
-          <div style={{ width: '36px', height: '36px', background: C.coral, borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="4" cy="18" r="2.5" fill="white"/><path d="M6.5 18 Q9 7 18 6" stroke="white" stroke-width="2" fill="none" stroke-linecap="round"/><circle cx="18" cy="6" r="3.5" fill="white"/><circle cx="18" cy="6" r="1.5" fill="#E84855"/></svg></div>
+          <div style={{ width: '36px', height: '36px', background: C.coral, borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><svg width="18" height="18" viewBox="0 0 48 48" fill="none"><circle cx="13" cy="31" r="3" fill="white"/><path d="M16 31 Q24 12 37 17" stroke="white" stroke-width="2.5" fill="none" stroke-linecap="round"/><circle cx="37" cy="17" r="4.5" fill="white"/><circle cx="37" cy="17" r="2" fill="#E84855"/></svg></div>
           <span style={{ fontSize: '20px', fontWeight: '700' }}>tapa</span>
         </div>
       </nav>
       <main style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '100px clamp(16px,4vw,24px) 40px' }}>
         <div style={{ background: C.surface, border: `1px solid ${C.border}`, borderRadius: '20px', padding: 'clamp(32px,5vw,48px)', maxWidth: '480px', width: '100%', textAlign: 'center' }}>
           <div style={{ width: '72px', height: '72px', borderRadius: '50%', background: C.greenSoft, border: `2px solid ${C.greenBorder}`, display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 24px' }}>
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke={C.green} strokeWidth="2.5" strokeLinecap="round"><path d="M20 6L9 17l-5-5"/></svg>
+            <svg width="32" height="32" viewBox="0 0 48 48" fill="none" stroke={C.green} strokeWidth="2.5" strokeLinecap="round"><path d="M20 6L9 17l-5-5"/></svg>
           </div>
           <div style={{ fontSize: '22px', fontWeight: '700', marginBottom: '10px' }}>Trip Posted!</div>
           <div style={{ fontSize: '15px', color: C.muted, lineHeight: '1.7', marginBottom: '28px' }}>
@@ -180,7 +180,7 @@ export default function TripNewPage() {
       `}</style>
       <nav style={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 50, padding: '0 clamp(16px,4vw,24px)', height: '64px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: 'rgba(13,27,42,0.92)', backdropFilter: 'blur(12px)', borderBottom: `1px solid ${C.border}` }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer' }} onClick={() => router.push('/')}>
-          <div style={{ width: '36px', height: '36px', background: C.coral, borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="4" cy="18" r="2.5" fill="white"/><path d="M6.5 18 Q9 7 18 6" stroke="white" stroke-width="2" fill="none" stroke-linecap="round"/><circle cx="18" cy="6" r="3.5" fill="white"/><circle cx="18" cy="6" r="1.5" fill="#E84855"/></svg></div>
+          <div style={{ width: '36px', height: '36px', background: C.coral, borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><svg width="18" height="18" viewBox="0 0 48 48" fill="none"><circle cx="13" cy="31" r="3" fill="white"/><path d="M16 31 Q24 12 37 17" stroke="white" stroke-width="2.5" fill="none" stroke-linecap="round"/><circle cx="37" cy="17" r="4.5" fill="white"/><circle cx="37" cy="17" r="2" fill="#E84855"/></svg></div>
           <span style={{ fontSize: '20px', fontWeight: '700' }}>tapa</span>
         </div>
         <button onClick={() => router.push('/dashboard')} style={{ padding: '8px 16px', background: 'transparent', border: `1px solid ${C.border}`, borderRadius: '9px', color: C.muted, fontSize: '13px', cursor: 'pointer', fontFamily: 'inherit' }}>Dashboard</button>
@@ -188,7 +188,7 @@ export default function TripNewPage() {
 
       <main style={{ maxWidth: '680px', margin: '0 auto', padding: '80px clamp(16px,4vw,24px) 60px' }}>
         <button style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', color: C.muted, fontSize: '14px', background: 'none', border: 'none', cursor: 'pointer', marginBottom: '28px', padding: '0', fontFamily: 'inherit' }} onClick={() => router.back()}>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>Back
+          <svg width="16" height="16" viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>Back
         </button>
 
         <div style={{ marginBottom: '24px' }}>
@@ -202,7 +202,7 @@ export default function TripNewPage() {
             {[1,2,3].map((n, i) => (
               <React.Fragment key={n}>
                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                  <div style={stepDot(n)}>{step > n ? <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5"><path d="M20 6L9 17l-5-5"/></svg> : n}</div>
+                  <div style={stepDot(n)}>{step > n ? <svg width="14" height="14" viewBox="0 0 48 48" fill="none" stroke="white" strokeWidth="2.5"><path d="M20 6L9 17l-5-5"/></svg> : n}</div>
                 </div>
                 {i < 2 && <div style={{ flex: 1, height: '2px', background: step > n ? C.green : C.border, transition: 'background 0.3s' }} />}
               </React.Fragment>

@@ -300,7 +300,7 @@ export default function Dashboard() {
     <div style={{ minHeight: '100vh', background: C.bg, color: C.text, fontFamily: "'Inter', sans-serif", display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px' }}>
       <div style={{ textAlign: 'center', maxWidth: '360px' }}>
         <div style={{ width: '64px', height: '64px', background: C.accentGlow, border: `1px solid ${C.border}`, borderRadius: '18px', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 20px' }}>
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke={C.coral} strokeWidth="1.5" strokeLinecap="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          <svg width="28" height="28" viewBox="0 0 48 48" fill="none" stroke={C.coral} strokeWidth="1.5" strokeLinecap="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
         </div>
         <h2 style={{ fontSize: '22px', fontWeight: '800', marginBottom: '10px' }}>Sign in to continue</h2>
         <p style={{ color: C.muted, fontSize: '14px', marginBottom: '24px', lineHeight: 1.6 }}>Send packages or earn as a carrier — all from one account.</p>
@@ -342,7 +342,7 @@ export default function Dashboard() {
       <nav style={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 100, height: '64px', background: 'rgba(13,27,42,0.95)', backdropFilter: 'blur(12px)', borderBottom: `1px solid ${C.border}`, display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 clamp(16px,4vw,48px)' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer' }} onClick={() => router.push('/')}>
           <div style={{ width: '36px', height: '36px', background: C.coral, borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="4" cy="18" r="2.5" fill="white"/><path d="M6.5 18 Q9 7 18 6" stroke="white" stroke-width="2" fill="none" stroke-linecap="round"/><circle cx="18" cy="6" r="3.5" fill="white"/><circle cx="18" cy="6" r="1.5" fill="#E84855"/></svg>
+            <svg width="18" height="18" viewBox="0 0 48 48" fill="none"><circle cx="13" cy="31" r="3" fill="white"/><path d="M16 31 Q24 12 37 17" stroke="white" stroke-width="2.5" fill="none" stroke-linecap="round"/><circle cx="37" cy="17" r="4.5" fill="white"/><circle cx="37" cy="17" r="2" fill="#E84855"/></svg>
           </div>
           <span style={{ fontSize: '20px', fontWeight: '700', color: C.text, letterSpacing: '-0.5px' }}>tapa</span>
         </div>
@@ -456,8 +456,8 @@ export default function Dashboard() {
                 {/* Quick actions */}
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: '12px' }}>
                   {[
-                    { icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={C.coral} strokeWidth="1.5" strokeLinecap="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>, label: 'Post a request', sub: 'Let carriers find you', action: () => router.push('/posts/new') },
-                    { icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={C.coral} strokeWidth="1.5" strokeLinecap="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>, label: 'Browse feed', sub: 'See open requests', action: () => router.push('/feed') },
+                    { icon: <svg width="22" height="22" viewBox="0 0 48 48" fill="none" stroke={C.coral} strokeWidth="1.5" strokeLinecap="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>, label: 'Post a request', sub: 'Let carriers find you', action: () => router.push('/posts/new') },
+                    { icon: <svg width="22" height="22" viewBox="0 0 48 48" fill="none" stroke={C.coral} strokeWidth="1.5" strokeLinecap="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>, label: 'Browse feed', sub: 'See open requests', action: () => router.push('/feed') },
                   ].map(item => (
                     <button key={item.label} onClick={item.action}
                       style={{ background: C.surface, border: `1px solid ${C.border}`, borderRadius: '16px', padding: '20px', textAlign: 'left', cursor: 'pointer', fontFamily: 'inherit', transition: 'all 0.2s' }}
@@ -477,7 +477,7 @@ export default function Dashboard() {
               <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                 {activeSendBookings.length === 0 ? (
                   <div style={{ textAlign: 'center', padding: '60px 20px', background: C.surface, border: `1px solid ${C.border}`, borderRadius: '16px' }}>
-                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke={C.muted} strokeWidth="1" strokeLinecap="round" style={{ margin: '0 auto 16px', display: 'block' }}><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                    <svg width="48" height="48" viewBox="0 0 48 48" fill="none" stroke={C.muted} strokeWidth="1" strokeLinecap="round" style={{ margin: '0 auto 16px', display: 'block' }}><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
                     <p style={{ color: C.muted, fontSize: '15px', marginBottom: '6px', fontWeight: '600' }}>No active bookings yet.</p>
                     <p style={{ color: C.muted, fontSize: '13px', marginBottom: '20px' }}>Find a carrier going your way and book your first delivery.</p>
                     <button onClick={() => setSendSubTab('search')} style={{ padding: '10px 24px', background: C.coral, border: 'none', borderRadius: '10px', color: C.text, fontSize: '14px', fontWeight: '600', cursor: 'pointer', fontFamily: 'inherit' }}>Find a Carrier</button>
@@ -540,7 +540,7 @@ export default function Dashboard() {
                               <div key={step.key} style={{ display: 'flex', gap: '14px' }}>
                                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '28px', flexShrink: 0 }}>
                                   <div style={{ width: '28px', height: '28px', borderRadius: '50%', background: isDone ? C.green : isActive ? C.coral : C.border, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: isDone ? '0' : '14px', flexShrink: 0, boxShadow: isActive ? `0 0 0 4px ${C.accentGlow}` : 'none' }}>
-                                    {isDone ? <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3"><path d="M20 6L9 17l-5-5"/></svg> : <span style={{ fontSize: '13px' }}>{step.icon}</span>}
+                                    {isDone ? <svg width="12" height="12" viewBox="0 0 48 48" fill="none" stroke="white" strokeWidth="3"><path d="M20 6L9 17l-5-5"/></svg> : <span style={{ fontSize: '13px' }}>{step.icon}</span>}
                                   </div>
                                   {!isLast && <div style={{ width: '2px', flex: 1, minHeight: '24px', background: isDone ? C.green : C.border, margin: '3px 0' }} />}
                                 </div>
@@ -625,7 +625,7 @@ export default function Dashboard() {
               <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                 {carryRequests.length === 0 ? (
                   <div style={{ textAlign: 'center', padding: '60px 20px', background: C.surface, border: `1px solid ${C.border}`, borderRadius: '16px' }}>
-                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke={C.muted} strokeWidth="1" strokeLinecap="round" style={{ margin: '0 auto 16px', display: 'block' }}><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                    <svg width="48" height="48" viewBox="0 0 48 48" fill="none" stroke={C.muted} strokeWidth="1" strokeLinecap="round" style={{ margin: '0 auto 16px', display: 'block' }}><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
                     <p style={{ color: C.muted, fontSize: '15px', marginBottom: '6px', fontWeight: '600' }}>No requests yet.</p>
                     <p style={{ color: C.muted, fontSize: '13px', marginBottom: '20px' }}>Post a trip and senders on your route will find you.</p>
                     <button onClick={() => router.push('/trip/new')} style={{ padding: '10px 24px', background: C.coral, border: 'none', borderRadius: '10px', color: C.text, fontSize: '14px', fontWeight: '600', cursor: 'pointer', fontFamily: 'inherit' }}>Post a Trip</button>
@@ -686,7 +686,7 @@ export default function Dashboard() {
               <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                 {carryTrips.length === 0 ? (
                   <div style={{ textAlign: 'center', padding: '60px 20px', background: C.surface, border: `1px solid ${C.border}`, borderRadius: '16px' }}>
-                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke={C.muted} strokeWidth="1" strokeLinecap="round" style={{ margin: '0 auto 16px', display: 'block' }}><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.18 2 2 0 0 1 3.6 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.6a16 16 0 0 0 6 6l.96-.96a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                    <svg width="48" height="48" viewBox="0 0 48 48" fill="none" stroke={C.muted} strokeWidth="1" strokeLinecap="round" style={{ margin: '0 auto 16px', display: 'block' }}><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.18 2 2 0 0 1 3.6 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.6a16 16 0 0 0 6 6l.96-.96a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
                     <p style={{ color: C.muted, fontSize: '15px', marginBottom: '6px', fontWeight: '600' }}>No trips posted yet.</p>
                     <p style={{ color: C.muted, fontSize: '13px', marginBottom: '20px' }}>Post your first trip and start earning from your travels.</p>
                     <button onClick={() => router.push('/trip/new')} style={{ padding: '10px 24px', background: C.coral, border: 'none', borderRadius: '10px', color: C.text, fontSize: '14px', fontWeight: '600', cursor: 'pointer', fontFamily: 'inherit' }}>Post Your First Trip</button>

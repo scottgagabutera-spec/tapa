@@ -280,14 +280,14 @@ export default function BookingPage({ params }: { params: Promise<{ id: string }
       <div style={s.page}>
         <nav style={s.nav}>
           <div style={s.logoWrap} onClick={() => router.push('/')}>
-            <div style={s.logoIcon}><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="4" cy="18" r="2.5" fill="white"/><path d="M6.5 18 Q9 7 18 6" stroke="white" stroke-width="2" fill="none" stroke-linecap="round"/><circle cx="18" cy="6" r="3.5" fill="white"/><circle cx="18" cy="6" r="1.5" fill="#E84855"/></svg></div>
+            <div style={s.logoIcon}><svg width="18" height="18" viewBox="0 0 48 48" fill="none"><circle cx="13" cy="31" r="3" fill="white"/><path d="M16 31 Q24 12 37 17" stroke="white" stroke-width="2.5" fill="none" stroke-linecap="round"/><circle cx="37" cy="17" r="4.5" fill="white"/><circle cx="37" cy="17" r="2" fill="#E84855"/></svg></div>
             <span style={s.logoText}>tapa</span>
           </div>
         </nav>
         <main style={{ ...s.main, display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '80vh' }}>
           <div style={{ ...s.card, textAlign: 'center', padding: '48px 32px', maxWidth: '480px', margin: '0 auto' }}>
             <div style={s.successIcon}>
-              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke={C.green} strokeWidth="2.5" strokeLinecap="round"><path d="M20 6L9 17l-5-5"/></svg>
+              <svg width="32" height="32" viewBox="0 0 48 48" fill="none" stroke={C.green} strokeWidth="2.5" strokeLinecap="round"><path d="M20 6L9 17l-5-5"/></svg>
             </div>
             <div style={{ fontSize: '22px', fontWeight: '700', color: C.text, marginBottom: '10px' }}>Request Sent!</div>
             <div style={{ fontSize: '15px', color: C.muted, lineHeight: '1.7', marginBottom: '28px' }}>
@@ -318,7 +318,7 @@ export default function BookingPage({ params }: { params: Promise<{ id: string }
     <div style={s.page}>
       <nav style={s.nav}>
         <div style={s.logoWrap} onClick={() => router.push('/')}>
-          <div style={s.logoIcon}><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="4" cy="18" r="2.5" fill="white"/><path d="M6.5 18 Q9 7 18 6" stroke="white" stroke-width="2" fill="none" stroke-linecap="round"/><circle cx="18" cy="6" r="3.5" fill="white"/><circle cx="18" cy="6" r="1.5" fill="#E84855"/></svg></div>
+          <div style={s.logoIcon}><svg width="18" height="18" viewBox="0 0 48 48" fill="none"><circle cx="13" cy="31" r="3" fill="white"/><path d="M16 31 Q24 12 37 17" stroke="white" stroke-width="2.5" fill="none" stroke-linecap="round"/><circle cx="37" cy="17" r="4.5" fill="white"/><circle cx="37" cy="17" r="2" fill="#E84855"/></svg></div>
           <span style={s.logoText}>tapa</span>
         </div>
         <a href="/auth/login" style={{ padding: '8px 20px', background: 'transparent', border: `1px solid ${C.border}`, borderRadius: '10px', color: C.text, fontSize: '14px', fontWeight: '500', textDecoration: 'none' }}>Sign in</a>
@@ -328,7 +328,7 @@ export default function BookingPage({ params }: { params: Promise<{ id: string }
         <button style={s.backBtn} onClick={() => router.back()}
           onMouseEnter={e => (e.currentTarget.style.color = C.text)}
           onMouseLeave={e => (e.currentTarget.style.color = C.muted)}>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+          <svg width="16" height="16" viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
           Back to carrier
         </button>
 
@@ -356,11 +356,11 @@ export default function BookingPage({ params }: { params: Promise<{ id: string }
         <div style={{ marginBottom: '24px' }}>
           <div style={s.progress}>
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-              <div style={stepDot(1)}>{step > 1 ? <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5"><path d="M20 6L9 17l-5-5"/></svg> : '1'}</div>
+              <div style={stepDot(1)}>{step > 1 ? <svg width="14" height="14" viewBox="0 0 48 48" fill="none" stroke="white" strokeWidth="2.5"><path d="M20 6L9 17l-5-5"/></svg> : '1'}</div>
             </div>
             <div style={stepLine(1)}/>
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-              <div style={stepDot(2)}>{step > 2 ? <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5"><path d="M20 6L9 17l-5-5"/></svg> : '2'}</div>
+              <div style={stepDot(2)}>{step > 2 ? <svg width="14" height="14" viewBox="0 0 48 48" fill="none" stroke="white" strokeWidth="2.5"><path d="M20 6L9 17l-5-5"/></svg> : '2'}</div>
             </div>
             <div style={stepLine(2)}/>
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
@@ -515,7 +515,7 @@ export default function BookingPage({ params }: { params: Promise<{ id: string }
 
             <div style={{ ...s.checkRow, marginBottom: '20px' }} onClick={() => setAgreed(!agreed)}>
               <div style={s.checkbox}>
-                {agreed && <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3"><path d="M20 6L9 17l-5-5"/></svg>}
+                {agreed && <svg width="12" height="12" viewBox="0 0 48 48" fill="none" stroke="white" strokeWidth="3"><path d="M20 6L9 17l-5-5"/></svg>}
               </div>
               <div style={s.checkText}>
                 I confirm my item is legal to transport, does not contain prohibited goods, and I agree to Tapa's{' '}
