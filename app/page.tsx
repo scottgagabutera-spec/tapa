@@ -43,7 +43,7 @@ function useAirportSearch(query: string) {
 }
 
 const Icon = {
-  Logo: () => (<svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 3L20 20H4L12 3Z" fill="white"/><circle cx="19" cy="19" r="3" fill="white"/></svg>),
+  Logo: () => (<svg width="20" height="20" viewBox="0 0 24 24" fill="none"><circle cx="5" cy="17" r="2.5" fill="white"/><path d="M7.5 17 Q12 6 19 9" stroke="white" stroke-width="2" fill="none" stroke-linecap="round"/><circle cx="19" cy="9" r="3.5" fill="white"/><circle cx="19" cy="9" r="1.5" fill="currentColor"/></svg>),
   Arrow: () => (<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>),
   Swap: () => (<svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M7 16V4m0 0L3 8m4-4l4 4M17 8v12m0 0l4-4m-4 4l-4-4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>),
   Pin: () => (<svg width="15" height="15" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="10" r="3" stroke={C.muted} strokeWidth="2"/><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" stroke={C.muted} strokeWidth="2"/></svg>),

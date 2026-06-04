@@ -280,7 +280,7 @@ export default function BookingPage({ params }: { params: Promise<{ id: string }
       <div style={s.page}>
         <nav style={s.nav}>
           <div style={s.logoWrap} onClick={() => router.push('/')}>
-            <div style={s.logoIcon}><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 3L20 20H4L12 3Z" fill="white"/></svg></div>
+            <div style={s.logoIcon}><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="5" cy="17" r="2.5" fill="white"/><path d="M7.5 17 Q12 6 19 9" stroke="white" stroke-width="2" fill="none" stroke-linecap="round"/><circle cx="19" cy="9" r="3.5" fill="white"/><circle cx="19" cy="9" r="1.5" fill="currentColor"/></svg></div>
             <span style={s.logoText}>tapa</span>
           </div>
         </nav>
@@ -318,7 +318,7 @@ export default function BookingPage({ params }: { params: Promise<{ id: string }
     <div style={s.page}>
       <nav style={s.nav}>
         <div style={s.logoWrap} onClick={() => router.push('/')}>
-          <div style={s.logoIcon}><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 3L20 20H4L12 3Z" fill="white"/></svg></div>
+          <div style={s.logoIcon}><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="5" cy="17" r="2.5" fill="white"/><path d="M7.5 17 Q12 6 19 9" stroke="white" stroke-width="2" fill="none" stroke-linecap="round"/><circle cx="19" cy="9" r="3.5" fill="white"/><circle cx="19" cy="9" r="1.5" fill="currentColor"/></svg></div>
           <span style={s.logoText}>tapa</span>
         </div>
         <a href="/auth/login" style={{ padding: '8px 20px', background: 'transparent', border: `1px solid ${C.border}`, borderRadius: '10px', color: C.text, fontSize: '14px', fontWeight: '500', textDecoration: 'none' }}>Sign in</a>

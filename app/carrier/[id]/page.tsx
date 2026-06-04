@@ -200,7 +200,7 @@ export default function CarrierProfilePage({ params }: { params: Promise<{ id: s
       <nav style={s.nav}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer' }} onClick={() => router.push('/')}>
           <div style={{ width: '36px', height: '36px', background: C.coral, borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: `0 4px 16px ${C.accentGlow}` }}>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 3L20 20H4L12 3Z" fill="white"/></svg>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="5" cy="17" r="2.5" fill="white"/><path d="M7.5 17 Q12 6 19 9" stroke="white" stroke-width="2" fill="none" stroke-linecap="round"/><circle cx="19" cy="9" r="3.5" fill="white"/><circle cx="19" cy="9" r="1.5" fill="currentColor"/></svg>
           </div>
           <span style={{ fontSize: '20px', fontWeight: '700', color: C.text, letterSpacing: '-0.5px' }}>tapa</span>
         </div>

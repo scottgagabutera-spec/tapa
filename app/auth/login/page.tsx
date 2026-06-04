@@ -75,7 +75,7 @@ export default function LoginPage() {
       <nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 50, padding: "16px clamp(16px,4vw,24px)", display: "flex", alignItems: "center", justifyContent: "space-between", transition: "all 0.3s ease", background: scrolled ? "rgba(13,27,42,0.92)" : "transparent", backdropFilter: scrolled ? "blur(20px)" : "none", borderBottom: scrolled ? `1px solid ${C.border}` : "1px solid transparent" }}>
         <a href="/" style={{ display: "flex", alignItems: "center", gap: "10px", textDecoration: "none" }}>
           <div style={{ width: "36px", height: "36px", background: C.accent, borderRadius: "10px", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: `0 4px 12px ${C.accentGlow}` }}>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 3L20 20H4L12 3Z" fill="white"/><circle cx="19" cy="19" r="3" fill="white"/></svg>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="5" cy="17" r="2.5" fill="white"/><path d="M7.5 17 Q12 6 19 9" stroke="white" stroke-width="2" fill="none" stroke-linecap="round"/><circle cx="19" cy="9" r="3.5" fill="white"/><circle cx="19" cy="9" r="1.5" fill="currentColor"/></svg>
           </div>
           <span style={{ fontSize: "20px", fontWeight: 700, color: C.text, letterSpacing: "-0.5px" }}>tapa</span>
         </a>
@@ -89,7 +89,7 @@ export default function LoginPage() {
           <div style={{ textAlign: "center", marginBottom: "32px" }}>
             <div style={{ display: "inline-flex", alignItems: "center", gap: "10px", marginBottom: "24px" }}>
               <div style={{ width: "36px", height: "36px", background: C.accent, borderRadius: "10px", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 3L20 20H4L12 3Z" fill="white"/><circle cx="19" cy="19" r="3" fill="white"/></svg>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="5" cy="17" r="2.5" fill="white"/><path d="M7.5 17 Q12 6 19 9" stroke="white" stroke-width="2" fill="none" stroke-linecap="round"/><circle cx="19" cy="9" r="3.5" fill="white"/><circle cx="19" cy="9" r="1.5" fill="currentColor"/></svg>
               </div>
               <span style={{ fontSize: "22px", fontWeight: 700, color: C.text }}>tapa</span>
             </div>
