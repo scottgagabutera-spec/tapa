@@ -186,13 +186,13 @@ function SearchPageInner() {
 
   // Re-apply filters whenever allCarriers, filters, or sort change after a search
   useEffect(() => {
-    if (searched) applyFilters(sort, filterVerified, filterTopCarrier);
+    if (searched) applyFilters(sort, filterVerified, filterTopCarrier, from, to);
   }, [allCarriers, searched]);
 
-  const applyFilters = (newSort: SortKey, newVerified: boolean, newTop: boolean) => {
+  const applyFilters = (newSort: SortKey, newVerified: boolean, newTop: boolean, newFrom?: string, newTo?: string) => {
     let filtered = [...allCarriers];
-    const f = from.toLowerCase().replace(/\s*\([^)]*\)/g, "").trim();
-    const t = to.toLowerCase().replace(/\s*\([^)]*\)/g, "").trim();
+    const f = (newFrom ?? from).toLowerCase().replace(/\s*\([^)]*\)/g, "").trim();
+    const t = (newTo ?? to).toLowerCase().replace(/\s*\([^)]*\)/g, "").trim();
     if (f) filtered = filtered.filter(c => c.from.toLowerCase().includes(f) || c.from.toLowerCase().includes(f.split(",")[0]));
     if (t) filtered = filtered.filter(c => c.to.toLowerCase().includes(t) || c.to.toLowerCase().includes(t.split(",")[0]));
     if (date) filtered = filtered.filter(c => c.date.includes(date));
