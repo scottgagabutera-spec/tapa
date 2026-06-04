@@ -101,7 +101,7 @@ export default function SignupPage() {
       <nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 50, padding: "16px 24px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
         <a href="/" style={{ display: "flex", alignItems: "center", gap: "10px", textDecoration: "none" }}>
           <div style={{ width: "36px", height: "36px", background: C.accent, borderRadius: "10px", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: `0 4px 16px ${C.accentGlow}` }}>
-            <svg width="18" height="18" viewBox="0 0 48 48" fill="none"><circle cx="13" cy="31" r="3" fill="white"/><path d="M16 31 Q24 12 37 17" stroke="white" stroke-width="2.5" fill="none" stroke-linecap="round"/><circle cx="37" cy="17" r="4.5" fill="white"/><circle cx="37" cy="17" r="2" fill="#E84855"/></svg>
+            <svg width="18" height="18" viewBox="0 0 48 48" fill="none"><circle cx="13" cy="18" r="4" fill="none" stroke="white" stroke-width="1.8"/><circle cx="13" cy="18" r="1.6" fill="white"/><line x1="13" y1="22" x2="13" y2="28" stroke="white" stroke-width="1.8" stroke-linecap="round"/><line x1="13" y1="26" x2="35" y2="16" stroke="white" stroke-width="1" stroke-dasharray="3 2.5" stroke-linecap="round"/><circle cx="35" cy="13" r="5" fill="white"/><circle cx="35" cy="13" r="2" fill="#E84855"/><line x1="35" y1="18" x2="35" y2="24" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg>
           </div>
           <span style={{ fontSize: "20px", fontWeight: 700, color: C.text, letterSpacing: "-0.5px" }}>tapa</span>
         </a>
@@ -124,7 +124,7 @@ export default function SignupPage() {
           <div style={{ textAlign: "center", marginBottom: "28px" }}>
             <div style={{ display: "inline-flex", alignItems: "center", gap: "10px", marginBottom: "20px" }}>
               <div style={{ width: "36px", height: "36px", background: C.accent, borderRadius: "10px", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                <svg width="18" height="18" viewBox="0 0 48 48" fill="none"><circle cx="13" cy="31" r="3" fill="white"/><path d="M16 31 Q24 12 37 17" stroke="white" stroke-width="2.5" fill="none" stroke-linecap="round"/><circle cx="37" cy="17" r="4.5" fill="white"/><circle cx="37" cy="17" r="2" fill="#E84855"/></svg>
+                <svg width="18" height="18" viewBox="0 0 48 48" fill="none"><circle cx="13" cy="18" r="4" fill="none" stroke="white" stroke-width="1.8"/><circle cx="13" cy="18" r="1.6" fill="white"/><line x1="13" y1="22" x2="13" y2="28" stroke="white" stroke-width="1.8" stroke-linecap="round"/><line x1="13" y1="26" x2="35" y2="16" stroke="white" stroke-width="1" stroke-dasharray="3 2.5" stroke-linecap="round"/><circle cx="35" cy="13" r="5" fill="white"/><circle cx="35" cy="13" r="2" fill="#E84855"/><line x1="35" y1="18" x2="35" y2="24" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg>
               </div>
               <span style={{ fontSize: "22px", fontWeight: 700, color: C.text }}>tapa</span>
             </div>

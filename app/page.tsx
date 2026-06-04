@@ -43,7 +43,7 @@ function useAirportSearch(query: string) {
 }
 
 const Icon = {
-  Logo: () => (<svg width="20" height="20" viewBox="0 0 48 48" fill="none"><circle cx="13" cy="31" r="3" fill="white"/><path d="M16 31 Q24 12 37 17" stroke="white" stroke-width="2.5" fill="none" stroke-linecap="round"/><circle cx="37" cy="17" r="4.5" fill="white"/><circle cx="37" cy="17" r="2" fill="#E84855"/></svg>),
+  Logo: () => (<svg width="20" height="20" viewBox="0 0 48 48" fill="none"><circle cx="13" cy="18" r="4" fill="none" stroke="white" stroke-width="1.8"/><circle cx="13" cy="18" r="1.6" fill="white"/><line x1="13" y1="22" x2="13" y2="28" stroke="white" stroke-width="1.8" stroke-linecap="round"/><line x1="13" y1="26" x2="35" y2="16" stroke="white" stroke-width="1" stroke-dasharray="3 2.5" stroke-linecap="round"/><circle cx="35" cy="13" r="5" fill="white"/><circle cx="35" cy="13" r="2" fill="#E84855"/><line x1="35" y1="18" x2="35" y2="24" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg>),
   Arrow: () => (<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>),
   Swap: () => (<svg width="16" height="16" viewBox="0 0 48 48" fill="none"><path d="M7 16V4m0 0L3 8m4-4l4 4M17 8v12m0 0l4-4m-4 4l-4-4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>),
   Pin: () => (<svg width="15" height="15" viewBox="0 0 48 48" fill="none"><circle cx="12" cy="10" r="3" stroke={C.muted} strokeWidth="2"/><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" stroke={C.muted} strokeWidth="2"/></svg>),
