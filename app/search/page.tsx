@@ -198,7 +198,7 @@ function SearchPageInner() {
     const tCity = t.split(",")[0].trim();
     if (fCity) filtered = filtered.filter(c => cityOnly(c.from).includes(fCity));
     if (tCity) filtered = filtered.filter(c => cityOnly(c.to).includes(tCity));
-    if (date) filtered = filtered.filter(c => c.date.includes(date));
+    if (date) { const d = new Date(date + 'T00:00:00'); const formatted = d.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }); filtered = filtered.filter(c => c.date === formatted); }
     if (newVerified) filtered = filtered.filter(c => c.idVerified);
     if (newTop) filtered = filtered.filter(c => c.badge === "Top Carrier");
     if (newSort === "price_low") filtered.sort((a, b) => a.price - b.price);
