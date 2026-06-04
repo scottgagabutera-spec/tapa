@@ -193,9 +193,11 @@ function SearchPageInner() {
     let filtered = [...allCarriers];
     const f = (newFrom ?? from).toLowerCase().replace(/\s*\([^)]*\)/g, "").trim();
     const t = (newTo ?? to).toLowerCase().replace(/\s*\([^)]*\)/g, "").trim();
-    const clean = (s: string) => s.toLowerCase().replace(/\s*\([^)]*\)/g, "").trim();
-    if (f) filtered = filtered.filter(c => clean(c.from).includes(f.split(",")[0]) || clean(c.from).includes(f));
-    if (t) filtered = filtered.filter(c => clean(c.to).includes(t.split(",")[0]) || clean(c.to).includes(t));
+    const cityOnly = (s: string) => s.split(",")[0].toLowerCase().trim();
+    const fCity = f.split(",")[0].trim();
+    const tCity = t.split(",")[0].trim();
+    if (fCity) filtered = filtered.filter(c => cityOnly(c.from).includes(fCity));
+    if (tCity) filtered = filtered.filter(c => cityOnly(c.to).includes(tCity));
     if (date) filtered = filtered.filter(c => c.date.includes(date));
     if (newVerified) filtered = filtered.filter(c => c.idVerified);
     if (newTop) filtered = filtered.filter(c => c.badge === "Top Carrier");
