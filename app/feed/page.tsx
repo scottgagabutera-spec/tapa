@@ -101,7 +101,7 @@ export default function FeedPage() {
     const { data: { user } } = await supabase.auth.getUser();
     if (user) await supabase.from('profiles').update({ role: newRole }).eq('id', user.id);
     setRole(newRole);
-    router.push(newRole === 'carrier' ? '/dashboard/carrier' : '/dashboard/sender');
+    router.push('/dashboard');
   };
 
   const handleSignOut = async () => { await supabase.auth.signOut(); router.push('/'); };
@@ -195,13 +195,15 @@ export default function FeedPage() {
 
         {/* Route filters */}
         {posts.length > 0 && (
-          <div className="feed-filters" style={{ marginBottom: '20px' }}>
+          <div className="feed-filters-wrap">
+            <div className="feed-filters">
             {routeOptions.map(r => (
               <button key={r} onClick={() => setRouteFilter(r)}
                 style={{ padding: '7px 14px', background: routeFilter === r ? C.accentGlow : 'transparent', border: `1px solid ${routeFilter === r ? C.coral : C.border}`, borderRadius: '100px', color: routeFilter === r ? C.coral : C.muted, fontSize: '13px', fontWeight: '500', cursor: 'pointer', fontFamily: 'inherit', whiteSpace: 'nowrap', transition: 'all 0.2s', flexShrink: 0 }}>
                 {r}
               </button>
             ))}
+            </div>
           </div>
         )}
 
