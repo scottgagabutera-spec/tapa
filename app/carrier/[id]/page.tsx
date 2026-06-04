@@ -169,7 +169,7 @@ export default function CarrierProfilePage({ params }: { params: Promise<{ id: s
     bookBtn: { padding: '14px 32px', background: C.coral, border: 'none', borderRadius: '12px', color: C.text, fontSize: '16px', fontWeight: '700', cursor: 'pointer', fontFamily: 'inherit', transition: 'all 0.2s ease', boxShadow: '0 4px 20px rgba(232,72,85,0.35)' },
   };
 
-  if (!mounted || loading) {
+  if (!mounted) {
     return (
       <div style={{ ...s.page, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <div style={{ color: C.muted, fontFamily: "'Inter', sans-serif" }}>Loading...</div>
