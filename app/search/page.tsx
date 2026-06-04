@@ -120,7 +120,7 @@ function SearchPageInner() {
   const [to, setTo] = useState(searchParams.get("to") || "");
   const [date, setDate] = useState(searchParams.get("date") || "");
   const [weight, setWeight] = useState(searchParams.get("weight") || "");
-  const [searched, setSearched] = useState(false);
+  const [searched, setSearched] = useState(!!(searchParams.get("from") || searchParams.get("to")));
   const [loading, setLoading] = useState(false);
   const [sort, setSort] = useState<SortKey>("recommended");
   const [filterVerified, setFilterVerified] = useState(false);
