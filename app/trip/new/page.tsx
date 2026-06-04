@@ -45,6 +45,7 @@ function useAirportSearch(query: string) {
 
 function AirportField({ label, value, onChange }: { label: string; value: string; onChange: (v: string) => void }) {
   const [open, setOpen] = useState(false);
+  const [activeIndex, setActiveIndex] = useState(-1);
   const ref = useRef<HTMLDivElement>(null);
   const results = useAirportSearch(value);
   const inp: React.CSSProperties = { width: '100%', padding: '13px 16px', background: C.inputBg, border: `1px solid ${C.border}`, borderRadius: '12px', color: C.text, fontSize: '15px', fontFamily: 'inherit', outline: 'none', boxSizing: 'border-box', transition: 'border-color 0.2s' };
@@ -60,18 +61,25 @@ function AirportField({ label, value, onChange }: { label: string; value: string
     <div ref={ref} style={{ position: 'relative' }}>
       <label style={lbl}>{label}</label>
       <input value={value}
-        onChange={e => { onChange(e.target.value); setOpen(true); }}
+        onChange={e => { onChange(e.target.value); setOpen(true); setActiveIndex(-1); }}
         onFocus={e => { setOpen(true); e.target.style.borderColor = C.coral; }}
         onBlur={e => { e.target.style.borderColor = C.border; }}
+        onKeyDown={e => {
+          if (!open || results.length === 0) return;
+          if (e.key === 'ArrowDown') { e.preventDefault(); setActiveIndex(i => Math.min(i + 1, results.length - 1)); }
+          else if (e.key === 'ArrowUp') { e.preventDefault(); setActiveIndex(i => Math.max(i - 1, 0)); }
+          else if (e.key === 'Enter' && activeIndex >= 0) { e.preventDefault(); const a = results[activeIndex]; onChange(`${a.city}, ${a.country} (${a.iata})`); setOpen(false); setActiveIndex(-1); }
+          else if (e.key === 'Escape') { setOpen(false); setActiveIndex(-1); }
+        }}
         placeholder="City or country"
         style={inp} />
       {open && results.length > 0 && (
         <div style={{ position: 'absolute', top: 'calc(100% + 4px)', left: 0, right: 0, background: '#162738', border: `1px solid ${C.border}`, borderRadius: '12px', zIndex: 500, overflow: 'hidden', boxShadow: '0 12px 40px rgba(0,0,0,0.5)' }}>
-          {results.map(a => (
+          {results.map((a, idx) => (
             <button key={a.iata} onMouseDown={() => { onChange(`${a.city}, ${a.country} (${a.iata})`); setOpen(false); }}
-              style={{ width: '100%', textAlign: 'left', padding: '10px 14px', background: 'transparent', border: 'none', color: C.text, fontSize: '13px', cursor: 'pointer', fontFamily: 'inherit', display: 'flex', alignItems: 'center', gap: '10px' }}
-              onMouseEnter={e => (e.currentTarget.style.background = 'rgba(255,255,255,0.05)')}
-              onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}>
+              style={{ width: '100%', textAlign: 'left', padding: '10px 14px', background: idx === activeIndex ? 'rgba(232,72,85,0.1)' : 'transparent', border: 'none', color: C.text, fontSize: '13px', cursor: 'pointer', fontFamily: 'inherit', display: 'flex', alignItems: 'center', gap: '10px' }}
+              onMouseEnter={e => { setActiveIndex(idx); e.currentTarget.style.background = 'rgba(255,255,255,0.05)'; }}
+              onMouseLeave={e => { e.currentTarget.style.background = idx === activeIndex ? 'rgba(232,72,85,0.1)' : 'transparent'; }}>
               <span style={{ background: 'rgba(232,72,85,0.1)', border: '1px solid rgba(232,72,85,0.2)', color: C.coral, fontSize: '11px', fontWeight: 800, padding: '2px 7px', borderRadius: '6px', flexShrink: 0 }}>{a.iata}</span>
               <span><span style={{ fontWeight: 600 }}>{a.city}</span><span style={{ color: C.muted, marginLeft: '6px' }}>{a.country}</span></span>
               <span style={{ color: '#3D5166', fontSize: '11px', marginLeft: 'auto', flexShrink: 0 }}>{a.name.length > 24 ? a.name.slice(0, 24) + '…' : a.name}</span>
