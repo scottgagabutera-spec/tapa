@@ -300,83 +300,87 @@ export default function TapaLanding() {
           </div>
       </nav>
 
-      {/* HERO */}
-      <section style={{ padding: 'clamp(88px,12vh,120px) clamp(20px,5vw,48px) clamp(32px,4vw,48px)', position: 'relative', overflow: 'hidden' }}>
-        <div style={{ position: 'absolute', top: '-150px', left: '50%', transform: 'translateX(-50%)', width: '900px', height: '700px', borderRadius: '50%', background: 'radial-gradient(ellipse,rgba(232,72,85,0.06) 0%,transparent 68%)', pointerEvents: 'none' }} />
-        <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none', opacity: 0.025, backgroundImage: 'radial-gradient(circle,#F8F9FA 1px,transparent 1px)', backgroundSize: '36px 36px' }} />
+      {/* HERO — split layout */}
+      <section style={{ padding: 'clamp(80px,12vh,110px) clamp(20px,5vw,48px) clamp(28px,4vw,48px)', position: 'relative', overflow: 'hidden' }}>
+        <div style={{ position: 'absolute', top: '-200px', right: '-100px', width: '700px', height: '700px', borderRadius: '50%', background: 'radial-gradient(ellipse,rgba(232,72,85,0.05) 0%,transparent 65%)', pointerEvents: 'none' }} />
+        <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none', opacity: 0.02, backgroundImage: 'radial-gradient(circle,#F8F9FA 1px,transparent 1px)', backgroundSize: '36px 36px' }} />
         <div style={{ ...W, position: 'relative' }}>
-          <div style={{ display: 'inline-flex', alignItems: 'center', gap: '10px', background: C.greenBg, border: `1px solid ${C.greenBorder}`, borderRadius: '100px', padding: '8px 18px', marginBottom: '36px' }}>
-            <span style={{ width: '7px', height: '7px', borderRadius: '50%', background: C.green, boxShadow: `0 0 8px ${C.green}`, display: 'inline-block' }} />
-            <span style={{ fontSize: '13px', fontWeight: 600, color: C.green }}>Now open — peer-to-peer delivery across borders</span>
-          </div>
-          <h1 style={{ fontSize: 'clamp(28px,4.5vw,52px)', fontWeight: 800, lineHeight: 1.05, letterSpacing: 'clamp(-1px,-0.02em,-2px)', marginBottom: '16px', maxWidth: '680px' }}>
-            Your item.<br /><span style={{ color: C.coral }}>Their journey.</span><br />Delivered.
-          </h1>
-          <p style={{ fontSize: 'clamp(15px,1.8vw,18px)', color: C.muted, maxWidth: '480px', lineHeight: 1.7, marginBottom: '24px' }}>
-            Connect with real travelers going your way. Ship across borders faster, cheaper, and more personal than any courier.
-          </p>
+          <div className="hero-grid">
 
-          {/* SEARCH BOX */}
-          <div style={{ maxWidth: '860px', marginBottom: '16px' }}>
-            <div className="sbox">
-              <div className="sfields">
-                <AirportInput placeholder="From — city or IATA" value={from} onChange={setFrom} icon={<Icon.Pin />} />
-                <div className="sdiv" />
-                <div style={{ display: 'flex', alignItems: 'center', padding: '0 4px', flexShrink: 0 }}>
+            {/* LEFT */}
+            <div>
+              <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: C.greenBg, border: `1px solid ${C.greenBorder}`, borderRadius: '100px', padding: '6px 14px', marginBottom: '20px' }}>
+                <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: C.green, display: 'inline-block', flexShrink: 0 }} />
+                <span style={{ fontSize: '12px', fontWeight: 600, color: C.green }}>Now open — peer-to-peer delivery across borders</span>
+              </div>
+              <h1 style={{ fontSize: 'clamp(32px,4.5vw,60px)', fontWeight: 800, lineHeight: 1.03, letterSpacing: 'clamp(-1px,-0.02em,-2.5px)', marginBottom: '16px' }}>
+                Your item.<br /><span style={{ color: C.coral }}>Their journey.</span><br />Delivered.
+              </h1>
+              <p style={{ fontSize: 'clamp(14px,1.5vw,16px)', color: C.muted, lineHeight: 1.75, marginBottom: '28px', maxWidth: '400px' }}>
+                Connect with real travelers going your way. Ship across borders faster, cheaper, and more personal than any courier.
+              </p>
+              {!user && (
+                <div style={{ display: 'flex', alignItems: 'center', gap: '14px', flexWrap: 'wrap' }}>
+                  <button className="tb" style={{ background: 'transparent', color: C.coral, border: `1.5px solid rgba(232,72,85,0.4)`, padding: '9px 18px', borderRadius: '10px', fontFamily: 'inherit', fontSize: '13px', fontWeight: 600, cursor: 'pointer' }} onClick={() => router.push('/auth/signup?role=carrier')}>
+                    Become a Carrier
+                  </button>
+                  <span style={{ fontSize: '12px', color: '#3D5166' }}>Free to join. No subscription.</span>
+                </div>
+              )}
+            </div>
+
+            {/* RIGHT — search card */}
+            <div className="search-card">
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '10px' }}>
+                <div className="sfield-row" style={{ position: 'relative' }}>
+                  <span className="sfield-label">From</span>
+                  <AirportInput placeholder="City or airport" value={from} onChange={setFrom} />
+                </div>
+                <div style={{ display: 'flex', justifyContent: 'center', margin: '-2px 0' }}>
                   <button className="tb" onClick={() => { const t = from; setFrom(to); setTo(t); }}
-                    style={{ width: '32px', height: '32px', borderRadius: '8px', background: 'rgba(232,72,85,0.1)', border: `1px solid rgba(232,72,85,0.22)`, color: C.coral, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    style={{ width: '28px', height: '28px', borderRadius: '8px', background: 'rgba(232,72,85,0.1)', border: `1px solid rgba(232,72,85,0.25)`, color: C.coral, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                     <Icon.Swap />
                   </button>
                 </div>
-                <div className="sdiv" />
-                <AirportInput placeholder="To — city or IATA" value={to} onChange={setTo} icon={<Icon.Pin />} />
-                <div className="sdiv" />
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '0 14px', height: '56px', flexShrink: 0, width: '155px' }}>
-                  <span style={{ opacity: 0.5, flexShrink: 0 }}><Icon.Cal /></span>
-                  <input type="date" value={date} onChange={e => setDate(e.target.value)}
-                    style={{ flex: 1, background: 'transparent', border: 'none', outline: 'none', color: date ? C.text : '#3D5166', fontSize: '13px', fontFamily: 'inherit', minWidth: 0, cursor: 'pointer' }} />
+                <div className="sfield-row" style={{ position: 'relative' }}>
+                  <span className="sfield-label">To</span>
+                  <AirportInput placeholder="City or airport" value={to} onChange={setTo} />
                 </div>
-                <div className="sdiv" />
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '0 14px', height: '56px', flexShrink: 0, width: '130px' }}>
-                  <span style={{ opacity: 0.5, flexShrink: 0 }}><Icon.Wgt /></span>
-                  <input value={weight} onChange={e => setWeight(e.target.value)} placeholder="kg"
-                    style={{ flex: 1, background: 'transparent', border: 'none', outline: 'none', color: C.text, fontSize: '13px', fontFamily: 'inherit', minWidth: 0 }} />
+                <div className="sfield-row-half">
+                  <div className="sfield-row">
+                    <span className="sfield-label">Date</span>
+                    <input type="date" value={date} onChange={e => setDate(e.target.value)} className="sfield-input" style={{ colorScheme: 'dark' }} />
+                  </div>
+                  <div className="sfield-row">
+                    <span className="sfield-label">Weight</span>
+                    <input value={weight} onChange={e => setWeight(e.target.value)} placeholder="kg" className="sfield-input" />
+                  </div>
                 </div>
               </div>
-              <button className="tb sbtn" onClick={handleSearch}
-                style={{ background: `linear-gradient(135deg,${C.coral},${C.coralDark})`, color: '#fff', border: 'none', padding: '0 28px', height: '56px', borderRadius: '0 16px 16px 0', fontFamily: 'inherit', fontSize: '15px', fontWeight: 700, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px', whiteSpace: 'nowrap', flexShrink: 0 }}>
-                <Icon.Search /> Search
+              <button className="tb" onClick={handleSearch}
+                style={{ width: '100%', background: C.coral, color: '#fff', border: 'none', padding: '13px', borderRadius: '12px', fontFamily: 'inherit', fontSize: '15px', fontWeight: 700, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
+                <Icon.Search /> Search carriers
               </button>
+              <div style={{ display: 'flex', gap: '6px', marginTop: '10px', flexWrap: 'wrap', alignItems: 'center' }}>
+                <span style={{ fontSize: '11px', color: '#3D5166' }}>Popular:</span>
+                {[
+                  { f: 'Douala, Cameroon (DLA)', t: 'Paris, France (CDG)' },
+                  { f: 'Lagos, Nigeria (LOS)', t: 'London, United Kingdom (LHR)' },
+                  { f: 'Manila, Philippines (MNL)', t: 'Dubai, United Arab Emirates (DXB)' },
+                ].map(eg => (
+                  <button key={eg.f} onClick={() => { setFrom(eg.f); setTo(eg.t); }}
+                    style={{ background: 'rgba(255,255,255,0.04)', border: `1px solid ${C.border}`, color: C.muted, fontSize: '11px', padding: '3px 10px', borderRadius: '100px', cursor: 'pointer', fontFamily: 'inherit', transition: 'all 100ms' }}
+                    onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor = 'rgba(232,72,85,0.4)'; (e.currentTarget as HTMLElement).style.color = C.text; }}
+                    onMouseLeave={e => { (e.currentTarget as HTMLElement).style.borderColor = C.border; (e.currentTarget as HTMLElement).style.color = C.muted; }}>
+                    {eg.f.split(',')[0]} → {eg.t.split(',')[0]}
+                  </button>
+                ))}
+              </div>
             </div>
 
-            <div style={{ display: 'flex', gap: '8px', marginTop: '12px', flexWrap: 'wrap', alignItems: 'center' }}>
-              <span style={{ fontSize: '12px', color: '#3D5166' }}>Popular:</span>
-              {[
-                { f: 'Douala, Cameroon (DLA)', t: 'Paris, France (CDG)' },
-                { f: 'Lagos, Nigeria (LOS)', t: 'London, United Kingdom (LHR)' },
-                { f: 'Manila, Philippines (MNL)', t: 'Dubai, United Arab Emirates (DXB)' },
-              ].map(eg => (
-                <button key={eg.f} onClick={() => { setFrom(eg.f); setTo(eg.t); }}
-                  style={{ background: 'rgba(255,255,255,0.04)', border: `1px solid ${C.border}`, color: C.muted, fontSize: '12px', padding: '4px 12px', borderRadius: '100px', cursor: 'pointer', fontFamily: 'inherit', transition: 'all 150ms' }}
-                  onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor = 'rgba(232,72,85,0.35)'; (e.currentTarget as HTMLElement).style.color = C.text; }}
-                  onMouseLeave={e => { (e.currentTarget as HTMLElement).style.borderColor = C.border; (e.currentTarget as HTMLElement).style.color = C.muted; }}>
-                  {eg.f.split(',')[0]} → {eg.t.split(',')[0]}
-                </button>
-              ))}
-            </div>
           </div>
-
-          {!user && (
-            <div style={{ display: 'flex', alignItems: 'center', gap: '20px', flexWrap: 'wrap', marginTop: '12px' }}>
-              <button className="tb" style={{ background: 'transparent', color: C.coral, border: `1.5px solid rgba(232,72,85,0.35)`, padding: '11px 24px', borderRadius: '12px', fontFamily: 'inherit', fontSize: '14px', fontWeight: 600, cursor: 'pointer' }} onClick={() => router.push('/auth/signup?role=carrier')}>
-                Become a Carrier. Earn on your travels.
-              </button>
-              <span style={{ fontSize: '13px', color: '#3D5166' }}>No subscription. Free to join.</span>
-            </div>
-          )}
         </div>
       </section>
-
       {/* STATS — honest for a new product */}
       <section style={{ padding: '0 clamp(20px,5vw,48px) 40px' }}>
         <div style={W}>
