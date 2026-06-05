@@ -191,7 +191,7 @@ export default function TapaLanding() {
   };
 
   const W = { maxWidth: '1100px', margin: '0 auto', width: '100%' };
-  const S = { padding: 'clamp(48px, 7vw, 72px) clamp(20px, 5vw, 48px)' };
+  const S = { padding: 'clamp(28px,4vw,48px) clamp(20px,5vw,48px)' };
 
   return (
     <div style={{ fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, sans-serif", background: C.bg, color: C.text, minHeight: '100vh', overflowX: 'hidden' }}>
@@ -290,7 +290,7 @@ export default function TapaLanding() {
       </nav>
 
       {/* HERO */}
-      <section style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: 'clamp(110px,15vh,150px) clamp(20px,5vw,48px) 80px', position: 'relative', overflow: 'hidden' }}>
+      <section style={{ padding: 'clamp(88px,12vh,120px) clamp(20px,5vw,48px) clamp(32px,4vw,48px)', position: 'relative', overflow: 'hidden' }}>
         <div style={{ position: 'absolute', top: '-150px', left: '50%', transform: 'translateX(-50%)', width: '900px', height: '700px', borderRadius: '50%', background: 'radial-gradient(ellipse,rgba(232,72,85,0.06) 0%,transparent 68%)', pointerEvents: 'none' }} />
         <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none', opacity: 0.025, backgroundImage: 'radial-gradient(circle,#F8F9FA 1px,transparent 1px)', backgroundSize: '36px 36px' }} />
         <div style={{ ...W, position: 'relative' }}>
@@ -298,10 +298,10 @@ export default function TapaLanding() {
             <span style={{ width: '7px', height: '7px', borderRadius: '50%', background: C.green, boxShadow: `0 0 8px ${C.green}`, display: 'inline-block' }} />
             <span style={{ fontSize: '13px', fontWeight: 600, color: C.green }}>Now open — peer-to-peer delivery across borders</span>
           </div>
-          <h1 style={{ fontSize: 'clamp(38px,7.5vw,84px)', fontWeight: 800, lineHeight: 1.02, letterSpacing: 'clamp(-1.5px,-0.03em,-3px)', marginBottom: '20px', maxWidth: '860px' }}>
+          <h1 style={{ fontSize: 'clamp(28px,4.5vw,52px)', fontWeight: 800, lineHeight: 1.05, letterSpacing: 'clamp(-1px,-0.02em,-2px)', marginBottom: '16px', maxWidth: '680px' }}>
             Your item.<br /><span style={{ color: C.coral }}>Their journey.</span><br />Delivered.
           </h1>
-          <p style={{ fontSize: 'clamp(15px,1.8vw,18px)', color: C.muted, maxWidth: '480px', lineHeight: 1.8, marginBottom: '40px' }}>
+          <p style={{ fontSize: 'clamp(15px,1.8vw,18px)', color: C.muted, maxWidth: '480px', lineHeight: 1.7, marginBottom: '24px' }}>
             Connect with real travelers going your way. Ship anything across borders — faster, cheaper, and more human than any courier.
           </p>
 
@@ -367,13 +367,13 @@ export default function TapaLanding() {
       </section>
 
       {/* STATS — honest for a new product */}
-      <section style={{ padding: '0 clamp(20px,5vw,48px) 80px' }}>
+      <section style={{ padding: '0 clamp(20px,5vw,48px) 40px' }}>
         <div style={W}>
           <div className="tapa-stats" style={{ border: `1px solid ${C.border}`, borderRadius: '20px', overflow: 'hidden' }}>
             {[
-              { n: '195', l: 'Countries reachable' },
+              { n: 'Worldwide', l: 'Any destination' },
               { n: 'Up to 70%', l: 'Cheaper than couriers' },
-              { n: '6,072+', l: 'Airports in our network' },
+              { n: 'Global', l: 'Airport network' },
               { n: '100%', l: 'Escrow protected' },
             ].map((s, i) => (
               <div key={i} style={{ background: C.surface, padding: 'clamp(20px,3vw,36px) clamp(12px,2vw,24px)', textAlign: 'center', borderRight: i < 3 ? `1px solid ${C.border}` : 'none' }}>
@@ -388,7 +388,7 @@ export default function TapaLanding() {
       {/* HOW IT WORKS */}
       <section style={S}>
         <div style={W}>
-          <div style={{ textAlign: 'center', marginBottom: '64px' }}>
+          <div style={{ textAlign: 'center', marginBottom: '28px' }}>
             <SL text="Simple process" />
             <h2 style={{ fontSize: 'clamp(26px,4vw,46px)', fontWeight: 800, letterSpacing: '-1px' }}>How Tapa works</h2>
           </div>
@@ -423,7 +423,7 @@ export default function TapaLanding() {
               <div>
                 <SL text="Key innovation" />
                 <h2 style={{ fontSize: 'clamp(24px,3.5vw,42px)', fontWeight: 800, letterSpacing: '-1px', lineHeight: 1.1, marginBottom: '20px' }}>No direct route?<br />No problem.</h2>
-                <p style={{ color: C.muted, fontSize: '15px', lineHeight: 1.8, marginBottom: '32px' }}>Like a flight with a layover, Tapa chains two carriers together. No one flies Zürich to Manila directly — but two travelers can make it happen, fully coordinated through the platform.</p>
+                <p style={{ color: C.muted, fontSize: '15px', lineHeight: 1.8, marginBottom: '32px' }}>No direct route? Two carriers, one seamless handoff. Coordinated through Tapa.</p>
                 <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
                   {['Automated matching', 'Secure handoff', 'Full tracking'].map(tag => (
                     <span key={tag} style={{ background: 'rgba(232,72,85,0.08)', border: `1px solid rgba(232,72,85,0.22)`, color: '#F9A8B0', fontSize: '12px', fontWeight: 600, padding: '6px 14px', borderRadius: '100px' }}>{tag}</span>
@@ -474,12 +474,12 @@ export default function TapaLanding() {
             <p style={{ color: C.muted, fontSize: '15px', marginTop: '14px', maxWidth: '440px', margin: '14px auto 0', lineHeight: 1.7 }}>Every feature designed with consistency, trust, and scale in mind.</p>
           </div>
           <div className="tapa-feat">
-            <FCard icon={<Icon.Savings />} title="Up to 70% cheaper" desc="Real travelers with spare luggage space beat couriers on price — every time." />
-            <FCard icon={<Icon.Shield />} title="Escrow protection" desc="Payments are held securely until delivery is confirmed. Zero risk on both sides." />
-            <FCard icon={<Icon.MapPin />} title="Real-time tracking" desc="Know exactly where your item is at every step of the journey." />
-            <FCard icon={<Icon.Verify />} title="Verified carriers" desc="Every carrier completes identity verification before they can carry items." />
-            <FCard icon={<Icon.Globe />} title="Any route worldwide" desc="If someone flies it, Tapa covers it. 195 countries, any direction." />
-            <FCard icon={<Icon.Camera />} title="Photo proof" desc="Full photo documentation at pickup and delivery — complete accountability." />
+            <FCard icon={<Icon.Savings />} title="Up to 70% cheaper" desc="Travelers with spare space beat courier prices every time." />
+            <FCard icon={<Icon.Shield />} title="Escrow protection" desc="Funds held until delivery confirmed. Zero risk on both sides." />
+            <FCard icon={<Icon.MapPin />} title="Real-time tracking" desc="Know where your item is at every step." />
+            <FCard icon={<Icon.Verify />} title="Verified carriers" desc="Every carrier is identity verified before carrying." />
+            <FCard icon={<Icon.Globe />} title="Any route worldwide" desc="If someone flies it, Tapa covers it. Any route, any direction." />
+            <FCard icon={<Icon.Camera />} title="Photo proof" desc="Photo proof at pickup and delivery." />
           </div>
         </div>
       </section>
@@ -517,9 +517,8 @@ export default function TapaLanding() {
         <div style={W}>
           <div style={{ background: `linear-gradient(140deg,${C.coral},${C.coralDark})`, borderRadius: '28px', padding: 'clamp(40px,6vw,80px) clamp(24px,5vw,80px)', textAlign: 'center', position: 'relative', overflow: 'hidden', boxShadow: '0 24px 80px rgba(232,72,85,0.28)' }}>
             <div style={{ position: 'absolute', top: '-80px', right: '-80px', width: '320px', height: '320px', borderRadius: '50%', background: 'rgba(255,255,255,0.06)', pointerEvents: 'none' }} />
-            <p style={{ color: 'rgba(255,255,255,0.7)', fontWeight: 700, fontSize: '11px', letterSpacing: '3px', textTransform: 'uppercase' as const, marginBottom: '16px' }}>Be an early mover</p>
-            <h2 style={{ fontSize: 'clamp(28px,5vw,56px)', fontWeight: 800, letterSpacing: '-1.5px', color: '#fff', marginBottom: '16px', lineHeight: 1.05 }}>Ready to ship smarter?</h2>
-            <p style={{ fontSize: 'clamp(14px,2vw,17px)', color: 'rgba(255,255,255,0.72)', maxWidth: '420px', margin: '0 auto 44px', lineHeight: 1.75 }}>Join now and be among the first to ship across borders the human way.</p>
+            <h2 style={{ fontSize: 'clamp(24px,4vw,48px)', fontWeight: 800, letterSpacing: '-1.5px', color: '#fff', marginBottom: '12px', lineHeight: 1.05 }}>Ship smarter.</h2>
+            <p style={{ fontSize: 'clamp(14px,2vw,16px)', color: 'rgba(255,255,255,0.72)', maxWidth: '380px', margin: '0 auto 32px', lineHeight: 1.7 }}>Real travelers. Real savings. No courier fees.</p>
             <div className="tapa-cta">
               <button className="tb" style={{ background: '#fff', color: C.coral, border: 'none', padding: 'clamp(14px,2vw,17px) clamp(28px,4vw,40px)', borderRadius: '12px', fontSize: 'clamp(14px,2vw,16px)', fontWeight: 700, cursor: 'pointer', boxShadow: '0 4px 20px rgba(0,0,0,0.12)', fontFamily: 'inherit', display: 'inline-flex', alignItems: 'center', gap: '8px' }} onClick={() => router.push('/search')}>
                 Find a Carrier <Icon.Arrow />
