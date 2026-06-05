@@ -254,6 +254,14 @@ export default function Dashboard() {
     load();
   }, []);
 
+  // Reactive auth state
+  useEffect(() => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_e, session) => {
+      if (!session) { setNotLoggedIn && setNotLoggedIn(true); }
+    });
+    return () => subscription.unsubscribe();
+  }, []);
+
   useEffect(() => {
     const handler = (e: MouseEvent) => { if (menuRef.current && !menuRef.current.contains(e.target as Node)) setMenuOpen(false); };
     document.addEventListener('mousedown', handler);

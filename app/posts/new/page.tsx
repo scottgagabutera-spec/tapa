@@ -52,6 +52,14 @@ export default function PostsNew() {
   const [note, setNote] = useState('');
 
   useEffect(() => { setMounted(true); }, []);
+
+  // Reactive auth state
+  useEffect(() => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_e, session) => {
+      if (!session) { router.push(`/auth/login?redirectTo=${encodeURIComponent(window.location.pathname)}`); }
+    });
+    return () => subscription.unsubscribe();
+  }, []);
   if (!mounted) return (<div style={{ minHeight: "100vh", background: "#0D1B2A" }} />);
 
   const handlePost = async () => {

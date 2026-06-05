@@ -111,6 +111,14 @@ export default function TripNewPage() {
 
   useEffect(() => { setMounted(true); }, []);
 
+  // Reactive auth state
+  useEffect(() => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_e, session) => {
+      if (!session) { router.push(`/auth/login?redirectTo=${encodeURIComponent(window.location.pathname)}`); }
+    });
+    return () => subscription.unsubscribe();
+  }, []);
+
   const toggleType = (t: string) => setAcceptedTypes(prev => prev.includes(t) ? prev.filter(x => x !== t) : [...prev, t]);
   const step1Valid = from.length > 3 && to.length > 3 && date && airline && flightNo;
   const step2Valid = capacity && price && parseFloat(price) > 0 && acceptedTypes.length > 0;
