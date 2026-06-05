@@ -149,6 +149,9 @@ export default function TapaLanding() {
     return () => window.removeEventListener('scroll', fn);
   }, []);
 
+  // Preload airports on mount for instant search
+  useEffect(() => { loadAirports(); }, []);
+
   // Load signed-in user
   useEffect(() => {
     const load = async () => {
@@ -199,7 +202,7 @@ export default function TapaLanding() {
         * { box-sizing: border-box; margin: 0; padding: 0; }
         input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(0.6); cursor: pointer; }
         input::placeholder { color: #3D5166; }
-        .tb { transition: transform 120ms ease, filter 120ms ease; }
+        .tb { transition: transform 60ms ease, filter 60ms ease; }
         .tb:active { transform: scale(0.96) !important; filter: brightness(0.88) !important; }
         .tapa-stats { display: grid; grid-template-columns: repeat(4,1fr); }
         .tapa-how { display: grid; grid-template-columns: repeat(auto-fit,minmax(300px,1fr)); gap: 24px; }
@@ -302,14 +305,14 @@ export default function TapaLanding() {
             Your item.<br /><span style={{ color: C.coral }}>Their journey.</span><br />Delivered.
           </h1>
           <p style={{ fontSize: 'clamp(15px,1.8vw,18px)', color: C.muted, maxWidth: '480px', lineHeight: 1.7, marginBottom: '24px' }}>
-            Connect with real travelers going your way. Ship anything across borders — faster, cheaper, and more human than any courier.
+            Connect with real travelers going your way. Ship across borders faster, cheaper, and more personal than any courier.
           </p>
 
           {/* SEARCH BOX */}
           <div style={{ maxWidth: '860px', marginBottom: '16px' }}>
             <div className="sbox">
               <div className="sfields">
-                <AirportInput placeholder="From — city, country or IATA" value={from} onChange={setFrom} icon={<Icon.Pin />} />
+                <AirportInput placeholder="From — city or IATA" value={from} onChange={setFrom} icon={<Icon.Pin />} />
                 <div className="sdiv" />
                 <div style={{ display: 'flex', alignItems: 'center', padding: '0 4px', flexShrink: 0 }}>
                   <button className="tb" onClick={() => { const t = from; setFrom(to); setTo(t); }}
@@ -318,7 +321,7 @@ export default function TapaLanding() {
                   </button>
                 </div>
                 <div className="sdiv" />
-                <AirportInput placeholder="To — city, country or IATA" value={to} onChange={setTo} icon={<Icon.Pin />} />
+                <AirportInput placeholder="To — city or IATA" value={to} onChange={setTo} icon={<Icon.Pin />} />
                 <div className="sdiv" />
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '0 14px', height: '56px', flexShrink: 0, width: '155px' }}>
                   <span style={{ opacity: 0.5, flexShrink: 0 }}><Icon.Cal /></span>
@@ -358,7 +361,7 @@ export default function TapaLanding() {
           {!user && (
             <div style={{ display: 'flex', alignItems: 'center', gap: '20px', flexWrap: 'wrap', marginTop: '12px' }}>
               <button className="tb" style={{ background: 'transparent', color: C.coral, border: `1.5px solid rgba(232,72,85,0.35)`, padding: '11px 24px', borderRadius: '12px', fontFamily: 'inherit', fontSize: '14px', fontWeight: 600, cursor: 'pointer' }} onClick={() => router.push('/auth/signup?role=carrier')}>
-                Become a Carrier — earn on your travels
+                Become a Carrier. Earn on your travels.
               </button>
               <span style={{ fontSize: '13px', color: '#3D5166' }}>No subscription. Free to join.</span>
             </div>
@@ -389,7 +392,6 @@ export default function TapaLanding() {
       <section style={S}>
         <div style={W}>
           <div style={{ textAlign: 'center', marginBottom: '28px' }}>
-            <SL text="Simple process" />
             <h2 style={{ fontSize: 'clamp(26px,4vw,46px)', fontWeight: 800, letterSpacing: '-1px' }}>How Tapa works</h2>
           </div>
           <div className="tapa-how">
@@ -421,9 +423,8 @@ export default function TapaLanding() {
             <div style={{ position: 'absolute', top: 0, right: 0, width: '400px', height: '400px', background: 'radial-gradient(circle at top right,rgba(232,72,85,0.05),transparent 65%)', pointerEvents: 'none' }} />
             <div className="tapa-conn">
               <div>
-                <SL text="Key innovation" />
                 <h2 style={{ fontSize: 'clamp(24px,3.5vw,42px)', fontWeight: 800, letterSpacing: '-1px', lineHeight: 1.1, marginBottom: '20px' }}>No direct route?<br />No problem.</h2>
-                <p style={{ color: C.muted, fontSize: '15px', lineHeight: 1.8, marginBottom: '32px' }}>No direct route? Two carriers, one seamless handoff. Coordinated through Tapa.</p>
+                <p style={{ color: C.muted, fontSize: '15px', lineHeight: 1.8, marginBottom: '32px' }}>No direct route? Two carriers, one handoff. Fully coordinated through Tapa.</p>
                 <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
                   {['Automated matching', 'Secure handoff', 'Full tracking'].map(tag => (
                     <span key={tag} style={{ background: 'rgba(232,72,85,0.08)', border: `1px solid rgba(232,72,85,0.22)`, color: '#F9A8B0', fontSize: '12px', fontWeight: 600, padding: '6px 14px', borderRadius: '100px' }}>{tag}</span>
@@ -469,9 +470,8 @@ export default function TapaLanding() {
       <section style={S}>
         <div style={W}>
           <div style={{ textAlign: 'center', marginBottom: '60px' }}>
-            <SL text="Why Tapa" />
             <h2 style={{ fontSize: 'clamp(26px,4vw,46px)', fontWeight: 800, letterSpacing: '-1px' }}>Built for the long term</h2>
-            <p style={{ color: C.muted, fontSize: '15px', marginTop: '14px', maxWidth: '440px', margin: '14px auto 0', lineHeight: 1.7 }}>Every feature designed with consistency, trust, and scale in mind.</p>
+            
           </div>
           <div className="tapa-feat">
             <FCard icon={<Icon.Savings />} title="Up to 70% cheaper" desc="Travelers with spare space beat courier prices every time." />
@@ -488,7 +488,6 @@ export default function TapaLanding() {
       <section style={{ ...S, background: 'rgba(255,255,255,0.01)' }}>
         <div style={W}>
           <div style={{ textAlign: 'center', marginBottom: '60px' }}>
-            <SL text="What you can send" />
             <h2 style={{ fontSize: 'clamp(26px,4vw,46px)', fontWeight: 800, letterSpacing: '-1px' }}>Any item. Any route.</h2>
             <p style={{ color: C.muted, fontSize: '15px', marginTop: '14px', maxWidth: '440px', margin: '14px auto 0', lineHeight: 1.7 }}>If a traveler is going there, your item can go with them.</p>
           </div>
