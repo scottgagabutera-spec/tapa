@@ -21,6 +21,8 @@ export default function SignupPage() {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
+  const searchParams = typeof window !== 'undefined' ? new URLSearchParams(window.location.search) : null;
+  const redirectTo = searchParams?.get('redirectTo') || null;
   const [error, setError] = useState("");
   const [emailSent, setEmailSent] = useState(false);
   const [mounted, setMounted] = useState(false);
@@ -31,6 +33,7 @@ export default function SignupPage() {
   const handleGoogleSignup = async () => {
     setGoogleLoading(true);
     setError("");
+    if (redirectTo) localStorage.setItem('tapa_redirect', redirectTo);
     const { error } = await supabase.auth.signInWithOAuth({
       provider: "google",
       options: {
@@ -68,7 +71,7 @@ export default function SignupPage() {
       if (user) {
         await supabase.from("profiles").update({ role }).eq("id", user.id);
       }
-      router.push("/dashboard");
+      router.push(redirectTo || "/dashboard");
     } catch (err: any) {
       setError(err.message || "Something went wrong.");
     } finally {
@@ -105,7 +108,7 @@ export default function SignupPage() {
           </div>
           <span style={{ fontSize: "20px", fontWeight: 700, color: C.text, letterSpacing: "-0.5px" }}>tapa</span>
         </a>
-        <a href="/auth/login" className="tb" style={{ padding: "8px 20px", background: "transparent", border: `1px solid ${C.border}`, borderRadius: "10px", color: C.text, fontSize: "14px", fontWeight: 500, textDecoration: "none", display: "inline-block" }}>Sign in</a>
+        <a href={redirectTo ? `/auth/login?redirectTo=${encodeURIComponent(redirectTo)}` : "/auth/login"} className="tb" style={{ padding: "8px 20px", background: "transparent", border: `1px solid ${C.border}`, borderRadius: "10px", color: C.text, fontSize: "14px", fontWeight: 500, textDecoration: "none", display: "inline-block" }}>Sign in</a>
       </nav>
 
       <div style={{ position: "absolute", top: "-100px", left: "50%", transform: "translateX(-50%)", width: "700px", height: "600px", background: `radial-gradient(circle, ${C.accentGlow} 0%, transparent 70%)`, pointerEvents: "none", zIndex: 0 }} />
@@ -152,7 +155,7 @@ export default function SignupPage() {
           {emailSent ? (
             <>
               <div style={{ background: C.greenSoft, border: "1px solid rgba(45,158,107,0.3)", borderRadius: "10px", padding: "12px 14px", fontSize: "13px", color: C.green, marginBottom: "14px", textAlign: "center", fontWeight: 600 }}>✓ Account created — confirmation email sent</div>
-              <button className="tb" style={{ width: "100%", padding: "14px", background: C.accent, border: "none", borderRadius: "12px", color: C.text, fontSize: "15px", fontWeight: 700, cursor: "pointer", fontFamily: "inherit" }} onClick={() => router.push("/auth/login")}>Go to Sign In</button>
+              <button className="tb" style={{ width: "100%", padding: "14px", background: C.accent, border: "none", borderRadius: "12px", color: C.text, fontSize: "15px", fontWeight: 700, cursor: "pointer", fontFamily: "inherit" }} onClick={() => router.push(redirectTo ? `/auth/login?redirectTo=${encodeURIComponent(redirectTo)}` : "/auth/login")}>Go to Sign In</button>
               <p style={{ textAlign: "center", marginTop: "16px", fontSize: "14px", color: C.muted }}>Didn't get it? <span style={{ color: C.accent, fontWeight: 600, cursor: "pointer" }} onClick={handleCreateAccount}>Resend</span></p>
             </>
           ) : step === 1 ? (
@@ -190,7 +193,7 @@ export default function SignupPage() {
               </button>
 
               <p style={{ textAlign: "center", marginTop: "20px", fontSize: "14px", color: C.muted }}>
-                Already have an account?{" "}<a href="/auth/login" style={{ color: C.accent, fontWeight: 600, textDecoration: "none" }}>Sign in</a>
+                Already have an account?{" "}<a href={redirectTo ? `/auth/login?redirectTo=${encodeURIComponent(redirectTo)}` : "/auth/login"} style={{ color: C.accent, fontWeight: 600, textDecoration: "none" }}>Sign in</a>
               </p>
             </>
           ) : (

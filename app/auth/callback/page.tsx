@@ -25,7 +25,9 @@ export default function AuthCallback() {
           });
         }
         // Always go to unified dashboard — no role-based routing
-        router.push("/dashboard");
+        const redirectTo = typeof window !== 'undefined' ? localStorage.getItem('tapa_redirect') : null;
+        if (redirectTo) localStorage.removeItem('tapa_redirect');
+        router.push(redirectTo || "/dashboard");
       } else {
         router.push("/auth/login");
       }

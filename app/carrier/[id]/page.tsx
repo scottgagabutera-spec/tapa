@@ -204,7 +204,7 @@ export default function CarrierProfilePage({ params }: { params: Promise<{ id: s
           </div>
           <span style={{ fontSize: '20px', fontWeight: '700', color: C.text, letterSpacing: '-0.5px' }}>tapa</span>
         </div>
-        <button onClick={() => router.push('/auth/login')} style={{ padding: '8px 20px', background: 'transparent', border: `1px solid ${C.border}`, borderRadius: '10px', color: C.text, fontSize: '14px', fontWeight: '500', cursor: 'pointer', fontFamily: 'inherit' }}>
+        <button onClick={() => router.push(`/auth/login?redirectTo=${encodeURIComponent(window.location.pathname)}`)} style={{ padding: '8px 20px', background: 'transparent', border: `1px solid ${C.border}`, borderRadius: '10px', color: C.text, fontSize: '14px', fontWeight: '500', cursor: 'pointer', fontFamily: 'inherit' }}>
           Sign in
         </button>
       </nav>

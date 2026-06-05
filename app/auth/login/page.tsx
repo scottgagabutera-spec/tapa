@@ -16,6 +16,8 @@ export default function LoginPage() {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
+  const searchParams = typeof window !== 'undefined' ? new URLSearchParams(window.location.search) : null;
+  const redirectTo = searchParams?.get('redirectTo') || null;
   const [error, setError] = useState("");
   const [scrolled, setScrolled] = useState(false);
   const [showEmailForm, setShowEmailForm] = useState(false);
@@ -31,6 +33,7 @@ export default function LoginPage() {
   const handleGoogleLogin = async () => {
     setGoogleLoading(true);
     setError("");
+    if (redirectTo) localStorage.setItem('tapa_redirect', redirectTo);
     const { error } = await supabase.auth.signInWithOAuth({
       provider: "google",
       options: {
@@ -52,7 +55,7 @@ export default function LoginPage() {
       if (signInError) throw signInError;
       if (data.user) {
         const { data: profile } = await supabase.from("profiles").select("role").eq("id", data.user.id).single();
-        router.push(profile?.role === "carrier" ? "/dashboard/carrier" : "/dashboard/sender");
+        router.push(redirectTo || (profile?.role === "carrier" ? "/dashboard/carrier" : "/dashboard/sender"));
       }
     } catch (err: any) {
       setError(err.message || "Invalid email or password");
@@ -79,7 +82,7 @@ export default function LoginPage() {
           </div>
           <span style={{ fontSize: "20px", fontWeight: 700, color: C.text, letterSpacing: "-0.5px" }}>tapa</span>
         </a>
-        <a href="/auth/signup" className="tb" style={{ padding: "8px 20px", background: "transparent", border: `1px solid ${C.border}`, borderRadius: "10px", color: C.text, fontSize: "14px", fontWeight: 500, textDecoration: "none", display: "inline-block" }}>Create account</a>
+        <a href={redirectTo ? `/auth/signup?redirectTo=${encodeURIComponent(redirectTo)}` : "/auth/signup"} className="tb" style={{ padding: "8px 20px", background: "transparent", border: `1px solid ${C.border}`, borderRadius: "10px", color: C.text, fontSize: "14px", fontWeight: 500, textDecoration: "none", display: "inline-block" }}>Create account</a>
       </nav>
 
       <div style={{ position: "absolute", top: "-100px", left: "50%", transform: "translateX(-50%)", width: "600px", height: "600px", background: `radial-gradient(circle, ${C.accentGlow} 0%, transparent 70%)`, pointerEvents: "none", zIndex: 0 }} />
@@ -145,7 +148,7 @@ export default function LoginPage() {
           )}
 
           <p style={{ textAlign: "center", marginTop: "24px", fontSize: "14px", color: C.muted }}>
-            Don't have an account?{" "}<a href="/auth/signup" style={{ color: C.accent, fontWeight: 600, textDecoration: "none" }}>Sign up</a>
+            Don't have an account?{" "}<a href={redirectTo ? `/auth/signup?redirectTo=${encodeURIComponent(redirectTo)}` : "/auth/signup"} style={{ color: C.accent, fontWeight: 600, textDecoration: "none" }}>Sign up</a>
           </p>
         </div>
       </main>

@@ -256,8 +256,8 @@ function SearchPageInner() {
           <span style={{ fontSize: "19px", fontWeight: 700, color: C.text, letterSpacing: "-0.5px" }}>tapa</span>
         </a>
         <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
-          <a href="/auth/login" className="tb" style={{ padding: "7px 14px", background: "transparent", border: `1px solid ${C.border}`, borderRadius: "9px", color: C.muted, fontSize: "13px", fontWeight: 500, textDecoration: "none", display: "inline-block" }}>Sign in</a>
-          <a href="/auth/signup" className="tb" style={{ padding: "7px 14px", background: C.accent, borderRadius: "9px", color: C.white, fontSize: "13px", fontWeight: 600, textDecoration: "none", display: "inline-block", boxShadow: `0 4px 12px ${C.accentGlow}` }}>Get Started</a>
+          <a href={`/auth/login?redirectTo=${encodeURIComponent(window.location.href)}`} className="tb" style={{ padding: "7px 14px", background: "transparent", border: `1px solid ${C.border}`, borderRadius: "9px", color: C.muted, fontSize: "13px", fontWeight: 500, textDecoration: "none", display: "inline-block" }}>Sign in</a>
+          <a href={`/auth/signup?redirectTo=${encodeURIComponent(window.location.href)}`} className="tb" style={{ padding: "7px 14px", background: C.accent, borderRadius: "9px", color: C.white, fontSize: "13px", fontWeight: 600, textDecoration: "none", display: "inline-block", boxShadow: `0 4px 12px ${C.accentGlow}` }}>Get Started</a>
         </div>
       </nav>
 
@@ -364,7 +364,7 @@ function SearchPageInner() {
                   <div key={carrier.id}
                     style={{ background: hoveredCard === carrier.id ? C.surfaceHover : C.surface, border: `1px solid ${hoveredCard === carrier.id ? C.borderHover : C.border}`, borderRadius: "16px", padding: "clamp(14px,2.5vw,20px) clamp(16px,3vw,24px)", cursor: "pointer", transition: "background 150ms ease, border-color 150ms ease, transform 150ms ease", transform: hoveredCard === carrier.id ? "translateY(-2px)" : "none", touchAction: "manipulation" }}
                     onMouseEnter={() => setHoveredCard(carrier.id)} onMouseLeave={() => setHoveredCard(null)}
-                    onClick={() => user ? router.push(`/carrier/${carrier.id}`) : router.push("/auth/signup")}>
+                    onClick={() => user ? router.push(`/carrier/${carrier.id}`) : router.push(`/auth/signup?redirectTo=${encodeURIComponent('/carrier/' + carrier.id)}`)}>
                     <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
                       <div style={{ width: "48px", height: "48px", borderRadius: "12px", background: showAvatar ? carrier.avatarColor : C.border, display: "flex", alignItems: "center", justifyContent: "center", fontSize: "15px", fontWeight: 700, color: C.white, flexShrink: 0, position: "relative", filter: isGuest ? "blur(4px)" : "none", userSelect: "none" as const }}>
                         {showAvatar ? carrier.avatar : "??"}
@@ -403,7 +403,7 @@ function SearchPageInner() {
                         <div style={{ fontSize: "12px", color: C.muted }}>
                           {carrier.rating > 0 ? <><Stars rating={carrier.rating} /> {carrier.rating} ({carrier.trips})</> : "New carrier"}
                         </div>
-                        <button className="tb" onClick={e => { e.stopPropagation(); user ? router.push(`/carrier/${carrier.id}`) : router.push("/auth/signup"); }}
+                        <button className="tb" onClick={e => { e.stopPropagation(); user ? router.push(`/carrier/${carrier.id}`) : router.push(`/auth/signup?redirectTo=${encodeURIComponent('/carrier/' + carrier.id)}`); }}
                           style={{ padding: "10px 20px", background: C.accent, border: "none", borderRadius: "10px", color: C.white, fontSize: "13px", fontWeight: 700, cursor: "pointer", fontFamily: "inherit", touchAction: "manipulation", whiteSpace: "nowrap" }}>
                           {user ? "View & Book" : "Sign in to Book"}
                         </button>
@@ -412,7 +412,7 @@ function SearchPageInner() {
                     {isGuest && (
                       <div style={{ marginTop: "12px", padding: "10px 14px", background: "rgba(232,72,85,0.06)", border: `1px solid rgba(232,72,85,0.15)`, borderRadius: "10px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: "12px", flexWrap: "wrap" }}>
                         <span style={{ fontSize: "13px", color: C.muted }}>Create a free account to see carrier details and book.</span>
-                        <button onClick={e => { e.stopPropagation(); router.push("/auth/signup"); }} style={{ background: C.accent, color: C.white, border: "none", padding: "7px 16px", borderRadius: "8px", fontSize: "13px", fontWeight: 700, cursor: "pointer", fontFamily: "inherit", touchAction: "manipulation", whiteSpace: "nowrap" }}>Get Started</button>
+                        <button onClick={e => { e.stopPropagation(); router.push(`/auth/signup?redirectTo=${encodeURIComponent(window.location.href)}`); }} style={{ background: C.accent, color: C.white, border: "none", padding: "7px 16px", borderRadius: "8px", fontSize: "13px", fontWeight: 700, cursor: "pointer", fontFamily: "inherit", touchAction: "manipulation", whiteSpace: "nowrap" }}>Get Started</button>
                       </div>
                     )}
                   </div>

@@ -119,7 +119,7 @@ export default function TripNewPage() {
     setLoading(true); setError('');
     try {
       const { data: { user } } = await supabase.auth.getUser();
-      if (!user) { router.push('/auth/login'); return; }
+      if (!user) { router.push(`/auth/login?redirectTo=/trip/new`); return; }
       const { error: insertError } = await supabase.from('trips').insert({
         carrier_id: user.id,
         from_city: from,
