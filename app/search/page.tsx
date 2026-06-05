@@ -265,7 +265,7 @@ function SearchPageInner() {
       <div style={{ paddingTop: "64px", background: `linear-gradient(180deg, #0A1520 0%, ${C.bg} 100%)`, borderBottom: `1px solid ${C.border}` }}>
         <div style={{ maxWidth: "960px", margin: "0 auto", padding: "32px clamp(16px,4vw,24px) 28px" }}>
           <h1 style={{ fontSize: "clamp(22px,4vw,28px)", fontWeight: 700, color: C.text, marginBottom: "6px", letterSpacing: "-0.5px" }}>Find a Carrier</h1>
-          <p style={{ fontSize: "14px", color: C.muted, marginBottom: "20px" }}>Real travelers going your way — verified, rated, trusted.</p>
+          <p style={{ fontSize: "14px", color: C.muted, marginBottom: "20px" }}>Verified travelers going your way. Rated and trusted.</p>
           <div className="sbar" style={{ background: C.surface, border: `1px solid ${C.border}`, borderRadius: "16px", overflow: "visible" }}>
             <AirportInput label="From" placeholder="City, country or IATA" value={from} onChange={setFrom} />
             <AirportInput label="To" placeholder="City, country or IATA" value={to} onChange={setTo} />
@@ -395,9 +395,7 @@ function SearchPageInner() {
                           <span style={{ fontSize: "13px", color: C.muted }}>/{carrier.perUnit}</span>
                         </div>
                         <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
-                          <Stars rating={carrier.rating} />
-                          <span style={{ fontSize: "13px", fontWeight: 600, color: C.text }}>{carrier.rating || "—"}</span>
-                          <span style={{ fontSize: "12px", color: C.muted }}>({carrier.trips})</span>
+                          {carrier.rating > 0 ? (<><Stars rating={carrier.rating} /><span style={{ fontSize: "13px", fontWeight: 600, color: C.text, marginLeft: "4px" }}>{carrier.rating}</span><span style={{ fontSize: "12px", color: C.muted, marginLeft: "2px" }}>({carrier.trips})</span></>) : (<span style={{ fontSize: "12px", color: C.muted }}>New carrier</span>)}
                         </div>
                         <div style={{ fontSize: "12px", color: C.muted }}>{carrier.capacity} available</div>
                         <button className="tb" onClick={e => { e.stopPropagation(); router.push(`/carrier/${carrier.id}`); }}
