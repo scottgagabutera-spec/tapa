@@ -153,7 +153,7 @@ export default function FeedPage() {
           </div>
           {currentUserId ? (
             <div ref={menuRef} style={{ position: 'relative' }}>
-              <button onClick={() => setMenuOpen(v => !v)} style={{ width: '36px', height: '36px', borderRadius: '50%', background: C.coral, border: `2px solid ${menuOpen ? C.text : 'transparent'}`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '12px', fontWeight: '700', color: '#fff', cursor: 'pointer', fontFamily: 'inherit' }}>
+              <button onClick={() => setMenuOpen(v => !v)} style={{ width: '44px', height: '44px', borderRadius: '50%', background: C.coral, border: `2px solid ${menuOpen ? C.text : 'transparent'}`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '12px', fontWeight: '700', color: '#fff', cursor: 'pointer', fontFamily: 'inherit' }}>
                 {userInitials}
               </button>
               {menuOpen && (
@@ -310,7 +310,7 @@ export default function FeedPage() {
           <div style={{ marginTop: '24px', background: C.surface, border: `1px solid ${C.border}`, borderRadius: '16px', padding: '24px', textAlign: 'center' }}>
             <div style={{ fontWeight: '700', fontSize: '16px', marginBottom: '6px' }}>Travelling soon?</div>
             <p style={{ fontSize: '14px', color: C.muted, margin: '0 0 16px' }}>Post your trip and earn from your spare luggage space.</p>
-            <button onClick={() => router.push('/auth/signup?role=carrier')} style={{ padding: '12px 28px', background: C.coral, border: 'none', borderRadius: '12px', color: C.text, fontSize: '15px', fontWeight: '700', cursor: 'pointer', fontFamily: 'inherit' }}>
+            <button onClick={() => router.push('/auth/signup?role=carrier&redirectTo=/feed')} style={{ padding: '12px 28px', background: C.coral, border: 'none', borderRadius: '12px', color: C.text, fontSize: '15px', fontWeight: '700', cursor: 'pointer', fontFamily: 'inherit' }}>
               Become a Carrier
             </button>
           </div>

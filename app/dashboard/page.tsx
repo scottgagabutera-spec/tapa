@@ -312,7 +312,7 @@ export default function Dashboard() {
         </div>
         <h2 style={{ fontSize: '22px', fontWeight: '800', marginBottom: '10px' }}>Sign in to continue</h2>
         <p style={{ color: C.muted, fontSize: '14px', marginBottom: '24px', lineHeight: 1.6 }}>Send packages or earn as a carrier — all from one account.</p>
-        <button onClick={() => router.push('/auth/login')} style={{ padding: '12px 32px', background: C.coral, border: 'none', borderRadius: '12px', color: C.text, fontSize: '15px', fontWeight: '700', cursor: 'pointer', fontFamily: 'inherit' }}>Sign In</button>
+        <button onClick={() => router.push('/auth/login?redirectTo=/dashboard')} style={{ padding: '12px 32px', background: C.coral, border: 'none', borderRadius: '12px', color: C.text, fontSize: '15px', fontWeight: '700', cursor: 'pointer', fontFamily: 'inherit' }}>Sign In</button>
       </div>
     </div>
   );

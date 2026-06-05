@@ -286,7 +286,7 @@ export default function BookingPage({ params }: { params: Promise<{ id: string }
         </nav>
         <main style={{ ...s.main, display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '80vh' }}>
           <div style={{ ...s.card, textAlign: 'center', padding: '48px 32px', maxWidth: '480px', margin: '0 auto' }}>
-            <div style={s.successIcon}>
+            <div style={s.successIcon} onClick={() => router.push('/dashboard')}>
               <svg width="32" height="32" viewBox="0 0 48 48" fill="none" stroke={C.green} strokeWidth="2.5" strokeLinecap="round"><path d="M20 6L9 17l-5-5"/></svg>
             </div>
             <div style={{ fontSize: '22px', fontWeight: '700', color: C.text, marginBottom: '10px' }}>Request Sent!</div>

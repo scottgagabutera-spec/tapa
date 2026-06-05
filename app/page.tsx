@@ -152,6 +152,14 @@ export default function TapaLanding() {
   // Preload airports on mount for instant search
   useEffect(() => { loadAirports(); }, []);
 
+  // Reactive auth state
+  useEffect(() => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_e, session) => {
+      if (!session) { setUser(null); setUserLoaded(true); }
+    });
+    return () => subscription.unsubscribe();
+  }, []);
+
   // Load signed-in user
   useEffect(() => {
     const load = async () => {

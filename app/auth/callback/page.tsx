@@ -29,7 +29,8 @@ export default function AuthCallback() {
         if (redirectTo) localStorage.removeItem('tapa_redirect');
         router.push(redirectTo || "/dashboard");
       } else {
-        router.push("/auth/login");
+        const savedRedirect = typeof window !== 'undefined' ? localStorage.getItem('tapa_redirect') : null;
+        router.push(savedRedirect ? `/auth/login?redirectTo=${encodeURIComponent(savedRedirect)}` : "/auth/login");
       }
     };
     handleCallback();
