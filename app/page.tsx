@@ -359,7 +359,7 @@ export default function TapaLanding() {
               </div>
               <button className="tb" onClick={handleSearch}
                 style={{ width: '100%', background: C.coral, color: '#fff', border: 'none', padding: '13px', borderRadius: '12px', fontFamily: 'inherit', fontSize: '15px', fontWeight: 700, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
-                <Icon.Search /> Search carriers
+                Search carriers
               </button>
               <div style={{ display: 'flex', gap: '6px', marginTop: '10px', flexWrap: 'wrap', alignItems: 'center' }}>
                 <span style={{ fontSize: '11px', color: '#3D5166' }}>Popular:</span>

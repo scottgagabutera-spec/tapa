@@ -354,58 +354,71 @@ function SearchPageInner() {
               </div>
             ) : (
               <div style={{ display: "flex", flexDirection: "column", gap: "14px" }}>
-                {results.map(carrier => (
+                {results.map(carrier => {
+                  const isGuest = !user;
+                  const displayName = isGuest ? "Verified Carrier" : carrier.name.split(" ")[0] + (carrier.name.split(" ")[1] ? " " + carrier.name.split(" ")[1][0] + "." : "");
+                  const showAvatar = !isGuest;
+                  const showFlight = !isGuest && carrier.airline;
+                  const cityOnly = (s: string) => s.split(",")[0].split("(")[0].trim();
+                  return (
                   <div key={carrier.id}
-                    style={{ background: hoveredCard === carrier.id ? C.surfaceHover : C.surface, border: `1px solid ${hoveredCard === carrier.id ? C.borderHover : C.border}`, borderRadius: "16px", padding: "clamp(16px,3vw,20px) clamp(16px,3vw,24px)", cursor: "pointer", transition: "all 0.18s ease", transform: hoveredCard === carrier.id ? "translateY(-2px)" : "none", boxShadow: hoveredCard === carrier.id ? "0 8px 32px rgba(0,0,0,0.3)" : "none" }}
+                    style={{ background: hoveredCard === carrier.id ? C.surfaceHover : C.surface, border: `1px solid ${hoveredCard === carrier.id ? C.borderHover : C.border}`, borderRadius: "16px", padding: "clamp(14px,2.5vw,20px) clamp(16px,3vw,24px)", cursor: "pointer", transition: "background 150ms ease, border-color 150ms ease, transform 150ms ease", transform: hoveredCard === carrier.id ? "translateY(-2px)" : "none", touchAction: "manipulation" }}
                     onMouseEnter={() => setHoveredCard(carrier.id)} onMouseLeave={() => setHoveredCard(null)}
-                    onClick={() => router.push(`/carrier/${carrier.id}`)}>
-                    <div className="card-inner">
-                      <div style={{ width: "52px", height: "52px", borderRadius: "14px", background: carrier.avatarColor, display: "flex", alignItems: "center", justifyContent: "center", fontSize: "16px", fontWeight: 700, color: C.white, flexShrink: 0, position: "relative" }}>
-                        {carrier.avatar}
-                        {carrier.verified && (
-                          <div style={{ position: "absolute", bottom: "-4px", right: "-4px", width: "18px", height: "18px", borderRadius: "50%", background: C.green, display: "flex", alignItems: "center", justifyContent: "center", border: `2px solid ${C.surface}` }}>
-                            <svg width="9" height="9" viewBox="0 0 48 48" fill="none" stroke="white" strokeWidth="3" strokeLinecap="round"><path d="M20 6L9 17l-5-5"/></svg>
+                    onClick={() => user ? router.push(`/carrier/${carrier.id}`) : router.push("/auth/signup")}>
+                    <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
+                      <div style={{ width: "48px", height: "48px", borderRadius: "12px", background: showAvatar ? carrier.avatarColor : C.border, display: "flex", alignItems: "center", justifyContent: "center", fontSize: "15px", fontWeight: 700, color: C.white, flexShrink: 0, position: "relative", filter: isGuest ? "blur(4px)" : "none", userSelect: "none" as const }}>
+                        {showAvatar ? carrier.avatar : "??"}
+                        {carrier.verified && !isGuest && (
+                          <div style={{ position: "absolute", bottom: "-4px", right: "-4px", width: "17px", height: "17px", borderRadius: "50%", background: C.green, display: "flex", alignItems: "center", justifyContent: "center", border: `2px solid ${C.surface}` }}>
+                            <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3" strokeLinecap="round"><path d="M20 6L9 17l-5-5"/></svg>
                           </div>
                         )}
                       </div>
                       <div style={{ flex: 1, minWidth: 0 }}>
-                        <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "4px", flexWrap: "wrap" }}>
-                          <span style={{ fontSize: "16px", fontWeight: 700, color: C.text }}>{carrier.name}</span>
-                          {carrier.badge && <span style={{ padding: "2px 8px", background: C.goldSoft, border: `1px solid ${C.gold}`, borderRadius: "20px", fontSize: "11px", fontWeight: 700, color: C.gold }}>{carrier.badge}</span>}
+                        <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "5px", flexWrap: "wrap" }}>
+                          <span style={{ fontSize: "15px", fontWeight: 700, color: C.text, filter: isGuest ? "blur(5px)" : "none", userSelect: isGuest ? "none" as const : "auto" as const }}>{displayName}</span>
                           {carrier.idVerified && <span style={{ padding: "2px 8px", background: C.greenSoft, border: `1px solid ${C.green}`, borderRadius: "20px", fontSize: "11px", fontWeight: 600, color: C.green }}>ID Verified</span>}
+                          {carrier.badge && <span style={{ padding: "2px 8px", background: C.goldSoft, border: `1px solid ${C.gold}`, borderRadius: "20px", fontSize: "11px", fontWeight: 700, color: C.gold }}>{carrier.badge}</span>}
+                          {isGuest && <span style={{ fontSize: "11px", color: C.muted, fontStyle: "italic" }}>Sign in to see details</span>}
                         </div>
-                        <div style={{ display: "flex", alignItems: "center", gap: "6px", marginBottom: "8px", flexWrap: "wrap" }}>
-                          <span style={{ fontSize: "14px", color: C.text, fontWeight: 600 }}>{carrier.from}</span>
-                          <svg width="14" height="14" viewBox="0 0 48 48" fill="none" stroke={C.accent} strokeWidth="2" strokeLinecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-                          <span style={{ fontSize: "14px", color: C.text, fontWeight: 600 }}>{carrier.to}</span>
+                        <div style={{ display: "flex", alignItems: "center", gap: "6px", marginBottom: "6px", flexWrap: "wrap" }}>
+                          <span style={{ fontSize: "14px", color: C.text, fontWeight: 600 }}>{cityOnly(carrier.from)}</span>
+                          <svg width="14" height="8" viewBox="0 0 14 8" fill="none"><line x1="0" y1="4" x2="10" y2="4" stroke={C.accent} strokeWidth="1.5"/><path d="M7 1l3 3-3 3" stroke={C.accent} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                          <span style={{ fontSize: "14px", color: C.text, fontWeight: 600 }}>{cityOnly(carrier.to)}</span>
                           <span style={{ fontSize: "13px", color: C.muted }}>· {carrier.date}</span>
-                          {carrier.airline && <span style={{ fontSize: "13px", color: C.muted }}>· {carrier.airline} {carrier.flightNo}</span>}
+                          {showFlight && <span style={{ fontSize: "12px", color: C.muted }}>· {carrier.airline} {carrier.flightNo}</span>}
                         </div>
-                        {carrier.tags.length > 0 && (
-                          <div style={{ display: "flex", gap: "6px", flexWrap: "wrap" }}>
-                            {carrier.tags.map((tag: string) => (
-                              <span key={tag} style={{ padding: "3px 10px", background: C.inputBg, border: `1px solid ${C.border}`, borderRadius: "20px", fontSize: "12px", color: C.muted }}>{tag}</span>
-                            ))}
-                          </div>
-                        )}
+                        <div style={{ display: "flex", gap: "6px", flexWrap: "wrap", alignItems: "center" }}>
+                          {carrier.tags.map((tag: string) => (
+                            <span key={tag} style={{ padding: "2px 10px", background: C.inputBg, border: `1px solid ${C.border}`, borderRadius: "20px", fontSize: "12px", color: C.muted }}>{tag}</span>
+                          ))}
+                          <span style={{ fontSize: "12px", color: C.muted }}>{carrier.capacity} available</span>
+                        </div>
                       </div>
-                      <div className="card-right">
+                      <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: "8px", flexShrink: 0 }}>
                         <div style={{ textAlign: "right" }}>
-                          <span style={{ fontSize: "22px", fontWeight: 800, color: C.text }}>${carrier.price}</span>
-                          <span style={{ fontSize: "13px", color: C.muted }}>/{carrier.perUnit}</span>
+                          <div style={{ fontSize: "28px", fontWeight: 800, color: C.text, lineHeight: 1 }}>${carrier.price}</div>
+                          <div style={{ fontSize: "12px", color: C.muted }}>per kg</div>
                         </div>
-                        <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
-                          {carrier.rating > 0 ? (<><Stars rating={carrier.rating} /><span style={{ fontSize: "13px", fontWeight: 600, color: C.text, marginLeft: "4px" }}>{carrier.rating}</span><span style={{ fontSize: "12px", color: C.muted, marginLeft: "2px" }}>({carrier.trips})</span></>) : (<span style={{ fontSize: "12px", color: C.muted }}>New carrier</span>)}
+                        <div style={{ fontSize: "12px", color: C.muted }}>
+                          {carrier.rating > 0 ? <><Stars rating={carrier.rating} /> {carrier.rating} ({carrier.trips})</> : "New carrier"}
                         </div>
-                        <div style={{ fontSize: "12px", color: C.muted }}>{carrier.capacity} available</div>
-                        <button className="tb" onClick={e => { e.stopPropagation(); router.push(`/carrier/${carrier.id}`); }}
-                          style={{ marginTop: "4px", padding: "9px 20px", background: C.accent, border: "none", borderRadius: "10px", color: C.white, fontSize: "13px", fontWeight: 700, cursor: "pointer", fontFamily: "inherit", boxShadow: `0 4px 12px ${C.accentGlow}` }}>
-                          View &amp; Book
+                        <button className="tb" onClick={e => { e.stopPropagation(); user ? router.push(`/carrier/${carrier.id}`) : router.push("/auth/signup"); }}
+                          style={{ padding: "10px 20px", background: C.accent, border: "none", borderRadius: "10px", color: C.white, fontSize: "13px", fontWeight: 700, cursor: "pointer", fontFamily: "inherit", touchAction: "manipulation", whiteSpace: "nowrap" }}>
+                          {user ? "View & Book" : "Sign in to Book"}
                         </button>
                       </div>
                     </div>
+                    {isGuest && (
+                      <div style={{ marginTop: "12px", padding: "10px 14px", background: "rgba(232,72,85,0.06)", border: `1px solid rgba(232,72,85,0.15)`, borderRadius: "10px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: "12px", flexWrap: "wrap" }}>
+                        <span style={{ fontSize: "13px", color: C.muted }}>Create a free account to see carrier details and book.</span>
+                        <button onClick={e => { e.stopPropagation(); router.push("/auth/signup"); }} style={{ background: C.accent, color: C.white, border: "none", padding: "7px 16px", borderRadius: "8px", fontSize: "13px", fontWeight: 700, cursor: "pointer", fontFamily: "inherit", touchAction: "manipulation", whiteSpace: "nowrap" }}>Get Started</button>
+                      </div>
+                    )}
                   </div>
-                ))}
+                  );
+                })}
+
               </div>
             )}
           </>
