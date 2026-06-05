@@ -60,7 +60,7 @@ const Icon = {
 };
 
 function AirportInput({ placeholder, value, onChange, icon }: {
-  placeholder: string; value: string; onChange: (v: string, airport?: Airport) => void; icon: React.ReactNode;
+  placeholder: string; value: string; onChange: (v: string, airport?: Airport) => void; icon?: React.ReactNode;
 }) {
   const [open, setOpen] = useState(false);
   const [focused, setFocused] = useState(false);
@@ -78,7 +78,7 @@ function AirportInput({ placeholder, value, onChange, icon }: {
   return (
     <div ref={ref} style={{ position: 'relative', flex: 1, minWidth: 0 }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '0 14px', height: '56px', background: focused ? 'rgba(255,255,255,0.04)' : 'transparent', borderRadius: '10px', transition: 'background 150ms' }}>
-        <span style={{ flexShrink: 0, opacity: 0.5 }}>{icon}</span>
+        {icon && <span style={{ flexShrink: 0, opacity: 0.5 }}>{icon}</span>}
         <input value={value} onChange={e => { onChange(e.target.value); setOpen(true); }}
           onFocus={() => { setFocused(true); setOpen(true); }}
           placeholder={placeholder}
@@ -210,6 +210,14 @@ export default function TapaLanding() {
         .tapa-feat { display: grid; grid-template-columns: repeat(auto-fit,minmax(240px,1fr)); gap: 18px; }
         .tapa-use { display: grid; grid-template-columns: repeat(auto-fit,minmax(280px,1fr)); gap: 18px; }
         .tapa-cta { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+        .hero-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; }
+        .search-card { background: #1A2F45; border: 1px solid #243B55; border-radius: 20px; padding: 24px; }
+        .sfield-row { display: flex; flex-direction: column; gap: 4px; padding: 12px 16px; background: #0D1B2A; border-radius: 12px; }
+        .sfield-label { font-size: 10px; font-weight: 700; color: #8B9BB4; letter-spacing: 1.5px; text-transform: uppercase; }
+        .sfield-input { font-size: 14px; font-weight: 500; color: #F8F9FA; background: transparent; border: none; outline: none; font-family: inherit; width: 100%; cursor: pointer; }
+        .sfield-input::placeholder { color: #3D5166; }
+        .sfield-row-half { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+        @media (max-width: 768px) { .hero-grid { grid-template-columns: 1fr !important; gap: 28px !important; } }
         .sbox { display: flex; align-items: stretch; background: ${C.surface}; border: 1px solid ${C.border}; border-radius: 18px; overflow: visible; box-shadow: 0 8px 48px rgba(0,0,0,0.28); }
         .sfields { display: flex; align-items: stretch; flex: 1; min-width: 0; }
         .sdiv { width: 1px; background: ${C.border}; flex-shrink: 0; margin: 10px 0; }
