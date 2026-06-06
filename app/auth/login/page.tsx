@@ -64,7 +64,7 @@ export default function LoginPage() {
     }
   };
 
-  const inp: React.CSSProperties = { width: "100%", padding: "14px 16px", background: C.inputBg, border: `1px solid ${C.border}`, borderRadius: "12px", color: C.text, fontSize: "15px", fontFamily: "inherit", outline: "none", transition: "border-color 0.2s ease", boxSizing: "border-box" };
+  const inp: React.CSSProperties = { width: "100%", padding: "14px 16px", background: C.inputBg, border: `1px solid ${C.border}`, borderRadius: "12px", color: C.text, fontSize: "15px", fontFamily: "inherit", outline: "none", transition: "border-color 0.2s ease, box-shadow 0.2s ease", boxSizing: "border-box" };
 
   return (
     <div style={{ minHeight: "100vh", background: C.bg, display: "flex", flexDirection: "column", fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, sans-serif", position: "relative", overflow: "hidden" }}>
@@ -88,7 +88,7 @@ export default function LoginPage() {
       <div style={{ position: "absolute", top: "-100px", left: "50%", transform: "translateX(-50%)", width: "600px", height: "600px", background: `radial-gradient(circle, ${C.accentGlow} 0%, transparent 70%)`, pointerEvents: "none", zIndex: 0 }} />
 
       <main style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center", padding: "100px clamp(16px,4vw,24px) 40px", position: "relative", zIndex: 1 }}>
-        <div style={{ background: C.surface, border: `1px solid ${C.border}`, borderRadius: "20px", width: "100%", maxWidth: "440px", padding: "clamp(28px,5vw,40px)", boxShadow: "0 24px 60px rgba(0,0,0,0.4)", opacity: mounted ? 1 : 0, transform: mounted ? "translateY(0)" : "translateY(16px)", transition: "opacity 0.5s ease, transform 0.5s ease" }}>
+        <div style={{ background: C.surface, border: `1px solid #2E4A6A`, borderRadius: "24px", width: "100%", maxWidth: "440px", padding: "clamp(28px,5vw,40px)", boxShadow: "0 24px 80px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.04)", opacity: mounted ? 1 : 0, transform: mounted ? "translateY(0)" : "translateY(16px)", transition: "opacity 0.5s ease, transform 0.5s ease" }}>
           <div style={{ textAlign: "center", marginBottom: "32px" }}>
             <h1 style={{ fontSize: "28px", fontWeight: 700, color: C.text, marginBottom: "8px", letterSpacing: "-0.5px" }}>Welcome back</h1>
             <p style={{ fontSize: "15px", color: C.muted }}>Sign in to continue shipping smarter</p>
@@ -126,15 +126,18 @@ export default function LoginPage() {
               </div>
               <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
                 <input type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="Email address" style={inp}
-                  onFocus={e => (e.target.style.borderColor = C.accent)} onBlur={e => (e.target.style.borderColor = C.border)}
+                  onFocus={e => { e.target.style.borderColor = C.accent; e.target.style.boxShadow = "0 0 0 3px rgba(232,72,85,0.1)"; }} onBlur={e => { e.target.style.borderColor = C.border; e.target.style.boxShadow = "none"; }}
                   onKeyDown={e => e.key === "Enter" && handleLogin()} />
                 <div>
                   <input type="password" value={password} onChange={e => setPassword(e.target.value)} placeholder="Password" style={inp}
-                    onFocus={e => (e.target.style.borderColor = C.accent)} onBlur={e => (e.target.style.borderColor = C.border)}
+                    onFocus={e => { e.target.style.borderColor = C.accent; e.target.style.boxShadow = "0 0 0 3px rgba(232,72,85,0.1)"; }} onBlur={e => { e.target.style.borderColor = C.border; e.target.style.boxShadow = "none"; }}
                     onKeyDown={e => e.key === "Enter" && handleLogin()} />
                   <div style={{ textAlign: "right", marginTop: "6px" }}><a href="#" style={{ fontSize: "13px", color: C.accent, fontWeight: 500, textDecoration: "none" }}>Forgot password?</a></div>
                 </div>
-                <button className="tb" style={{ width: "100%", padding: "14px", background: C.accent, border: "none", borderRadius: "12px", color: C.text, fontSize: "15px", fontWeight: 700, cursor: loading ? "wait" : "pointer", fontFamily: "inherit", boxShadow: `0 4px 20px rgba(232,72,85,0.3)`, opacity: loading ? 0.8 : 1 }} onClick={handleLogin}>
+                <button className="tb" style={{ width: "100%", padding: "14px", background: C.accent, border: "none", borderRadius: "12px", color: C.text, fontSize: "15px", fontWeight: 700, cursor: loading ? "wait" : "pointer", fontFamily: "inherit", boxShadow: "0 4px 24px rgba(232,72,85,0.3)", opacity: loading ? 0.8 : 1, transition: "all 150ms" }}
+                  onMouseEnter={e => { if (!loading) { e.currentTarget.style.transform = "translateY(-1px)"; e.currentTarget.style.boxShadow = "0 8px 32px rgba(232,72,85,0.45)"; }}}
+                  onMouseLeave={e => { e.currentTarget.style.transform = "translateY(0)"; e.currentTarget.style.boxShadow = "0 4px 24px rgba(232,72,85,0.3)"; }}
+                  onClick={handleLogin}>
                   {loading ? "Signing in…" : "Sign In"}
                 </button>
               </div>

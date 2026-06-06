@@ -114,7 +114,7 @@ export default function SignupPage() {
       <div style={{ position: "absolute", top: "-100px", left: "50%", transform: "translateX(-50%)", width: "700px", height: "600px", background: `radial-gradient(circle, ${C.accentGlow} 0%, transparent 70%)`, pointerEvents: "none", zIndex: 0 }} />
 
       <main style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center", padding: "100px 24px 40px", position: "relative", zIndex: 1 }}>
-        <div style={{ background: C.surface, border: `1px solid ${C.border}`, borderRadius: "20px", width: "100%", maxWidth: step === 2 ? "500px" : "440px", padding: "40px", boxShadow: "0 24px 60px rgba(0,0,0,0.4)", opacity: mounted && !animating ? 1 : 0, transform: mounted && !animating ? "translateY(0)" : "translateY(12px)", transition: "opacity 0.3s ease, transform 0.3s ease, max-width 0.3s ease" }}>
+        <div style={{ background: C.surface, border: "1px solid #2E4A6A", borderRadius: "24px", width: "100%", maxWidth: step === 2 ? "500px" : "440px", padding: "40px", boxShadow: "0 24px 80px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.04)", opacity: mounted && !animating ? 1 : 0, transform: mounted && !animating ? "translateY(0)" : "translateY(12px)", transition: "opacity 0.3s ease, transform 0.3s ease, max-width 0.3s ease" }}>
 
           {/* Progress dots */}
           <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "8px", marginBottom: "28px" }}>
@@ -172,11 +172,11 @@ export default function SignupPage() {
 
               <div style={{ display: "flex", flexDirection: "column", gap: "12px", marginBottom: "16px" }}>
                 <input type="text" placeholder="Full name" style={inp} value={name} onChange={e => setName(e.target.value)}
-                  onFocus={e => (e.target.style.borderColor = C.accent)} onBlur={e => (e.target.style.borderColor = C.border)} />
+                  onFocus={e => { e.target.style.borderColor = C.accent; e.target.style.boxShadow = "0 0 0 3px rgba(232,72,85,0.1)"; }} onBlur={e => { e.target.style.borderColor = C.border; e.target.style.boxShadow = "none"; }} />
                 <input type="email" placeholder="Email address" style={inp} value={email} onChange={e => setEmail(e.target.value)}
-                  onFocus={e => (e.target.style.borderColor = C.accent)} onBlur={e => (e.target.style.borderColor = C.border)} />
+                  onFocus={e => { e.target.style.borderColor = C.accent; e.target.style.boxShadow = "0 0 0 3px rgba(232,72,85,0.1)"; }} onBlur={e => { e.target.style.borderColor = C.border; e.target.style.boxShadow = "none"; }} />
                 <input type="password" placeholder="Create password (min 6 chars)" style={inp} value={password} onChange={e => setPassword(e.target.value)}
-                  onFocus={e => (e.target.style.borderColor = C.accent)} onBlur={e => (e.target.style.borderColor = C.border)}
+                  onFocus={e => { e.target.style.borderColor = C.accent; e.target.style.boxShadow = "0 0 0 3px rgba(232,72,85,0.1)"; }} onBlur={e => { e.target.style.borderColor = C.border; e.target.style.boxShadow = "none"; }}
                   onKeyDown={e => e.key === "Enter" && handleCreateAccount()} />
               </div>
 

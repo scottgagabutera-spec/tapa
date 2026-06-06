@@ -223,7 +223,7 @@ export default function BookingPage({ params }: { params: Promise<{ id: string }
     logoText: { fontSize: '20px', fontWeight: '700', color: C.text, letterSpacing: '-0.5px' },
     main: { maxWidth: '680px', margin: '0 auto', padding: '100px 24px 120px' },
     backBtn: { display: 'inline-flex', alignItems: 'center', gap: '6px', color: C.muted, fontSize: '14px', fontWeight: '500', background: 'none', border: 'none', cursor: 'pointer', marginBottom: '28px', padding: '0', fontFamily: 'inherit', transition: 'color 0.15s ease' },
-    card: { background: C.surface, border: `1px solid ${C.border}`, borderRadius: '20px', padding: '24px', marginBottom: '16px', opacity: mounted ? 1 : 0, transform: mounted ? 'translateY(0)' : 'translateY(12px)', transition: 'opacity 0.3s ease, transform 0.3s ease' },
+    card: { background: C.surface, border: '1px solid #2E4A6A', borderRadius: '20px', padding: '24px', marginBottom: '16px', opacity: mounted ? 1 : 0, transform: mounted ? 'translateY(0)' : 'translateY(12px)', transition: 'opacity 0.3s ease, transform 0.3s ease', boxShadow: '0 8px 40px rgba(0,0,0,0.3)' },
     carrierRow: { display: 'flex', alignItems: 'center', gap: '14px' },
     avatar: { width: '48px', height: '48px', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '16px', fontWeight: '700', color: '#fff', flexShrink: 0 },
     carrierName: { fontSize: '16px', fontWeight: '700', color: C.text },
@@ -231,7 +231,7 @@ export default function BookingPage({ params }: { params: Promise<{ id: string }
     progress: { display: 'flex', alignItems: 'center', gap: '0', marginBottom: '28px' },
     sectionTitle: { fontSize: '16px', fontWeight: '700', color: C.text, marginBottom: '16px' },
     label: { fontSize: '13px', fontWeight: '600', color: C.muted, marginBottom: '6px', display: 'block' },
-    input: { width: '100%', padding: '13px 16px', background: C.inputBg, border: `1px solid ${C.border}`, borderRadius: '12px', color: C.text, fontSize: '15px', fontFamily: 'inherit', outline: 'none', transition: 'border-color 0.2s ease', boxSizing: 'border-box' },
+    input: { width: '100%', padding: '13px 16px', background: C.inputBg, border: `1px solid ${C.border}`, borderRadius: '12px', color: C.text, fontSize: '15px', fontFamily: 'inherit', outline: 'none', transition: 'border-color 0.2s ease, box-shadow 0.2s ease', boxSizing: 'border-box' },
     textarea: { width: '100%', padding: '13px 16px', background: C.inputBg, border: `1px solid ${C.border}`, borderRadius: '12px', color: C.text, fontSize: '15px', fontFamily: 'inherit', outline: 'none', transition: 'border-color 0.2s ease', boxSizing: 'border-box', resize: 'vertical', minHeight: '80px' },
     fieldGroup: { display: 'flex', flexDirection: 'column', gap: '14px', marginBottom: '4px' },
     typeGrid: { display: 'flex', flexWrap: 'wrap', gap: '8px', marginBottom: '4px' },
@@ -244,7 +244,7 @@ export default function BookingPage({ params }: { params: Promise<{ id: string }
     checkRow: { display: 'flex', alignItems: 'flex-start', gap: '12px', cursor: 'pointer', padding: '14px', background: C.inputBg, borderRadius: '12px', border: `1px solid ${agreed ? C.coral : C.border}`, transition: 'border-color 0.2s ease' },
     checkbox: { width: '20px', height: '20px', borderRadius: '6px', border: `2px solid ${agreed ? C.coral : C.border}`, background: agreed ? C.coral : 'transparent', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: '1px', transition: 'all 0.2s ease' },
     checkText: { fontSize: '14px', color: C.muted, lineHeight: '1.6' },
-    primaryBtn: { width: '100%', padding: '14px', background: C.coral, border: 'none', borderRadius: '12px', color: C.text, fontSize: '15px', fontWeight: '700', cursor: 'pointer', fontFamily: 'inherit', transition: 'all 0.2s ease', boxShadow: '0 4px 20px rgba(232,72,85,0.3)' },
+    primaryBtn: { width: '100%', padding: '14px', background: C.coral, border: 'none', borderRadius: '14px', color: C.text, fontSize: '15px', fontWeight: '700', cursor: 'pointer', fontFamily: 'inherit', transition: 'all 150ms', boxShadow: '0 4px 24px rgba(232,72,85,0.3)' },
     disabledBtn: { width: '100%', padding: '14px', background: C.border, border: 'none', borderRadius: '12px', color: C.muted, fontSize: '15px', fontWeight: '700', cursor: 'not-allowed', fontFamily: 'inherit' },
     successIcon: { width: '72px', height: '72px', borderRadius: '50%', background: C.greenSoft, border: `2px solid ${C.greenBorder}`, display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 24px' },
     errorBox: { background: 'rgba(232,72,85,0.1)', border: '1px solid rgba(232,72,85,0.3)', borderRadius: '12px', padding: '12px 16px', marginBottom: '16px', fontSize: '14px', color: C.coral },
@@ -311,9 +311,9 @@ export default function BookingPage({ params }: { params: Promise<{ id: string }
               <div style={{ fontSize: '16px', fontWeight: '700', color: C.coral, letterSpacing: '1px' }}>{bookingRef}</div>
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-              <button style={s.primaryBtn} onClick={() => router.push('/dashboard/sender')}
-                onMouseEnter={e => { e.currentTarget.style.background = C.coralDark; e.currentTarget.style.transform = 'translateY(-1px)'; }}
-                onMouseLeave={e => { e.currentTarget.style.background = C.coral; e.currentTarget.style.transform = 'translateY(0)'; }}>
+              <button style={s.primaryBtn} onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-1px)'; e.currentTarget.style.boxShadow = '0 8px 32px rgba(232,72,85,0.45)'; }} onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 4px 24px rgba(232,72,85,0.3)'; }} onClick={() => router.push('/dashboard/sender')}>
+
+
                 View My Bookings
               </button>
               <button style={{ ...s.disabledBtn, background: 'transparent', border: `1px solid ${C.border}`, color: C.muted, cursor: 'pointer' }}
