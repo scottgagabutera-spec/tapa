@@ -346,7 +346,7 @@ export default function TapaLanding() {
                 </div>
                 <div style={{ display: 'flex', justifyContent: 'center', margin: '-2px 0' }}>
                   <button className="tb" onClick={() => { const t = from; setFrom(to); setTo(t); }}
-                    style={{ width: '28px', height: '28px', borderRadius: '8px', background: 'rgba(232,72,85,0.1)', border: `1px solid rgba(232,72,85,0.25)`, color: C.coral, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    style={{ width: '28px', height: '28px', borderRadius: '8px', background: 'transparent', border: 'none', color: C.muted, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', opacity: 0.6 }}>
                     <Icon.Swap />
                   </button>
                 </div>

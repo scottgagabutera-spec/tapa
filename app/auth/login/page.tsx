@@ -90,12 +90,6 @@ export default function LoginPage() {
       <main style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center", padding: "100px clamp(16px,4vw,24px) 40px", position: "relative", zIndex: 1 }}>
         <div style={{ background: C.surface, border: `1px solid ${C.border}`, borderRadius: "20px", width: "100%", maxWidth: "440px", padding: "clamp(28px,5vw,40px)", boxShadow: "0 24px 60px rgba(0,0,0,0.4)", opacity: mounted ? 1 : 0, transform: mounted ? "translateY(0)" : "translateY(16px)", transition: "opacity 0.5s ease, transform 0.5s ease" }}>
           <div style={{ textAlign: "center", marginBottom: "32px" }}>
-            <div style={{ display: "inline-flex", alignItems: "center", gap: "10px", marginBottom: "24px" }}>
-              <div style={{ width: "36px", height: "36px", background: C.accent, borderRadius: "10px", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                <svg width="18" height="18" viewBox="0 0 48 48" fill="none"><circle cx="12" cy="20" r="6" fill="none" stroke="white" stroke-width="2.5"/><circle cx="12" cy="20" r="2.5" fill="white"/><line x1="12" y1="26" x2="12" y2="36" stroke="white" stroke-width="2.5" stroke-linecap="round"/><line x1="15" y1="33" x2="33" y2="18" stroke="white" stroke-width="1.5" stroke-dasharray="4 3" stroke-linecap="round"/><circle cx="36" cy="12" r="8" fill="white"/><circle cx="36" cy="12" r="3.5" fill="#E84855"/><line x1="36" y1="20" x2="36" y2="30" stroke="white" stroke-width="2.5" stroke-linecap="round"/></svg>
-              </div>
-              <span style={{ fontSize: "22px", fontWeight: 700, color: C.text }}>tapa</span>
-            </div>
             <h1 style={{ fontSize: "28px", fontWeight: 700, color: C.text, marginBottom: "8px", letterSpacing: "-0.5px" }}>Welcome back</h1>
             <p style={{ fontSize: "15px", color: C.muted }}>Sign in to continue shipping smarter</p>
           </div>
