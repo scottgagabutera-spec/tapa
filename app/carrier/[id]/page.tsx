@@ -222,7 +222,7 @@ export default function CarrierProfilePage({ params }: { params: Promise<{ id: s
               {carrier.avatar}
             </div>
             <div style={{ flex: 1 }}>
-              <div style={{ fontSize: '22px', fontWeight: '700', color: C.text, marginBottom: '8px', letterSpacing: '-0.3px' }}>{carrier.name}</div>
+              <div style={{ fontSize: '22px', fontWeight: '700', color: C.text, marginBottom: '8px', letterSpacing: '-0.3px' }}>Verified Carrier</div>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
                 {carrier.badge && (
                   <span style={badgeStyle('top')}>
@@ -291,9 +291,9 @@ export default function CarrierProfilePage({ params }: { params: Promise<{ id: s
             </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px', background: C.inputBg, borderRadius: '12px', padding: '12px 16px' }}>
               <svg width="16" height="16" viewBox="0 0 48 48" fill="none" stroke={C.coral} strokeWidth="2" strokeLinecap="round"><path d="M21 16l-9-9-1 5-5 1 9 9 1-5 5-1z"/></svg>
-              <span style={{ fontSize: '14px', color: C.muted }}>{carrier.airline}</span>
-              <span style={{ fontSize: '14px', color: C.muted }}>·</span>
-              <span style={{ fontSize: '14px', fontWeight: '600', color: C.text }}>{carrier.flightNo}</span>
+              <span style={{ fontSize: '13px', color: C.muted, fontStyle: 'italic' }}>Flight details revealed after booking</span>
+
+
               <span style={{ fontSize: '14px', color: C.muted }}>·</span>
               <span style={{ fontSize: '14px', fontWeight: '600', color: C.text }}>{carrier.date}</span>
             </div>

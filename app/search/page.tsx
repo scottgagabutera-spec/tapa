@@ -381,7 +381,8 @@ function SearchPageInner() {
                           <span style={{ fontSize: "15px", fontWeight: 700, color: C.text, filter: isGuest ? "blur(5px)" : "none", userSelect: isGuest ? "none" as const : "auto" as const }}>{displayName}</span>
                           {carrier.idVerified && <span style={{ padding: "2px 8px", background: C.greenSoft, border: `1px solid ${C.green}`, borderRadius: "20px", fontSize: "11px", fontWeight: 600, color: C.green }}>ID Verified</span>}
                           {carrier.badge && <span style={{ padding: "2px 8px", background: C.goldSoft, border: `1px solid ${C.gold}`, borderRadius: "20px", fontSize: "11px", fontWeight: 700, color: C.gold }}>{carrier.badge}</span>}
-                          {isGuest && <span style={{ fontSize: "11px", color: C.muted, fontStyle: "italic" }}>Sign in to see details</span>}
+                          {isGuest && <span style={{ fontSize: "11px", color: C.muted, fontStyle: "italic" }}>Sign in for more details</span>}
+                          {!isGuest && <span style={{ fontSize: "11px", color: C.muted, fontStyle: "italic" }}>Details revealed after booking</span>}
                         </div>
                         <div style={{ display: "flex", alignItems: "center", gap: "6px", marginBottom: "6px", flexWrap: "wrap" }}>
                           <span style={{ fontSize: "14px", color: C.text, fontWeight: 600 }}>{cityOnly(carrier.from)}</span>
