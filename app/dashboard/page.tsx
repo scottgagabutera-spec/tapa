@@ -370,6 +370,7 @@ export default function Dashboard() {
                 { label: 'Carry & Earn', action: () => { setActiveTab('carry'); setCarrySubTab('requests'); setMenuOpen(false); } },
                 { label: 'Post a Trip', action: () => { router.push('/trip/new'); setMenuOpen(false); } },
                 { label: 'Feed', action: () => { router.push('/feed'); setMenuOpen(false); } },
+                { label: 'Account Settings', action: () => { router.push('/account'); setMenuOpen(false); } },
               ].map(item => (
                 <button key={item.label} onClick={item.action}
                   style={{ width: '100%', textAlign: 'left', padding: '10px 16px', background: 'transparent', border: 'none', color: C.text, fontSize: '13px', cursor: 'pointer', fontFamily: 'inherit' }}
