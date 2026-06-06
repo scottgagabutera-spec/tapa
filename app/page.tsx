@@ -324,13 +324,13 @@ export default function TapaLanding() {
             <div>
               <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: C.greenBg, border: `1px solid ${C.greenBorder}`, borderRadius: '100px', padding: '6px 14px', marginBottom: '20px' }}>
                 <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: C.green, display: 'inline-block', flexShrink: 0 }} />
-                <span style={{ fontSize: '12px', fontWeight: 600, color: C.green }}>Now open — peer-to-peer delivery across borders</span>
+                <span style={{ fontSize: '12px', fontWeight: 600, color: C.green }}>Peer delivery across borders — no courier needed</span>
               </div>
               <h1 style={{ fontSize: 'clamp(32px,4.5vw,60px)', fontWeight: 800, lineHeight: 1.03, letterSpacing: 'clamp(-1px,-0.02em,-2.5px)', marginBottom: '16px' }}>
-                Your item.<br /><span style={{ color: C.coral }}>Their journey.</span><br />Delivered.
+                Someone is flying<br />to your city<br /><span style={{ color: C.coral }}>tomorrow.</span>
               </h1>
               <p style={{ fontSize: 'clamp(14px,1.5vw,16px)', color: C.muted, lineHeight: 1.75, marginBottom: '28px', maxWidth: '400px' }}>
-                Connect with real travelers going your way. Ship across borders faster, cheaper, and more personal than any courier.
+                Real travelers. Real luggage space. Your item delivered in hours, not weeks — at a fraction of courier prices. This is how people who know people have always done it.
               </p>
               {!user && (
                 <div style={{ display: 'flex', alignItems: 'center', gap: '14px', flexWrap: 'wrap' }}>
