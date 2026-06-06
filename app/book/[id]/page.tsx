@@ -158,6 +158,7 @@ export default function BookingPage({ params }: { params: Promise<{ id: string }
         weight_kg: parseFloat(weight),
         total_price: parseFloat(total),
         pickup_notes: pickupNotes,
+        item_value: itemValue ? parseFloat(itemValue) : null,
         sender_name: senderName,
         sender_phone: senderPhone,
         status: 'pending',
@@ -187,6 +188,17 @@ export default function BookingPage({ params }: { params: Promise<{ id: string }
         ? 'TPA-' + booking.id.substring(0, 8).toUpperCase()
         : 'TPA-' + Math.random().toString(36).substring(2, 8).toUpperCase();
 
+      // Upload item photos if any
+      if (itemPhotos.length > 0 && booking?.id) {
+        const photoUrls: string[] = [];
+        for (let i = 0; i < itemPhotos.length; i++) {
+          const file = itemPhotos[i];
+          const path = booking.id + '/' + i + '-' + Date.now();
+          const { error: uploadErr } = await supabase.storage.from('booking-items').upload(path, file, { upsert: true });
+          if (!uploadErr) photoUrls.push('https://ilhhqbjhljfcjlwtzxon.supabase.co/storage/v1/object/public/booking-items/' + path);
+        }
+        if (photoUrls.length > 0) await supabase.from('bookings').update({ item_photos: photoUrls }).eq('id', booking.id);
+      }
       setBookingRef(ref);
       setSubmitted(true);
     } catch (err: any) {
