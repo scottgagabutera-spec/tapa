@@ -116,6 +116,7 @@ type CarryRequest = {
   id: string; senderName: string; senderAvatar: string; senderAvatarColor: string;
   from: string; to: string; date: string; itemType: string;
   weight: string; totalPrice: number; status: string; requestedOn: string;
+  itemDesc: string; itemValue: number | null; itemPhotos: string[]; pickupNotes: string;
 };
 type CarryTrip = {
   id: string; from: string; to: string; date: string; airline: string;
@@ -206,7 +207,7 @@ export default function Dashboard() {
         const { data: rawTrips } = await supabase.from('trips').select('*').eq('carrier_id', user.id).order('created_at', { ascending: false });
         const { data: rawCarryBookings } = await supabase
           .from('bookings')
-          .select(`id, item_type, weight_kg, total_price, status, created_at, trip_id,
+          .select(`id, item_type, item_desc, item_value, item_photos, pickup_notes, weight_kg, total_price, status, created_at, trip_id,
             sender:profiles!bookings_sender_id_fkey(name, avatar_color),
             trips(from_city, to_city, date)`)
           .eq('carrier_id', user.id)
@@ -243,7 +244,9 @@ export default function Dashboard() {
               senderAvatarColor: sender?.avatar_color || C.blue,
               from: trip?.from_city || '—', to: trip?.to_city || '—',
               date: trip?.date ? new Date(trip.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : '—',
-              itemType: b.item_type || '—', weight: String(b.weight_kg || 0),
+              itemType: b.item_type || '—', itemDesc: b.item_desc || '', itemValue: b.item_value || null,
+              itemPhotos: b.item_photos || [], pickupNotes: b.pickup_notes || '',
+              weight: String(b.weight_kg || 0),
               totalPrice: b.total_price || 0, status: b.status || 'pending',
               requestedOn: new Date(b.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
             };
@@ -669,6 +672,16 @@ export default function Dashboard() {
                         </div>
                         <div style={{ fontWeight: '800', fontSize: '16px' }}>${req.totalPrice}</div>
                       </div>
+                      {req.itemDesc && <div style={{ fontSize: '13px', color: C.muted, marginTop: '8px', lineHeight: 1.5 }}>{req.itemDesc}</div>}
+                      {req.itemValue && <div style={{ fontSize: '12px', color: C.muted, marginTop: '4px' }}>Approx. value: <span style={{ color: C.text, fontWeight: 600 }}>${req.itemValue}</span></div>}
+                      {req.pickupNotes && <div style={{ fontSize: '12px', color: C.muted, marginTop: '4px' }}>Notes: <span style={{ color: C.text }}>{req.pickupNotes}</span></div>}
+                      {req.itemPhotos && req.itemPhotos.length > 0 && (
+                        <div style={{ display: 'flex', gap: '8px', marginTop: '10px', flexWrap: 'wrap' }}>
+                          {req.itemPhotos.map((url: string, i: number) => (
+                            <img key={i} src={url} alt="item" style={{ width: '72px', height: '72px', borderRadius: '10px', objectFit: 'cover', border: `1px solid ${C.border}`, cursor: 'pointer' }} onClick={() => window.open(url, '_blank')} />
+                          ))}
+                        </div>
+                      )}
                       {isPending && (
                         <div style={{ display: 'flex', gap: '10px', marginTop: '14px', paddingTop: '14px', borderTop: `1px solid ${C.border}` }}>
                           <button onClick={() => handleAccept(req.id)} style={{ flex: 1, padding: '10px', background: C.green, border: 'none', borderRadius: '10px', color: '#fff', fontSize: '14px', fontWeight: '700', cursor: 'pointer', fontFamily: 'inherit' }}>Accept</button>
