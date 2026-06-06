@@ -69,6 +69,9 @@ export default function BookingPage({ params }: { params: Promise<{ id: string }
   const [itemDesc, setItemDesc] = useState('');
   const [weight, setWeight] = useState('');
   const [pickupNotes, setPickupNotes] = useState('');
+  const [itemValue, setItemValue] = useState('');
+  const [itemPhotos, setItemPhotos] = useState<File[]>([]);
+  const [photoPreviews, setPhotoPreviews] = useState<string[]>([]);
   const [senderName, setSenderName] = useState('');
   const [senderEmail, setSenderEmail] = useState('');
   const [senderPhone, setSenderPhone] = useState('');
@@ -289,7 +292,7 @@ export default function BookingPage({ params }: { params: Promise<{ id: string }
             </div>
             <div style={{ fontSize: '22px', fontWeight: '700', color: C.text, marginBottom: '10px' }}>Request Sent!</div>
             <div style={{ fontSize: '15px', color: C.muted, lineHeight: '1.7', marginBottom: '28px' }}>
-              Your booking request has been sent to <strong style={{ color: C.text }}>{carrier.name}</strong>. They typically respond in {carrier.responseTime}. You will be notified once they accept.
+              Your booking request has been sent. The carrier typically responds in {carrier.responseTime}. You will be notified once they accept.
             </div>
             <div style={{ background: C.inputBg, borderRadius: '14px', padding: '16px', marginBottom: '24px', textAlign: 'left' }}>
               <div style={{ fontSize: '13px', color: C.muted, marginBottom: '4px' }}>Booking reference</div>
@@ -338,10 +341,10 @@ export default function BookingPage({ params }: { params: Promise<{ id: string }
         {/* Carrier summary */}
         <div style={s.card}>
           <div style={s.carrierRow}>
-            <div style={{ ...s.avatar, background: carrier.avatarColor }}>{carrier.avatar}</div>
+            <div style={{ ...s.avatar, background: C.border, color: C.muted }}>VC</div>
             <div style={{ flex: 1 }}>
-              <div style={s.carrierName}>{carrier.name}</div>
-              <div style={s.carrierRoute}>{carrier.from} → {carrier.to} · {carrier.date} · {carrier.flightNo}</div>
+              <div style={s.carrierName}>Verified Carrier</div>
+              <div style={s.carrierRoute}>{carrier.from} → {carrier.to} · {carrier.date}</div>
             </div>
             <div style={{ textAlign: 'right' }}>
               <div style={{ fontSize: '18px', fontWeight: '800', color: C.coral }}>${carrier.price}</div>
@@ -479,7 +482,7 @@ export default function BookingPage({ params }: { params: Promise<{ id: string }
             <div style={{ marginBottom: '20px' }}>
               <div style={s.summaryRow}>
                 <span style={s.summaryLabel}>Carrier</span>
-                <span style={s.summaryVal}>{carrier.name}</span>
+                <span style={s.summaryVal}>Verified Carrier</span>
               </div>
               <div style={s.summaryRow}>
                 <span style={s.summaryLabel}>Route</span>
@@ -487,7 +490,7 @@ export default function BookingPage({ params }: { params: Promise<{ id: string }
               </div>
               <div style={s.summaryRow}>
                 <span style={s.summaryLabel}>Flight</span>
-                <span style={s.summaryVal}>{carrier.airline} {carrier.flightNo}</span>
+                <span style={{ ...s.summaryVal, fontStyle: 'italic', color: '#8B9BB4' }}>Revealed after confirmation</span>
               </div>
               <div style={s.summaryRow}>
                 <span style={s.summaryLabel}>Date</span>
