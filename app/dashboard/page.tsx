@@ -150,6 +150,7 @@ export default function Dashboard() {
 
   // Carry state
   const [carryRequests, setCarryRequests] = useState<CarryRequest[]>([]);
+  const [actionLoading, setActionLoading] = useState<string | null>(null);
   const [carryTrips, setCarryTrips] = useState<CarryTrip[]>([]);
   const [expandedTrip, setExpandedTrip] = useState<string | null>(null);
 
@@ -274,17 +275,23 @@ export default function Dashboard() {
   const handleSignOut = async () => { await supabase.auth.signOut(); router.push('/'); };
 
   const handleAccept = async (id: string) => {
+    setActionLoading(id + '-accept');
     setCarryRequests(prev => prev.map(r => r.id === id ? { ...r, status: 'confirmed' } : r));
+    setActionLoading(null);
     await supabase.from('bookings').update({ status: 'confirmed' }).eq('id', id);
   };
   const handleDecline = async (id: string) => {
+    setActionLoading(id + '-decline');
     setCarryRequests(prev => prev.map(r => r.id === id ? { ...r, status: 'cancelled' } : r));
+    setActionLoading(null);
     await supabase.from('bookings').update({ status: 'cancelled' }).eq('id', id);
   };
   const handleMilestone = async (bookingId: string, newStatus: string) => {
+    setActionLoading(bookingId + '-milestone');
     await supabase.from('bookings').update({ status: newStatus }).eq('id', bookingId);
     setCarryTrips(prev => prev.map(t => ({ ...t, bookings: t.bookings.map(b => b.id === bookingId ? { ...b, status: newStatus } : b) })));
     setCarryRequests(prev => prev.map(r => r.id === bookingId ? { ...r, status: newStatus } : r));
+    setActionLoading(null);
   };
   const handleCancelBooking = async (id: string) => {
     await supabase.from('bookings').update({ status: 'cancelled' }).eq('id', id);
@@ -684,13 +691,13 @@ export default function Dashboard() {
                       )}
                       {isPending && (
                         <div style={{ display: 'flex', gap: '10px', marginTop: '14px', paddingTop: '14px', borderTop: `1px solid ${C.border}` }}>
-                          <button onClick={() => handleAccept(req.id)} style={{ flex: 1, padding: '10px', background: C.green, border: 'none', borderRadius: '10px', color: '#fff', fontSize: '14px', fontWeight: '700', cursor: 'pointer', fontFamily: 'inherit' }}>Accept</button>
-                          <button onClick={() => handleDecline(req.id)} style={{ flex: 1, padding: '10px', background: 'transparent', border: `1px solid ${C.border}`, borderRadius: '10px', color: C.muted, fontSize: '14px', cursor: 'pointer', fontFamily: 'inherit' }}>Decline</button>
+                          <button onClick={() => handleAccept(req.id)} disabled={!!actionLoading} style={{ flex: 1, padding: '10px', background: C.green, border: 'none', borderRadius: '10px', color: '#fff', fontSize: '14px', fontWeight: '700', cursor: actionLoading ? 'not-allowed' : 'pointer', fontFamily: 'inherit', opacity: actionLoading === req.id + '-accept' ? 0.7 : 1, transition: 'opacity 150ms' }}>{actionLoading === req.id + '-accept' ? 'Accepting…' : 'Accept'}</button>
+                          <button onClick={() => handleDecline(req.id)} disabled={!!actionLoading} style={{ flex: 1, padding: '10px', background: 'transparent', border: `1px solid ${C.border}`, borderRadius: '10px', color: C.muted, fontSize: '14px', cursor: actionLoading ? 'not-allowed' : 'pointer', fontFamily: 'inherit', opacity: actionLoading === req.id + '-decline' ? 0.7 : 1, transition: 'opacity 150ms' }}>{actionLoading === req.id + '-decline' ? 'Declining…' : 'Decline'}</button>
                         </div>
                       )}
                       {!isPending && req.status !== 'cancelled' && req.status !== 'delivered' && (
                         <div className="actions-row">
-                          {nextMs && <button className="milestone-btn" onClick={() => handleMilestone(req.id, nextMs)} style={{ minWidth: '140px' }}>Mark {getMilestoneLabel(nextMs)}</button>}
+                          {nextMs && <button className="milestone-btn" onClick={() => handleMilestone(req.id, nextMs)} disabled={!!actionLoading} style={{ minWidth: '140px', opacity: actionLoading === req.id + '-milestone' ? 0.7 : 1, cursor: actionLoading ? 'not-allowed' : 'pointer', transition: 'opacity 150ms' }}>{actionLoading === req.id + '-milestone' ? 'Updating…' : `Mark ${getMilestoneLabel(nextMs)}`}</button>}
                           <button className="action-btn warn" onClick={() => setModal({ type: 'report_delay', id: req.id })}>Report Delay</button>
                           <button className="action-btn" onClick={() => setModal({ type: 'flag_item', id: req.id })}>Flag Item</button>
                           <button className="action-btn" onClick={() => setModal({ type: 'customs', id: req.id })}>Customs Hold</button>

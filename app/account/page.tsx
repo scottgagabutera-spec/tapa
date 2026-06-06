@@ -131,7 +131,9 @@ export default function AccountPage() {
             <div key={f.label} style={{ marginBottom: '14px' }}>
               <label style={{ fontSize: '13px', color: C.muted, marginBottom: '6px', display: 'block' }}>{f.label}</label>
               <input type={f.type} value={f.value} onChange={e => f.set(e.target.value)} placeholder={f.placeholder}
-                style={{ width: '100%', background: C.inputBg, border: `1px solid ${C.border}`, borderRadius: '10px', padding: '11px 14px', color: C.text, fontSize: '14px', fontFamily: 'inherit' }} />
+                style={{ width: '100%', background: C.inputBg, border: `1px solid ${C.border}`, borderRadius: '10px', padding: '11px 14px', color: C.text, fontSize: '14px', fontFamily: 'inherit', transition: 'border-color 0.2s, box-shadow 0.2s', outline: 'none' }}
+                onFocus={e => { e.target.style.borderColor = 'rgba(232,72,85,0.5)'; e.target.style.boxShadow = '0 0 0 3px rgba(232,72,85,0.08)'; }}
+                onBlur={e => { e.target.style.borderColor = '#243B55'; e.target.style.boxShadow = 'none'; }} />
             </div>
           ))}
           <div>

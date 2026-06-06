@@ -139,6 +139,7 @@ export default function TapaLanding() {
   const [date, setDate] = useState('');
   const [weight, setWeight] = useState('');
   const [user, setUser] = useState<UserSession>(null);
+  const [searching, setSearching] = useState(false);
   const [userLoaded, setUserLoaded] = useState(true);
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
@@ -198,9 +199,9 @@ export default function TapaLanding() {
     if (to) params.set('to', to);
     if (date) params.set('date', date);
     if (weight) params.set('weight', weight);
-    router.push(`/search?${params.toString()}`);
+    setSearching(true);
+    setTimeout(() => router.push(`/search?${params.toString()}`), 400);
   };
-
   const W = { maxWidth: '1100px', margin: '0 auto', width: '100%' };
   const S = { padding: 'clamp(28px,4vw,48px) clamp(20px,5vw,48px)' };
 
@@ -219,11 +220,15 @@ export default function TapaLanding() {
         .tapa-use { display: grid; grid-template-columns: repeat(auto-fit,minmax(280px,1fr)); gap: 18px; }
         .tapa-cta { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
         .hero-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; }
-        .search-card { background: #1A2F45; border: 1px solid #243B55; border-radius: 20px; padding: 24px; }
-        .sfield-row { display: flex; flex-direction: column; gap: 4px; padding: 12px 16px; background: #0D1B2A; border-radius: 12px; }
-        .sfield-label { font-size: 10px; font-weight: 700; color: #8B9BB4; letter-spacing: 1.5px; text-transform: uppercase; }
-        .sfield-input { font-size: 14px; font-weight: 500; color: #F8F9FA; background: transparent; border: none; outline: none; font-family: inherit; width: 100%; cursor: pointer; }
-        .sfield-input::placeholder { color: #3D5166; }
+        .search-card { background: #1A2F45; border: 1px solid #2E4A6A; border-radius: 24px; padding: 24px; box-shadow: 0 24px 80px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.05); }
+        .sfield-row { display: flex; flex-direction: column; gap: 2px; padding: 10px 14px; background: #0A1520; border-radius: 12px; border: 1px solid #1E3348; transition: border-color 150ms, box-shadow 150ms; cursor: text; }
+        .sfield-row:hover { border-color: #2E4A6A; }
+        .sfield-row:focus-within { border-color: rgba(232,72,85,0.6); box-shadow: 0 0 0 3px rgba(232,72,85,0.1); }
+        .sfield-label { font-size: 10px; font-weight: 700; color: #4A6A8A; letter-spacing: 1.2px; text-transform: uppercase; line-height: 1; }
+        .sfield-input { font-size: 15px; font-weight: 500; color: #F8F9FA; background: transparent; border: none; outline: none; font-family: inherit; width: 100%; padding: 0; line-height: 1.4; }
+        .sfield-input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(0.35); cursor: pointer; margin-left: 4px; }
+        .sfield-input::placeholder { color: #2D4560; }
+        @keyframes spin { to { transform: rotate(360deg); } }
         .sfield-row-half { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
         @media (max-width: 768px) { .hero-grid { grid-template-columns: 1fr !important; gap: 28px !important; } }
         .sbox { display: flex; align-items: stretch; background: ${C.surface}; border: 1px solid ${C.border}; border-radius: 18px; overflow: visible; box-shadow: 0 8px 48px rgba(0,0,0,0.28); }
@@ -344,17 +349,17 @@ export default function TapaLanding() {
                   <span className="sfield-label">From</span>
                   <AirportInput placeholder="City or airport" value={from} onChange={setFrom} />
                 </div>
-                <div style={{ display: 'flex', justifyContent: 'center', margin: '-2px 0' }}>
+                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', margin: '2px 0' }}>
                   <button className="tb" onClick={() => { const t = from; setFrom(to); setTo(t); }}
-                    style={{ width: '28px', height: '28px', borderRadius: '8px', background: 'transparent', border: 'none', color: C.muted, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', opacity: 0.6 }}>
+                    style={{ width: '36px', height: '36px', borderRadius: '50%', background: 'rgba(232,72,85,0.08)', border: '1px solid rgba(232,72,85,0.2)', color: C.coral, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'all 150ms', flexShrink: 0 }}
+                    onMouseEnter={e => { e.currentTarget.style.background = 'rgba(232,72,85,0.18)'; e.currentTarget.style.transform = 'rotate(180deg)'; }}
+                    onMouseLeave={e => { e.currentTarget.style.background = 'rgba(232,72,85,0.08)'; e.currentTarget.style.transform = 'rotate(0deg)'; }}>
                     <Icon.Swap />
                   </button>
                 </div>
                 <div className="sfield-row" style={{ position: 'relative' }}>
                   <span className="sfield-label">To</span>
                   <AirportInput placeholder="City or airport" value={to} onChange={setTo} />
-                </div>
-                <div className="sfield-row-half">
                   <div className="sfield-row">
                     <span className="sfield-label">Date</span>
                     <input type="date" value={date} onChange={e => setDate(e.target.value)} className="sfield-input" style={{ colorScheme: 'dark' }} />
@@ -363,11 +368,13 @@ export default function TapaLanding() {
                     <span className="sfield-label">Weight</span>
                     <input value={weight} onChange={e => setWeight(e.target.value)} placeholder="kg" className="sfield-input" />
                   </div>
-                </div>
               </div>
-              <button className="tb" onClick={handleSearch}
-                style={{ width: '100%', background: C.coral, color: '#fff', border: 'none', padding: '13px', borderRadius: '12px', fontFamily: 'inherit', fontSize: '15px', fontWeight: 700, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
-                Search carriers
+
+              <button className="tb" onClick={handleSearch} disabled={searching}
+                style={{ width: '100%', background: C.coral, color: '#fff', border: 'none', padding: '14px', borderRadius: '14px', fontFamily: 'inherit', fontSize: '15px', fontWeight: 700, cursor: searching ? 'not-allowed' : 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', boxShadow: '0 4px 24px rgba(232,72,85,0.3)', transition: 'all 150ms', opacity: searching ? 0.75 : 1 }}
+                onMouseEnter={e => { if (!searching) { e.currentTarget.style.transform = 'translateY(-1px)'; e.currentTarget.style.boxShadow = '0 8px 32px rgba(232,72,85,0.45)'; }}}
+                onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 4px 24px rgba(232,72,85,0.3)'; }}>
+                {searching ? <><span style={{ width: '14px', height: '14px', border: '2px solid rgba(255,255,255,0.3)', borderTopColor: '#fff', borderRadius: '50%', display: 'inline-block', animation: 'spin 0.7s linear infinite' }} /><span>Searching...</span></> : <><Icon.Search /><span>Search carriers</span></>}
               </button>
               <div style={{ display: 'flex', gap: '6px', marginTop: '10px', flexWrap: 'wrap', alignItems: 'center' }}>
                 <span style={{ fontSize: '11px', color: '#3D5166' }}>Popular:</span>
@@ -383,6 +390,7 @@ export default function TapaLanding() {
                     {eg.f.split(',')[0]} → {eg.t.split(',')[0]}
                   </button>
                 ))}
+              </div>
               </div>
             </div>
 
