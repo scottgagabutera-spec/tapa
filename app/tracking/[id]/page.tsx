@@ -41,27 +41,30 @@ const STATUS_ORDER: Record<string, number> = {
   cancelled: -1,
 };
 
-// Mock fallback booking for demo
-const MOCK_BOOKING = {
-  id: 'demo',
-  ref: 'TPA-DEMO01',
-  carrierName: 'Maria Santos',
-  carrierAvatar: 'MS',
-  carrierAvatarColor: '#7C3AED',
-  carrierRating: 4.9,
-  from: 'Manila',
-  to: 'Dubai',
-  date: 'Jun 12, 2026',
-  airline: 'Emirates',
-  flightNo: 'EK 334',
-  itemType: 'Electronics',
-  itemDesc: 'Laptop and accessories',
-  weight: '2',
-  totalPrice: 16,
-  status: 'confirmed',
-  bookedOn: 'May 28, 2026',
-  senderName: 'Scott C.',
-};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 type Booking = {
   id: string;
@@ -97,14 +100,14 @@ export default function TrackingPage({ params }: { params: Promise<{ id: string 
       const id = p.id;
 
       if (id === 'demo') {
-        setBooking(MOCK_BOOKING);
+        setNotFound(true);
         setLoading(false);
         return;
       }
 
       const isUUID = /^[0-9a-f-]{36}$/.test(id);
       if (!isUUID) {
-        setBooking(MOCK_BOOKING);
+        setNotFound(true);
         setLoading(false);
         return;
       }

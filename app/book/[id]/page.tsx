@@ -20,14 +20,14 @@ const C = {
   inputBg: '#0A1520',
 };
 
-const MOCK_CARRIERS = [
-  { id: 'c1', name: 'Maria Santos', avatar: 'MS', avatarColor: '#7C3AED', from: 'Manila', to: 'Dubai', date: 'Jun 12, 2026', airline: 'Emirates', flightNo: 'EK 334', price: 8, perUnit: 'kg', capacity: '5 kg', responseTime: '~1 hr', badge: 'Top Carrier', rating: 4.9 },
-  { id: 'c2', name: 'James Okonkwo', avatar: 'JO', avatarColor: '#0891B2', from: 'Lagos', to: 'London', date: 'Jun 14, 2026', airline: 'British Airways', flightNo: 'BA 076', price: 10, perUnit: 'kg', capacity: '8 kg', responseTime: '~2 hrs', badge: null, rating: 4.8 },
-  { id: 'c3', name: 'Priya Nair', avatar: 'PN', avatarColor: '#DC2626', from: 'Mumbai', to: 'Singapore', date: 'Jun 15, 2026', airline: 'Singapore Airlines', flightNo: 'SQ 422', price: 7, perUnit: 'kg', capacity: '3 kg', responseTime: '~3 hrs', badge: null, rating: 4.7 },
-  { id: 'c4', name: 'Carlos Mendez', avatar: 'CM', avatarColor: '#059669', from: 'Sao Paulo', to: 'Miami', date: 'Jun 17, 2026', airline: 'LATAM Airlines', flightNo: 'LA 8084', price: 9, perUnit: 'kg', capacity: '10 kg', responseTime: '< 30 min', badge: 'Top Carrier', rating: 5.0 },
-  { id: 'c5', name: 'Aiko Tanaka', avatar: 'AT', avatarColor: '#D97706', from: 'Tokyo', to: 'Sydney', date: 'Jun 20, 2026', airline: 'Qantas', flightNo: 'QF 26', price: 12, perUnit: 'kg', capacity: '4 kg', responseTime: '~4 hrs', badge: null, rating: 4.6 },
-  { id: 'c6', name: 'Kwame Asante', avatar: 'KA', avatarColor: '#7C3AED', from: 'Accra', to: 'New York', date: 'Jun 22, 2026', airline: 'Delta', flightNo: 'DL 460', price: 11, perUnit: 'kg', capacity: '6 kg', responseTime: '~1 hr', badge: null, rating: 4.9 },
-];
+
+
+
+
+
+
+
+
 
 const ITEM_TYPES = ['Electronics', 'Documents', 'Clothes', 'Food', 'Cosmetics', 'Small items', 'Medicine', 'Books', 'Gifts', 'Other'];
 
@@ -132,9 +132,7 @@ export default function BookingPage({ params }: { params: Promise<{ id: string }
     });
   }, [params]);
 
-  // Resolve carrier — live data or mock fallback
-  const mockCarrier = MOCK_CARRIERS.find(c => c.id === id);
-  const carrier = liveCarrier || (mockCarrier ? { ...mockCarrier, carrierId: '' } : null);
+  const carrier = liveCarrier;
 
   const weightNum = parseFloat(weight) || 0;
   const total = carrier ? (weightNum * carrier.price).toFixed(2) : '0.00';
