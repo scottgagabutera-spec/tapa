@@ -48,7 +48,7 @@ function AirportField({ label, value, onChange }: { label: string; value: string
   const [activeIndex, setActiveIndex] = useState(-1);
   const ref = useRef<HTMLDivElement>(null);
   const results = useAirportSearch(value);
-  const inp: React.CSSProperties = { width: '100%', padding: '13px 16px', background: C.inputBg, border: `1px solid ${C.border}`, borderRadius: '12px', color: C.text, fontSize: '15px', fontFamily: 'inherit', outline: 'none', boxSizing: 'border-box', transition: 'border-color 0.2s' };
+  const inp: React.CSSProperties = { width: '100%', padding: '13px 16px', background: C.inputBg, border: `1px solid ${C.border}`, borderRadius: '12px', color: C.text, fontSize: '15px', fontFamily: 'inherit', outline: 'none', boxSizing: 'border-box', transition: 'border-color 0.2s, box-shadow 0.2s' };
   const lbl: React.CSSProperties = { fontSize: '13px', fontWeight: '600', color: C.muted, marginBottom: '6px', display: 'block' };
 
   useEffect(() => {
@@ -162,7 +162,7 @@ export default function TripNewPage() {
         </div>
       </nav>
       <main style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '100px clamp(16px,4vw,24px) 40px' }}>
-        <div style={{ background: C.surface, border: `1px solid ${C.border}`, borderRadius: '20px', padding: 'clamp(32px,5vw,48px)', maxWidth: '480px', width: '100%', textAlign: 'center' }}>
+        <div style={{ background: C.surface, border: '1px solid #2E4A6A', borderRadius: '20px', padding: 'clamp(32px,5vw,48px)', maxWidth: '480px', width: '100%', textAlign: 'center', boxShadow: '0 8px 40px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.04)' }}>
           <div style={{ width: '72px', height: '72px', borderRadius: '50%', background: C.greenSoft, border: `2px solid ${C.greenBorder}`, display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 24px' }}>
             <svg width="32" height="32" viewBox="0 0 48 48" fill="none" stroke={C.green} strokeWidth="2.5" strokeLinecap="round"><path d="M20 6L9 17l-5-5"/></svg>
           </div>
@@ -224,7 +224,7 @@ export default function TripNewPage() {
         </div>
 
         {step === 1 && (
-          <div style={{ background: C.surface, border: `1px solid ${C.border}`, borderRadius: '20px', padding: 'clamp(20px,3vw,28px)' }}>
+          <div style={{ background: C.surface, border: '1px solid #2E4A6A', borderRadius: '20px', padding: 'clamp(20px,3vw,28px)', boxShadow: '0 8px 40px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.04)' }}>
             <div style={{ fontSize: '16px', fontWeight: '700', marginBottom: '4px' }}>Your route</div>
             <div style={{ fontSize: '14px', color: C.muted, marginBottom: '20px' }}>Select the airports you're flying between.</div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
@@ -313,7 +313,10 @@ export default function TripNewPage() {
             {error && <div style={{ background: 'rgba(232,72,85,0.1)', border: '1px solid rgba(232,72,85,0.3)', borderRadius: '12px', padding: '12px 16px', fontSize: '14px', color: C.coral, margin: '16px 0 0' }}>{error}</div>}
             <div style={{ display: 'flex', gap: '12px', marginTop: '20px' }}>
               <button style={{ padding: '14px 20px', background: 'transparent', border: `1px solid ${C.border}`, borderRadius: '12px', color: C.muted, fontSize: '15px', fontWeight: '600', cursor: 'pointer', fontFamily: 'inherit', flexShrink: 0 }} onClick={() => setStep(2)}>Back</button>
-              <button style={{ flex: 1, padding: '14px', background: C.coral, border: 'none', borderRadius: '12px', color: C.text, fontSize: '15px', fontWeight: '700', cursor: loading ? 'not-allowed' : 'pointer', fontFamily: 'inherit', opacity: loading ? 0.7 : 1 }} onClick={handlePublish}>
+              <button style={{ flex: 1, padding: '14px', background: C.coral, border: 'none', borderRadius: '14px', color: C.text, fontSize: '15px', fontWeight: '700', cursor: loading ? 'not-allowed' : 'pointer', fontFamily: 'inherit', opacity: loading ? 0.7 : 1, boxShadow: '0 4px 24px rgba(232,72,85,0.3)', transition: 'all 150ms' }}
+                onMouseEnter={e => { if (!loading) { e.currentTarget.style.transform = 'translateY(-1px)'; e.currentTarget.style.boxShadow = '0 8px 32px rgba(232,72,85,0.45)'; }}}
+                onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 4px 24px rgba(232,72,85,0.3)'; }}
+                onClick={handlePublish}>
                 {loading ? 'Publishing…' : 'Publish Trip'}
               </button>
             </div>

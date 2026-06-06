@@ -268,7 +268,7 @@ function SearchPageInner() {
         <div style={{ maxWidth: "960px", margin: "0 auto", padding: "32px clamp(16px,4vw,24px) 28px" }}>
           <h1 style={{ fontSize: "clamp(22px,4vw,28px)", fontWeight: 700, color: C.text, marginBottom: "6px", letterSpacing: "-0.5px" }}>Find a Carrier</h1>
           <p style={{ fontSize: "14px", color: C.muted, marginBottom: "20px" }}>Verified travelers going your way. Rated and trusted.</p>
-          <div className="sbar" style={{ background: C.surface, border: `1px solid ${C.border}`, borderRadius: "16px", overflow: "visible" }}>
+          <div className="sbar" style={{ background: C.surface, border: '1px solid #2E4A6A', borderRadius: '16px', overflow: 'visible', boxShadow: '0 8px 40px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.04)' }}>
             <AirportInput label="From" placeholder="City, country or IATA" value={from} onChange={setFrom} />
             <AirportInput label="To" placeholder="City, country or IATA" value={to} onChange={setTo} />
             <div style={{ padding: "10px 14px", borderRight: `1px solid ${C.border}` }}>
@@ -346,7 +346,7 @@ function SearchPageInner() {
             </div>
 
             {results.length === 0 ? (
-              <div style={{ textAlign: "center", padding: "60px 24px", background: C.surface, border: `1px solid ${C.border}`, borderRadius: "16px" }}>
+              <div style={{ textAlign: "center", padding: "60px 24px", background: C.surface, border: '1px solid #2E4A6A', borderRadius: '16px', boxShadow: '0 8px 40px rgba(0,0,0,0.3)' }}>
                 <svg width="48" height="48" viewBox="0 0 48 48" fill="none" stroke={C.muted} strokeWidth="1.5" strokeLinecap="round" style={{ marginBottom: "16px" }}><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
                 <h3 style={{ fontSize: "18px", fontWeight: 700, color: C.text, marginBottom: "8px" }}>No carriers on this route yet</h3>
                 <p style={{ fontSize: "14px", color: C.muted, maxWidth: "320px", margin: "0 auto", lineHeight: 1.6 }}>Be the first to post this route, or try a nearby city. Carriers are added daily.</p>
@@ -364,7 +364,7 @@ function SearchPageInner() {
                   const cityOnly = (s: string) => s.split(",")[0].split("(")[0].trim();
                   return (
                   <div key={carrier.id}
-                    style={{ background: hoveredCard === carrier.id ? C.surfaceHover : C.surface, border: `1px solid ${hoveredCard === carrier.id ? C.borderHover : C.border}`, borderRadius: "16px", padding: "clamp(14px,2.5vw,20px) clamp(16px,3vw,24px)", cursor: "pointer", transition: "background 150ms ease, border-color 150ms ease, transform 150ms ease", transform: hoveredCard === carrier.id ? "translateY(-2px)" : "none", touchAction: "manipulation" }}
+                    style={{ background: hoveredCard === carrier.id ? C.surfaceHover : C.surface, border: hoveredCard === carrier.id ? '1px solid #3A5A7A' : '1px solid #2E4A6A', borderRadius: "16px", boxShadow: hoveredCard === carrier.id ? '0 8px 32px rgba(0,0,0,0.35)' : '0 4px 24px rgba(0,0,0,0.25)', padding: "clamp(14px,2.5vw,20px) clamp(16px,3vw,24px)", cursor: "pointer", transition: "background 150ms ease, border-color 150ms ease, transform 150ms ease", transform: hoveredCard === carrier.id ? "translateY(-2px)" : "none", touchAction: "manipulation" }}
                     onMouseEnter={() => setHoveredCard(carrier.id)} onMouseLeave={() => setHoveredCard(null)}
                     onClick={() => user ? router.push(`/carrier/${carrier.id}`) : router.push(`/auth/signup?redirectTo=${encodeURIComponent('/carrier/' + carrier.id)}`)}>
                     <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
