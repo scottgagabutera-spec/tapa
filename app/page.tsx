@@ -563,13 +563,13 @@ export default function TapaLanding() {
           </div>
           <div style={{ display: 'flex', gap: '56px', flexWrap: 'wrap' }}>
             {[
-              { heading: 'Product', links: ['How it works', 'Find a Carrier', 'Become a Carrier', 'Connected Routes'] },
-              { heading: 'Company', links: ['About', 'Safety', 'Trust & Verify', 'Contact'] },
+              { heading: 'Product', links: [{ label: 'How it works', href: '/how-it-works' }, { label: 'Find a Carrier', href: '/search' }, { label: 'Become a Carrier', href: '/auth/signup?role=carrier' }, { label: 'Post a Trip', href: '/trip/new' }] },
+              { heading: 'Company', links: [{ label: 'About', href: '/about' }, { label: 'Safety', href: '/safety' }, { label: 'Terms', href: '/terms' }, { label: 'Privacy', href: '/privacy' }, { label: 'Contact', href: '/contact' }] },
             ].map(col => (
               <div key={col.heading}>
                 <p style={{ fontSize: '11px', fontWeight: 700, color: C.muted, letterSpacing: '2px', textTransform: 'uppercase' as const, marginBottom: '18px' }}>{col.heading}</p>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                  {col.links.map(link => (<a key={link} href="#" style={{ fontSize: '13px', color: '#4A6380', textDecoration: 'none' }}>{link}</a>))}
+                  {col.links.map((link: any) => (<a key={link.label} href={link.href} style={{ fontSize: '13px', color: '#4A6380', textDecoration: 'none' }}>{link.label}</a>))}
                 </div>
               </div>
             ))}
