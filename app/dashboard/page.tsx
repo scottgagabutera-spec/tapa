@@ -381,6 +381,7 @@ export default function Dashboard() {
                 { label: 'Post a Trip', action: () => { router.push('/trip/new'); setMenuOpen(false); } },
                 { label: 'Feed', action: () => { router.push('/feed'); setMenuOpen(false); } },
                 { label: 'Account Settings', action: () => { router.push('/account'); setMenuOpen(false); } },
+                { label: 'Messages', action: () => { router.push('/messages'); setMenuOpen(false); } },
               ].map(item => (
                 <button key={item.label} onClick={item.action}
                   style={{ width: '100%', textAlign: 'left', padding: '10px 16px', background: 'transparent', border: 'none', color: C.text, fontSize: '13px', cursor: 'pointer', fontFamily: 'inherit' }}
@@ -688,6 +689,13 @@ export default function Dashboard() {
                             <img key={i} src={url} alt="item" style={{ width: '72px', height: '72px', borderRadius: '10px', objectFit: 'cover', border: `1px solid ${C.border}`, cursor: 'pointer' }} onClick={() => window.open(url, '_blank')} />
                           ))}
                         </div>
+                      )}
+                      {req.status === 'confirmed' && (
+                        <button onClick={() => router.push(`/messages/${req.id}__${userId}`)} style={{ width: '100%', padding: '10px', background: 'transparent', border: `1px solid ${C.border}`, borderRadius: '10px', color: C.muted, fontSize: '13px', cursor: 'pointer', fontFamily: 'inherit', marginTop: '10px', transition: 'all 150ms' }}
+                          onMouseEnter={e => { e.currentTarget.style.borderColor = C.coral; e.currentTarget.style.color = C.coral; }}
+                          onMouseLeave={e => { e.currentTarget.style.borderColor = C.border; e.currentTarget.style.color = C.muted; }}>
+                          💬 Message Sender
+                        </button>
                       )}
                       {isPending && (
                         <div style={{ display: 'flex', gap: '10px', marginTop: '14px', paddingTop: '14px', borderTop: `1px solid ${C.border}` }}>

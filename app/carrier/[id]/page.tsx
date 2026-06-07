@@ -371,6 +371,12 @@ export default function CarrierProfilePage({ params }: { params: Promise<{ id: s
             <div style={{ fontSize: '14px', color: C.muted }}>Contact carrier for pricing</div>
           )}
         </div>
+        <button style={{ width: '100%', padding: '13px', background: 'transparent', border: `1px solid ${C.border}`, borderRadius: '14px', color: C.text, fontSize: '15px', fontWeight: '600', cursor: 'pointer', fontFamily: 'inherit', marginBottom: '10px', transition: 'all 150ms' }}
+          onMouseEnter={e => { e.currentTarget.style.borderColor = C.coral; e.currentTarget.style.color = C.coral; }}
+          onMouseLeave={e => { e.currentTarget.style.borderColor = C.border; e.currentTarget.style.color = C.text; }}
+          onClick={() => { supabase.auth.getUser().then(({data:{user}}) => { if (!user) { window.location.href = `/auth/login?redirectTo=${window.location.pathname}`; } else { window.location.href = `/messages/${tripId || carrier.id}__${carrier.id}`; } }); }}>
+          💬 Message Carrier
+        </button>
         <button style={s.bookBtn}
           onClick={() => router.push(`/book/${tripId || carrier.id}`)}
           onMouseEnter={e => { e.currentTarget.style.background = C.coralDark; e.currentTarget.style.transform = 'translateY(-1px)'; }}
@@ -381,3 +387,4 @@ export default function CarrierProfilePage({ params }: { params: Promise<{ id: s
     </div>
   );
 }
+
