@@ -165,7 +165,7 @@ export default function CarrierProfilePage({ params }: { params: Promise<{ id: s
     heroCard: { background: C.surface, border: `1px solid ${C.border}`, borderRadius: '20px', padding: '32px', marginBottom: '16px' },
     sectionCard: { background: C.surface, border: `1px solid ${C.border}`, borderRadius: '20px', padding: '24px', marginBottom: '16px' },
     sectionTitle: { fontSize: '16px', fontWeight: '700', color: C.text, marginBottom: '16px' },
-    stickyBar: { position: 'fixed', bottom: 0, left: 0, right: 0, background: 'rgba(13,27,42,0.96)', backdropFilter: 'blur(12px)', borderTop: `1px solid ${C.border}`, padding: '16px 24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '16px', zIndex: 50 },
+    stickyBar: { position: 'fixed', bottom: 0, left: 0, right: 0, background: 'rgba(13,27,42,0.96)', backdropFilter: 'blur(12px)', borderTop: `1px solid ${C.border}`, padding: '16px 24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '16px', zIndex: 100 },
     bookBtn: { padding: '14px 32px', background: C.coral, border: 'none', borderRadius: '12px', color: C.text, fontSize: '16px', fontWeight: '700', cursor: 'pointer', fontFamily: 'inherit', transition: 'all 0.2s ease', boxShadow: '0 4px 20px rgba(232,72,85,0.35)' },
   };
 
