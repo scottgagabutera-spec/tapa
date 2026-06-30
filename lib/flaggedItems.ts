@@ -26,7 +26,7 @@ export const CATEGORY_NOTICES: Record<string, FlagNotice> = {
   Electronics: {
     risk: 'caution',
     type: 'air-safety',
-    notice: 'Devices with batteries have airline rules — spare batteries and power banks are carry-on only. Worth checking before the trip.',
+    notice: 'Devices with batteries have airline rules. Spare batteries and power banks need to go in carry-on, not checked baggage. Worth checking before the trip.',
   },
   Documents: {
     risk: 'informational',
@@ -36,7 +36,7 @@ export const CATEGORY_NOTICES: Record<string, FlagNotice> = {
   Food: {
     risk: 'caution',
     type: 'customs',
-    notice: 'Food import rules vary by country. Check the destination\'s customs rules before sending.',
+    notice: 'Food import rules vary by country. Check the destination customs rules before sending.',
   },
   Cosmetics: {
     risk: 'caution',
@@ -46,12 +46,12 @@ export const CATEGORY_NOTICES: Record<string, FlagNotice> = {
   Medicine: {
     risk: 'caution',
     type: 'customs',
-    notice: 'Carrying the prescription or a doctor\'s note is recommended in case it\'s questioned at either end.',
+    notice: 'Carrying the prescription or a doctor note is recommended in case it is questioned at either end.',
   },
   Gifts: {
     risk: 'informational',
     type: 'general',
-    notice: '"Gifts" can mean almost anything — the more specific the description, the better the carrier and customs notices we can show.',
+    notice: '"Gifts" can mean almost anything. The more specific the description, the better the notices we can show for the carrier and customs.',
   },
 }
 
@@ -67,7 +67,7 @@ export const KEYWORD_NOTICES: KeywordEntry[] = [
     keywords: ['power bank', 'spare battery', 'loose battery', 'lithium battery'],
     risk: 'caution',
     type: 'air-safety',
-    notice: 'Carry-on only, never checked baggage. Most are fine under 100Wh — higher may need airline approval.',
+    notice: 'Carry-on only, never checked baggage. Most are fine under 100Wh. Higher may need airline approval.',
   },
   {
     keywords: ['e-cigarette', 'vape', 'e cigarette'],
@@ -79,19 +79,19 @@ export const KEYWORD_NOTICES: KeywordEntry[] = [
     keywords: ['hoverboard', 'e-bike', 'electric bike', 'balance board'],
     risk: 'restricted',
     type: 'air-safety',
-    notice: 'Most airlines prohibit these outright due to non-removable batteries. Worth confirming with the carrier\'s airline before agreeing to this one.',
+    notice: 'Most airlines prohibit these outright due to non-removable batteries. Worth confirming with the carrier airline before agreeing to this one.',
   },
   {
     keywords: ['drone'],
     risk: 'caution',
     type: 'both',
-    notice: 'Battery rules apply like any lithium device. Some countries also restrict drone import — check the destination.',
+    notice: 'Battery rules apply like any lithium device. Some countries also restrict drone import, so it is worth checking the destination.',
   },
   {
     keywords: ['perfume', 'cologne', 'nail polish'],
     risk: 'caution',
     type: 'air-safety',
-    notice: 'Treated as a liquid — 100ml limit in carry-on applies.',
+    notice: 'Treated as a liquid. The 100ml limit in carry-on applies.',
   },
   {
     keywords: ['alcohol', 'wine', 'whisky', 'whiskey', 'vodka', 'liquor'],
@@ -109,7 +109,7 @@ export const KEYWORD_NOTICES: KeywordEntry[] = [
     keywords: ['weapon', 'gun', 'ammunition', 'ammo', 'ballistic'],
     risk: 'restricted',
     type: 'air-safety',
-    notice: 'Heavily restricted — real weapons need checked baggage, a locked case, and often advance airline approval. Worth reconsidering this one.',
+    notice: 'Heavily restricted. Real weapons need checked baggage, a locked case, and often advance airline approval. Worth reconsidering this one.',
   },
   {
     keywords: ['pepper spray', 'mace', 'taser', 'stun gun'],
@@ -139,7 +139,7 @@ export const KEYWORD_NOTICES: KeywordEntry[] = [
     keywords: ['plant', 'seed', 'produce', 'fruit', 'vegetable'],
     risk: 'restricted',
     type: 'customs',
-    notice: 'Common agricultural quarantine target — many countries require permits or ban these outright.',
+    notice: 'Common agricultural quarantine target. Many countries require permits or ban these outright.',
   },
   {
     keywords: ['cbd', 'cannabis', 'thc', 'weed'],
@@ -151,7 +151,7 @@ export const KEYWORD_NOTICES: KeywordEntry[] = [
     keywords: ['cash', 'currency', 'banknotes'],
     risk: 'caution',
     type: 'customs',
-    notice: 'Most countries require declaration above a threshold (commonly around USD 10,000 equivalent). Check the destination\'s rules.',
+    notice: 'Most countries require declaration above a threshold, commonly around USD 10,000 equivalent. Check the destination rules.',
   },
   {
     keywords: ['jewelry', 'jewellery', 'watch', 'diamond', 'gold'],
