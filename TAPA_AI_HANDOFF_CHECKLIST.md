@@ -2,13 +2,15 @@
 
 Read this before touching any file. This is Scott's standing working method for every project (Tapa, Annie, Margo). It does not change between sessions or between AI tools.
 
+This file supersedes CLAUDE.md and AGENTS.md for project-specific rules — it's the single merged source of truth. AGENTS.md's Next.js version warning still applies and should be checked separately when relevant.
+
 ## Who you're working with
 
 Scott is a solo international founder (Makati, Philippines) building Tapa under real financial constraints, pursuing investment and partnerships at the same time as building. He needs efficient, accurate help — not padding, not generic boilerplate, not unconfirmed assumptions presented as fact.
 
 ## The eleven non-negotiable statements
 
-Every single change, every file, every suggestion, must be evaluated against all eleven of these. They are equal weight — none of them outranks another, and skipping one to satisfy another is not acceptable without flagging the tradeoff explicitly.
+Every single change, every file, every suggestion, must be evaluated against all eleven of these. They are equal weight — none of them outranks another, and skipping one to satisfy another is not acceptable without flagging the tradeoff explicitly. If even one fails, do not merge.
 
 1. Mobile first
 2. Mobile app ready soon (anticipate the native build, don't build things that will need redoing)
@@ -21,6 +23,8 @@ Every single change, every file, every suggestion, must be evaluated against all
 9. Very logical
 10. Top-notch modern CSS tools and features
 11. Unique
+
+(Note: an earlier version of this checklist in CLAUDE.md listed only nine statements, missing #2 and #10. This eleven-item list is the current, correct version — update or retire any file still showing nine.)
 
 Do not silently optimize for one and ignore the rest. If a request only serves one or two of these, say so and explain the tradeoff before proceeding.
 
@@ -35,9 +39,37 @@ Do not silently optimize for one and ignore the rest. If a request only serves o
 - **Branch before changes**, git discipline matters — don't suggest changes that bypass version control habits.
 - **Single source of truth for design tokens.** Colors, type scale, spacing live in one place (see BRAND.md). Never let inline styles, Tailwind config, and documentation drift out of sync — check all three when changing any visual value.
 
+## Bug prevention rules (learned from real production bugs)
+
+### URL param state initialization
+Any page that reads URL params on load MUST initialize state from those params — never default to `false` or empty when params are present.
+
+Wrong:
+```ts
+const [searched, setSearched] = useState(false);
+```
+
+Correct:
+```ts
+const [searched, setSearched] = useState(!!(searchParams.get("from") || searchParams.get("to")));
+```
+
+This applies to any boolean or derived state that controls rendering based on URL params. Skipping this causes results to show on mobile (different re-render timing) but not desktop — this exact bug happened once already.
+
+### Mobile-first verification (concrete procedure)
+Before every merge, open DevTools → toggle device toolbar → Samsung Galaxy A51 (412px width). Every screen must look premium at this size, not like a stacked plain form. This is the practical test for statement #1 — don't just claim "mobile first," verify it at this exact viewport before calling anything done.
+
+### Consistency check before building new UI
+Before adding any UI pattern (search bar, input field, card, button), grep the codebase for existing implementations of that pattern first. Never build the same thing twice with different styles.
+
+```bash
+grep -rn "AirportInput\|AirportField\|search.*form" app/ | grep -v ".next"
+```
+
 ## Tapa project specifics
 
 - Stack: Next.js, Supabase, deployed on Vercel (live at tapa-blue.vercel.app)
+- GitHub: `https://github.com/scottgagabutera-spec/tapa` (lowercase — repo was moved, local remote already updated to match)
 - Core distinction from Grabr: Tapa carries items the sender already owns; Grabr buys on the sender's behalf
 - Core differentiator vs other couriers: real travelers, not logistics companies — cheaper and built on trust, not necessarily faster (don't force rigid delivery date guarantees — most travelers don't know exact return dates; the honest promise is price and human connection, not speed)
 - "Connected Route" feature: chains two carriers through a hub city when no single direct carrier covers the full route
@@ -49,7 +81,7 @@ Do not silently optimize for one and ignore the rest. If a request only serves o
 
 ## Known live bug to fix
 
-In `app/page.tsx`, the hero search card has a JSX nesting error: the Date and Weight input rows are nested inside the "To" airport input's closing div instead of being sibling elements. It doesn't visibly break the page due to flexbox, but it's structurally wrong and should be corrected to three separate sibling `sfield-row` divs (To / Date / Weight) rather than nested.
+In `app/page.tsx`, the hero search card has a JSX nesting error: the Date and Weight input rows are nested inside the "To" airport input's closing div instead of being sibling elements. It doesn't visibly break the page due to flexbox, but it's structurally wrong and should be corrected to three separate sibling `sfield-row` divs (To / Date / Weight) rather than nested. Still unfixed as of this doc.
 
 ## Imagery decision (as of this doc)
 
@@ -60,8 +92,10 @@ Tapa stays icon-and-color only in functional explainer sections (How it works, W
 Before telling Scott a change is ready, confirm:
 - Checked against all 11 statements, tradeoffs flagged if any were deprioritized
 - No new hardcoded color/font values introduced outside BRAND.md's table
-- Mobile behavior considered, not just desktop
+- Mobile behavior verified at 412px (Samsung Galaxy A51), not just assumed
+- Grepped for existing implementations before building a new UI pattern
+- URL param state initialized correctly if the page reads search params
 - No unsourced claims/stats added to copy
 - File encoding stays UTF-8
 
-*Created June 30, 2026, for continuity between AI sessions on the Tapa project.*
+*Created June 30, 2026, for continuity between AI sessions on the Tapa project. Merged with CLAUDE.md's bug-prevention rules same day.*
