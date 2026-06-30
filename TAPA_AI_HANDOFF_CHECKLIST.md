@@ -74,14 +74,18 @@ grep -rn "AirportInput\|AirportField\|search.*form" app/ | grep -v ".next"
 - Core differentiator vs other couriers: real travelers, not logistics companies — cheaper and built on trust, not necessarily faster (don't force rigid delivery date guarantees — most travelers don't know exact return dates; the honest promise is price and human connection, not speed)
 - "Connected Route" feature: chains two carriers through a hub city when no single direct carrier covers the full route
 - Unsolved/unanswered product questions that any new assistant should know are still open:
-  - Exact escrow/fraud-prevention mechanism is not fully specified — this is the single most important unanswered question before serious investor conversations. Don't assume a solution exists; help Scott work through it if asked.
-  - No reviews/ratings data exists yet (too early, no completed transactions)
-  - Weight/size handling is currently a free-text kg field; moving to fixed size tiers (small/medium/large, Vinted-style) is on the roadmap but not built
+  - Reviews/ratings system is not yet built (no completed transactions yet to seed it) — now a top build priority, since it's load-bearing for the trust model, not just a nice-to-have. See TAPA_TRUST_SAFETY_ESCROW.md.
+  - ID verification (Stripe Identity) is not yet built — pair with Stripe Connect integration since they share a vendor. See TAPA_TRUST_SAFETY_ESCROW.md.
+  - Immutable in-app messaging (no edit/delete after booking confirmed) is not yet built — needed as the dispute record. See TAPA_TRUST_SAFETY_ESCROW.md.
+  - Exact dispute resolution process (who reviews a flagged dispute, what evidence is weighted, timeline) is not designed yet.
+  - Weight/size handling is currently a free-text kg field; moving to fixed size tiers (small/medium/large, Vinted-style) is on the roadmap but not built.
+- Escrow/fraud-prevention mechanism: **resolved as of June 30, 2026.** Full reasoning, the BlaBlaCar/Grabr comparable research, and the resulting model live in TAPA_TRUST_SAFETY_ESCROW.md — read that file before touching anything escrow, trust, or fraud related. Short version: escrow means payment escrow only (Stripe Connect, delayed payout to carrier), not item insurance; fraud is minimized through trust infrastructure (ID verification, reviews, immutable messaging), not through underwriting.
 - BRAND.md (saved alongside this file) is the real, current source of truth for colors, typography, logo, and CSS strategy as of June 30, 2026. Treat it as accurate, not aspirational — it was rewritten to match the live codebase, not the other way around.
+- TAPA_TRUST_SAFETY_ESCROW.md (saved alongside this file) is the source of truth for trust, safety, escrow, and customs decisions as of June 30, 2026. Read it before working on any of those areas.
 
 ## Known live bug to fix
 
-In `app/page.tsx`, the hero search card has a JSX nesting error: the Date and Weight input rows are nested inside the "To" airport input's closing div instead of being sibling elements. It doesn't visibly break the page due to flexbox, but it's structurally wrong and should be corrected to three separate sibling `sfield-row` divs (To / Date / Weight) rather than nested. Still unfixed as of this doc.
+None currently open. The JSX nesting bug in `app/page.tsx` (Date and Weight fields nested inside the "To" field's closing div instead of being sibling rows) was fixed and pushed June 30, 2026. Verify at 412px width before assuming it's fully resolved if picking this up in a new session.
 
 ## Imagery decision (as of this doc)
 
@@ -98,4 +102,4 @@ Before telling Scott a change is ready, confirm:
 - No unsourced claims/stats added to copy
 - File encoding stays UTF-8
 
-*Created June 30, 2026, for continuity between AI sessions on the Tapa project. Merged with CLAUDE.md's bug-prevention rules same day.*
+*Created June 30, 2026, for continuity between AI sessions on the Tapa project. Merged with CLAUDE.md's bug-prevention rules same day. Updated same day to mark escrow/fraud-prevention as resolved and link TAPA_TRUST_SAFETY_ESCROW.md.*
