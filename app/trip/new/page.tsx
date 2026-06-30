@@ -2,6 +2,8 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { supabase } from '@/lib/supabase';
+import { getNoticesForTypes } from '@/lib/flaggedItems';
+import SafetyNotice from '@/components/SafetyNotice';
 
 const C = {
   bg: '#0D1B2A', surface: '#1A2F45', border: '#243B55', borderHover: '#2E4A6A',
@@ -108,6 +110,12 @@ export default function TripNewPage() {
   const [price, setPrice] = useState('');
   const [acceptedTypes, setAcceptedTypes] = useState<string[]>([]);
   const [bio, setBio] = useState('');
+
+  // Safety notices — category-level only, since this page collects accepted
+  // types (plural), not one item description. See lib/flaggedItems.ts.
+  const [dismissedNotices, setDismissedNotices] = useState<string[]>([]);
+  const typeNotices = getNoticesForTypes(acceptedTypes);
+  const dismissNotice = (notice: string) => setDismissedNotices(prev => [...prev, notice]);
 
   useEffect(() => { setMounted(true); }, []);
 
@@ -278,6 +286,9 @@ export default function TripNewPage() {
                   {ITEM_TYPES.map(t => <div key={t} style={typeChip(acceptedTypes.includes(t))} onClick={() => toggleType(t)}>{t}</div>)}
                 </div>
               </div>
+
+              <SafetyNotice notices={typeNotices} dismissed={dismissedNotices} onDismiss={dismissNotice} />
+
               <div>
                 <label style={lbl}>About you <span style={{ fontWeight: '400', color: C.muted }}>(optional)</span></label>
                 <textarea placeholder="Tell senders about yourself — builds trust." value={bio} onChange={e => setBio(e.target.value)} style={{ ...inp, resize: 'vertical', minHeight: '80px' }} onFocus={e => (e.target.style.borderColor = C.coral)} onBlur={e => (e.target.style.borderColor = C.border)} />
@@ -310,6 +321,11 @@ export default function TripNewPage() {
               <span style={{ fontSize: '13px', color: C.muted }}>About you</span>
               <span style={{ fontSize: '13px', color: C.muted, display: 'block', marginTop: '4px' }}>{bio}</span>
             </div>}
+
+            <div style={{ marginTop: '16px' }}>
+              <SafetyNotice notices={typeNotices} dismissed={dismissedNotices} onDismiss={dismissNotice} />
+            </div>
+
             {error && <div style={{ background: 'rgba(232,72,85,0.1)', border: '1px solid rgba(232,72,85,0.3)', borderRadius: '12px', padding: '12px 16px', fontSize: '14px', color: C.coral, margin: '16px 0 0' }}>{error}</div>}
             <div style={{ display: 'flex', gap: '12px', marginTop: '20px' }}>
               <button style={{ padding: '14px 20px', background: 'transparent', border: `1px solid ${C.border}`, borderRadius: '12px', color: C.muted, fontSize: '15px', fontWeight: '600', cursor: 'pointer', fontFamily: 'inherit', flexShrink: 0 }} onClick={() => setStep(2)}>Back</button>

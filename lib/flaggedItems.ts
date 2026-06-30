@@ -203,3 +203,19 @@ export function getNoticesForItem(itemType: string, itemDesc: string): FlagNotic
     return true
   })
 }
+
+// Category-only check across multiple selected types at once. Used where a
+// carrier selects several accepted item types for a trip rather than
+// describing one specific item (e.g. app/trip/new). No keyword scan here,
+// since there is no free-text item description on that page, only a bio.
+export function getNoticesForTypes(types: string[]): FlagNotice[] {
+  const all = types
+    .map(getCategoryNotice)
+    .filter((n): n is FlagNotice => n !== null)
+  const seen = new Set<string>()
+  return all.filter(n => {
+    if (seen.has(n.notice)) return false
+    seen.add(n.notice)
+    return true
+  })
+}
