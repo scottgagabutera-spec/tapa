@@ -1,11 +1,11 @@
 // lib/flaggedItems.ts
 // Reference data and matching logic for Tapa's safety notice system.
-// Backs TAPA_SAFETY_NOTICES.md and TAPA_FLAGGED_ITEMS.md — read those first.
+// Backs TAPA_SAFETY_NOTICES.md and TAPA_FLAGGED_ITEMS.md. Read those first.
 //
 // Two layers:
-// 1. Category notices — keyed to the fixed ITEM_TYPES dropdown already used
+// 1. Category notices, keyed to the fixed ITEM_TYPES dropdown already used
 //    in app/posts/new, app/trip/new, and app/book/[id]. Direct lookup, no scanning.
-// 2. Keyword notices — scanned against the free-text item_desc field, since a
+// 2. Keyword notices, scanned against the free-text item_desc field, since a
 //    sender can pick a broad category but describe something more specific.
 
 export type NoticeRisk = 'informational' | 'caution' | 'restricted'
@@ -18,7 +18,7 @@ export interface FlagNotice {
 }
 
 // Layer 1: category-level notices.
-// Keys must match ITEM_TYPES exactly. Not every category needs a notice —
+// Keys must match ITEM_TYPES exactly. Not every category needs a notice.
 // Clothes, Small items, Books, and Other are intentionally omitted here since
 // they carry no inherent flag on their own (Other and Small items still get
 // caught by the keyword scan on item_desc if something specific is named).
@@ -56,7 +56,7 @@ export const CATEGORY_NOTICES: Record<string, FlagNotice> = {
 }
 
 // Layer 2: keyword notices, scanned against item_desc.
-// Matching is case-insensitive substring matching — simple on purpose, see
+// Matching is case-insensitive substring matching. Simple on purpose, see
 // TAPA_SAFETY_NOTICES.md for why this doesn't need a full AI model yet.
 interface KeywordEntry extends FlagNotice {
   keywords: string[]
@@ -180,8 +180,8 @@ export function getCategoryNotice(itemType: string): FlagNotice | null {
 }
 
 // Scans free-text item_desc for flagged keywords. Case-insensitive substring
-// match. Returns every match found, not just the first — a description can
-// reasonably trigger more than one notice (e.g. "laptop and a knife").
+// match. Returns every match found, not just the first, since a description
+// can reasonably trigger more than one notice (e.g. laptop and a knife).
 export function scanDescription(desc: string): FlagNotice[] {
   if (!desc) return []
   const lower = desc.toLowerCase()
@@ -190,8 +190,8 @@ export function scanDescription(desc: string): FlagNotice[] {
   ).map(({ keywords, ...notice }) => notice)
 }
 
-// Combines both layers for a single booking/post. Dedupes by notice text so
-// the UI never shows the same message twice if both layers happen to match.
+// Combines both layers for a single booking or post. Dedupes by notice text
+// so the UI never shows the same message twice if both layers happen to match.
 export function getNoticesForItem(itemType: string, itemDesc: string): FlagNotice[] {
   const categoryNotice = getCategoryNotice(itemType)
   const keywordNotices = scanDescription(itemDesc)
