@@ -2,6 +2,8 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { supabase } from '@/lib/supabase';
+import { getNoticesForItem } from '@/lib/flaggedItems';
+import SafetyNotice from '@/components/SafetyNotice';
 
 const C = {
   bg: '#0D1B2A',
@@ -50,6 +52,11 @@ export default function PostsNew() {
 
   // Step 3 — Review
   const [note, setNote] = useState('');
+
+  // Safety notices — dismissed by notice text, shared across Step 2 and Step 3
+  const [dismissedNotices, setDismissedNotices] = useState<string[]>([]);
+  const safetyNotices = getNoticesForItem(itemType, itemDesc);
+  const dismissNotice = (notice: string) => setDismissedNotices(prev => [...prev, notice]);
 
   useEffect(() => { setMounted(true); }, []);
 
@@ -240,6 +247,9 @@ export default function PostsNew() {
                 <label style={labelStyle}>Description</label>
                 <input value={itemDesc} onChange={e => setItemDesc(e.target.value)} placeholder="e.g. Laptop and charger, well-packed" style={inputStyle} />
               </div>
+
+              <SafetyNotice notices={safetyNotices} dismissed={dismissedNotices} onDismiss={dismissNotice} />
+
               <div>
                 <label style={labelStyle}>Approximate weight (kg)</label>
                 <input type="number" value={weight} onChange={e => setWeight(e.target.value)} placeholder="e.g. 2" style={inputStyle} min="0.1" step="0.1" />
@@ -279,6 +289,8 @@ export default function PostsNew() {
                 ))}
               </div>
             </div>
+
+            <SafetyNotice notices={safetyNotices} dismissed={dismissedNotices} onDismiss={dismissNotice} />
 
             <div style={{ background: C.surface, border: `1px solid ${C.border}`, borderRadius: '16px', padding: '20px' }}>
               <label style={labelStyle}>Add a note for carriers (optional)</label>
