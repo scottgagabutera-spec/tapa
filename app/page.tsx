@@ -150,10 +150,8 @@ export default function TapaLanding() {
     return () => window.removeEventListener('scroll', fn);
   }, []);
 
-  // Preload airports on mount for instant search
   useEffect(() => { loadAirports(); }, []);
 
-  // Reactive auth state
   useEffect(() => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_e, session) => {
       if (!session) { setUser(null); setUserLoaded(true); }
@@ -161,7 +159,6 @@ export default function TapaLanding() {
     return () => subscription.unsubscribe();
   }, []);
 
-  // Load signed-in user
   useEffect(() => {
     const load = async () => {
       try {
@@ -178,7 +175,6 @@ export default function TapaLanding() {
     load();
   }, []);
 
-  // Close menu on outside click
   useEffect(() => {
     const handler = (e: MouseEvent) => {
       if (menuRef.current && !menuRef.current.contains(e.target as Node)) setMenuOpen(false);
@@ -262,10 +258,8 @@ export default function TapaLanding() {
           <span style={{ fontSize: '19px', fontWeight: 800, letterSpacing: '-0.5px' }}>tapa</span>
         </div>
 
-        {/* Nav right — signed in vs signed out */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px', opacity: userLoaded ? 1 : 0, transition: 'opacity 150ms ease' }}>
             {user ? (
-              // SIGNED IN
               <>
                 {user.role === 'carrier' ? (
                   <button className="tb hide-mobile" style={{ background: C.coral, color: '#fff', border: 'none', padding: '8px 16px', borderRadius: '12px', fontFamily: 'inherit', fontSize: '13px', fontWeight: 700, cursor: 'pointer' }} onClick={() => router.push('/trip/new')}>
@@ -276,7 +270,6 @@ export default function TapaLanding() {
                     Find a Carrier
                   </button>
                 )}
-                {/* Avatar + dropdown */}
                 <div ref={menuRef} style={{ position: 'relative' }}>
                   <button onClick={() => setMenuOpen(v => !v)} style={{ width: '38px', height: '38px', borderRadius: '50%', background: C.coral, border: `2px solid ${menuOpen ? C.text : 'transparent'}`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '13px', fontWeight: 700, color: '#fff', cursor: 'pointer', fontFamily: 'inherit', transition: 'border-color 150ms' }}>
                     {user.initials}
@@ -300,7 +293,6 @@ export default function TapaLanding() {
                 </div>
               </>
             ) : (
-              // SIGNED OUT
               <>
                 <button className="tb hide-mobile" style={{ background: 'transparent', color: C.text, border: `1.5px solid ${C.border}`, padding: '8px 16px', borderRadius: '12px', fontFamily: 'inherit', fontSize: '13px', fontWeight: 600, cursor: 'pointer' }} onClick={() => router.push('/auth/signup?role=carrier')}>
                   I'm a Carrier
@@ -360,14 +352,15 @@ export default function TapaLanding() {
                 <div className="sfield-row" style={{ position: 'relative' }}>
                   <span className="sfield-label">To</span>
                   <AirportInput placeholder="City or airport" value={to} onChange={setTo} />
-                  <div className="sfield-row">
-                    <span className="sfield-label">Date</span>
-                    <input type="date" value={date} onChange={e => setDate(e.target.value)} className="sfield-input" style={{ colorScheme: 'dark' }} />
-                  </div>
-                  <div className="sfield-row">
-                    <span className="sfield-label">Weight</span>
-                    <input value={weight} onChange={e => setWeight(e.target.value)} placeholder="kg" className="sfield-input" />
-                  </div>
+                </div>
+                <div className="sfield-row">
+                  <span className="sfield-label">Date</span>
+                  <input type="date" value={date} onChange={e => setDate(e.target.value)} className="sfield-input" style={{ colorScheme: 'dark' }} />
+                </div>
+                <div className="sfield-row">
+                  <span className="sfield-label">Weight</span>
+                  <input value={weight} onChange={e => setWeight(e.target.value)} placeholder="kg" className="sfield-input" />
+                </div>
               </div>
 
               <button className="tb" onClick={handleSearch} disabled={searching}
@@ -391,12 +384,12 @@ export default function TapaLanding() {
                   </button>
                 ))}
               </div>
-              </div>
             </div>
 
           </div>
         </div>
       </section>
+
       {/* STATS — honest for a new product */}
       <section style={{ padding: '0 clamp(20px,5vw,48px) 40px' }}>
         <div style={W}>
