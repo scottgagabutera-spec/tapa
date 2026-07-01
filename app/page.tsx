@@ -215,8 +215,9 @@ export default function TapaLanding() {
         .tapa-feat { display: grid; grid-template-columns: repeat(auto-fit,minmax(240px,1fr)); gap: 18px; }
         .tapa-use { display: grid; grid-template-columns: repeat(auto-fit,minmax(280px,1fr)); gap: 18px; }
         .tapa-cta { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
-        .hero-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; }
-        .search-card { background: #1A2F45; border: 1px solid #2E4A6A; border-radius: 24px; padding: 24px; box-shadow: 0 24px 80px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.05); }
+        .hero-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; position: relative; }
+        .hero-art { position: absolute; top: 50%; right: -6%; transform: translateY(-50%); width: 620px; max-width: 46vw; opacity: 0.9; pointer-events: none; z-index: 0; }
+        .search-card { background: #1A2F45; border: 1px solid #2E4A6A; border-radius: 24px; padding: 24px; box-shadow: 0 24px 80px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.05); position: relative; z-index: 1; }
         .sfield-row { display: flex; flex-direction: column; gap: 2px; padding: 10px 14px; background: #0A1520; border-radius: 12px; border: 1px solid #1E3348; transition: border-color 150ms, box-shadow 150ms; cursor: text; }
         .sfield-row:hover { border-color: #2E4A6A; }
         .sfield-row:focus-within { border-color: rgba(232,72,85,0.6); box-shadow: 0 0 0 3px rgba(232,72,85,0.1); }
@@ -226,7 +227,7 @@ export default function TapaLanding() {
         .sfield-input::placeholder { color: #2D4560; }
         @keyframes spin { to { transform: rotate(360deg); } }
         .sfield-row-half { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-        @media (max-width: 768px) { .hero-grid { grid-template-columns: 1fr !important; gap: 28px !important; } }
+        @media (max-width: 768px) { .hero-grid { grid-template-columns: 1fr !important; gap: 28px !important; } .hero-art { display: none; } }
         .sbox { display: flex; align-items: stretch; background: ${C.surface}; border: 1px solid ${C.border}; border-radius: 18px; overflow: visible; box-shadow: 0 8px 48px rgba(0,0,0,0.28); }
         .sfields { display: flex; align-items: stretch; flex: 1; min-width: 0; }
         .sdiv { width: 1px; background: ${C.border}; flex-shrink: 0; margin: 10px 0; }
@@ -312,6 +313,8 @@ export default function TapaLanding() {
         <div style={{ ...W, position: 'relative' }}>
           <div className="hero-grid">
 
+            <img src="/hero-route.webp" alt="" className="hero-art" />
+
             {/* LEFT */}
             <div>
               <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: C.greenBg, border: `1px solid ${C.greenBorder}`, borderRadius: '100px', padding: '6px 14px', marginBottom: '20px' }}>
@@ -322,7 +325,7 @@ export default function TapaLanding() {
                 Someone is flying<br />to your city<br /><span style={{ color: C.coral }}>tomorrow.</span>
               </h1>
               <p style={{ fontSize: 'clamp(14px,1.5vw,16px)', color: C.muted, lineHeight: 1.75, marginBottom: '28px', maxWidth: '400px' }}>
-                Real travelers with spare luggage space carry your item on their flight. It arrives in hours, not weeks, and costs far less than any courier. This is how people have always done it when they know someone going that way.
+                Real travelers with spare luggage space carry your item on their flight. It arrives in hours, not weeks, and costs far less than any courier.
               </p>
               {!user && (
                 <div style={{ display: 'flex', alignItems: 'center', gap: '14px', flexWrap: 'wrap' }}>
