@@ -216,7 +216,7 @@ export default function TapaLanding() {
         .tapa-use { display: grid; grid-template-columns: repeat(auto-fit,minmax(280px,1fr)); gap: 18px; }
         .tapa-cta { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
         .hero-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; position: relative; }
-        .hero-art { position: absolute; top: 50%; right: -6%; transform: translateY(-50%); width: 620px; max-width: 46vw; opacity: 0.9; pointer-events: none; z-index: 0; }
+        .hero-art { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: contain; object-position: right center; opacity: 0.32; pointer-events: none; z-index: 0; }
         .search-card { background: #1A2F45; border: 1px solid #2E4A6A; border-radius: 24px; padding: 24px; box-shadow: 0 24px 80px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.05); position: relative; z-index: 1; }
         .sfield-row { display: flex; flex-direction: column; gap: 2px; padding: 10px 14px; background: #0A1520; border-radius: 12px; border: 1px solid #1E3348; transition: border-color 150ms, box-shadow 150ms; cursor: text; }
         .sfield-row:hover { border-color: #2E4A6A; }
